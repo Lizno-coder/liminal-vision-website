@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { motion } from "framer-motion";
 import { Eye, Palette, Code, Rocket } from "lucide-react";
@@ -7,52 +7,52 @@ const steps = [
   {
     title: "Kostenlose Demo",
     description:
-      "Sie erhalten eine maßgeschneiderte Demo-Website, bevor Sie sich entscheiden. Kein Risiko, keine Vorauszahlung.",
+      "Sie erhalten eine maßgeschneiderte Demo-Website, bevor Sie sich entscheiden. Kein Risiko.",
     icon: Eye,
   },
   {
     title: "Planung & Design",
     description:
-      "Wir analysieren Ihre Anforderungen und erstellen ein durchdachtes Konzept. Wireframes, Design-Vorschläge, alles abgestimmt.",
+      "Wir analysieren Ihre Anforderungen und erstellen ein durchdachtes Konzept.",
     icon: Palette,
   },
   {
     title: "Entwicklung",
     description:
-      "Clean Code, modernste Technologien, optimale Performance. Wir setzen Ihr Design pixelgenau um.",
+      "Clean Code, modernste Technologien, optimale Performance.",
     icon: Code,
   },
   {
     title: "Launch & Support",
     description:
-      "Wir kümmern uns um Hosting, Domain und Go-Live. Und danach? Wir bleiben an Ihrer Seite.",
+      "Wir kümmern uns um Hosting, Domain und Go-Live.",
     icon: Rocket,
   },
 ];
 
 export default function Process() {
   return (
-    <section className="relative px-6 py-28 md:px-10 lg:px-16">
+    <section id="process" className="relative px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.7 }}
-          className="mb-16 max-w-2xl"
+          className="mb-12 max-w-2xl"
         >
-          <p className="mb-4 text-sm uppercase tracking-[0.25em] text-[#2997ff]">
+          <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#2997ff]">
             Prozess
           </p>
-          <h2 className="text-4xl font-semibold tracking-[-0.04em] md:text-5xl">
+          <h2 className="text-3xl font-semibold tracking-[-0.03em] text-white md:text-4xl lg:text-5xl">
             So arbeiten wir
           </h2>
         </motion.div>
 
         <div className="relative">
-          <div className="absolute left-6 top-0 hidden h-full w-px bg-gradient-to-b from-[#2997ff]/40 via-white/10 to-[#5856d6]/30 md:block" />
+          <div className="absolute left-4 top-0 hidden h-full w-px bg-gradient-to-b from-[#2997ff]/40 via-white/10 to-[#5856d6]/30 md:left-6 lg:left-8" />
 
-          <div className="space-y-12">
+          <div className="space-y-6">
             {steps.map((step, index) => {
               const Icon = step.icon;
 
@@ -67,30 +67,32 @@ export default function Process() {
                     duration: 0.7,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="grid gap-6 md:grid-cols-[80px_1fr]"
+                  className="grid gap-4 md:grid-cols-[60px_1fr] lg:grid-cols-[80px_1fr]"
                 >
                   <div className="relative hidden md:flex justify-center">
-                    <motion.div
-                      animate={{ scale: [1, 1.08, 1] }}
-                      transition={{
-                        duration: 2.6,
-                        repeat: Infinity,
-                        delay: index * 0.2,
-                      }}
-                      className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/8 text-[#8cc8ff] backdrop-blur-xl"
-                    >
-                      <Icon className="h-5 w-5" />
-                    </motion.div>
+                    <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.08] text-[#8cc8ff] backdrop-blur-xl lg:h-12 lg:w-12">
+                      <Icon className="h-4 w-4 lg:h-5 lg:w-5" />
+                    </div>
                   </div>
 
-                  <div className="rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-2xl">
-                    <div className="mb-3 text-sm uppercase tracking-[0.22em] text-white/45">
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-5 backdrop-blur-xl md:p-6">
+                    <div className="mb-2 flex items-center gap-3 md:hidden">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/[0.08] text-[#8cc8ff]">
+                        <Icon className="h-4 w-4" />
+                      </div>
+                      <span className="text-xs uppercase tracking-[0.22em] text-white/45">
+                        0{index + 1}
+                      </span>
+                    </div>
+                    
+                    <div className="hidden mb-2 text-xs uppercase tracking-[0.22em] text-white/45 md:block">
                       0{index + 1}
                     </div>
-                    <h3 className="mb-4 text-2xl font-medium tracking-[-0.03em]">
+                    
+                    <h3 className="mb-2 text-lg font-medium tracking-[-0.02em] text-white md:text-xl">
                       {step.title}
                     </h3>
-                    <p className="max-w-2xl text-white/65 leading-7">
+                    <p className="text-sm leading-6 text-white/60">
                       {step.description}
                     </p>
                   </div>
