@@ -1,125 +1,104 @@
-"use client";
+'use client';
 
 import { motion } from "framer-motion";
-import { Monitor, Code2, Sparkles, Cloud } from "lucide-react";
+import { Box, Layers3, Sparkles } from "lucide-react";
 
 const services = [
   {
-    icon: Monitor,
     title: "Web Design",
-    description: "Einzigartige Designs, die Ihre Marke perfekt repräsentieren. Modern, responsiv und konversionsoptimiert.",
-    features: ["Responsive Design", "UI/UX Optimierung", "Brand Identity"],
-  },
-  {
-    icon: Code2,
-    title: "Development",
-    description: "Blitzschnelle Websites mit modernster Technologie. Astro, React, Next.js – alles was Ihr Projekt braucht.",
-    features: ["Astro / Next.js", "TypeScript", "Performance 95+"],
-  },
-  {
+    description:
+      "Einzigartige Designs, die Ihre Marke perfekt repräsentieren. Modern, responsiv und konversionsoptimiert.",
     icon: Sparkles,
-    title: "Animation & 3D",
-    description: "Atemberaubende Animationen und 3D-Effekte, die beeindrucken. GSAP, Three.js, WebGL.",
-    features: ["GSAP Animationen", "3D Elemente", "Micro-Interactions"],
   },
   {
-    icon: Cloud,
+    title: "Development",
+    description:
+      "Blitzschnelle Websites mit modernster Technologie. Astro, React, Next.js – alles was Ihr Projekt braucht.",
+    icon: Box,
+  },
+  {
     title: "Cloud Hosting",
-    description: "Schneller als Vercel. Cloudflare Pages mit globalem CDN, D1 Datenbanken und R2 Storage.",
-    features: ["Cloudflare Pages", "D1 Datenbanken", "Global CDN"],
+    description:
+      "Schneller als Vercel. Cloudflare Pages mit globalem CDN, D1 Datenbanken und R2 Storage.",
+    icon: Layers3,
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-    },
-  },
-};
-
-export function Services() {
+export default function Services() {
   return (
-    <section id="services" className="section">
-      <div className="container-custom">
-        {/* Header */}
+    <section id="services" className="relative px-6 py-28 md:px-10 lg:px-16">
+      <div className="mx-auto max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          viewport={{ once: true, amount: 0.35 }}
+          transition={{ duration: 0.7 }}
+          className="mb-14 max-w-2xl"
         >
-          <h2 className="heading-2 mb-4">
-            Unsere <span className="gradient-text">Services</span>
-          </h2>
-          <p className="text-gray-400 text-lg">
-            Alles aus einer Hand. Von der ersten Idee bis zum Live-Gang.
+          <p className="mb-4 text-sm uppercase tracking-[0.25em] text-[#2997ff]">
+            Services
           </p>
+          <h2 className="text-4xl font-semibold tracking-[-0.04em] md:text-5xl">
+            Alles aus einer Hand
+          </h2>
         </motion.div>
 
-        {/* Services Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
-        >
-          {services.map((service) => (
-            <motion.div
-              key={service.title}
-              variants={itemVariants}
-              className="group relative p-8 rounded-3xl glass card-hover"
-            >
-              {/* Gradient Border on Hover */}
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              {/* Content */}
-              <div className="relative z-10">
-                {/* Icon */}
-                <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <service.icon size={28} />
-                </div>
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {services.map((service, index) => {
+            const Icon = service.icon;
 
-                {/* Title */}
-                <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-blue-400 transition-colors">
+            return (
+              <motion.div
+                key={service.title}
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{
+                  delay: index * 0.12,
+                  duration: 0.7,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                whileHover={{
+                  rotateX: -8,
+                  rotateY: index % 2 === 0 ? 8 : -8,
+                  y: -6,
+                  transition: { type: "spring", stiffness: 200, damping: 20 },
+                }}
+                style={{ transformStyle: "preserve-3d" }}
+                className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-2xl"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-[#2997ff]/8 via-transparent to-[#5856d6]/8 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+                <motion.div
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{
+                    duration: 4 + index,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="mb-8 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-white/6 text-[#8cc8ff] shadow-[0_0_30px_rgba(41,151,255,0.15)]"
+                  style={{ transform: "translateZ(40px)" }}
+                >
+                  <Icon className="h-7 w-7" />
+                </motion.div>
+
+                <h3
+                  className="mb-4 text-2xl font-medium tracking-[-0.03em]"
+                  style={{ transform: "translateZ(30px)" }}
+                >
                   {service.title}
                 </h3>
 
-                {/* Description */}
-                <p className="text-gray-400 mb-6 leading-relaxed">
+                <p
+                  className="text-base leading-7 text-white/65"
+                  style={{ transform: "translateZ(20px)" }}
+                >
                   {service.description}
                 </p>
-
-                {/* Features */}
-                <ul className="space-y-2">
-                  {service.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-sm text-gray-500">
-                      <svg className="w-4 h-4 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

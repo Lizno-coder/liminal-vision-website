@@ -1,17 +1,22 @@
-import { Hero } from "@/components/hero";
-import { Services } from "@/components/services";
-import { Process } from "@/components/process";
-import { Portfolio } from "@/components/portfolio";
-import { CTA } from "@/components/cta";
+import Contact from "@/components/contact";
+import Hero from "@/components/hero";
+import Portfolio from "@/components/portfolio";
+import Process from "@/components/process";
+import Services from "@/components/services";
+import ThreeBackground from "@/components/three-background";
 
-export default function Home() {
+export default function Page() {
   return (
-    <>
-      <Hero />
-      <Services />
-      <Process />
-      <Portfolio />
-      <CTA />
-    </>
+    <main className="relative min-h-screen overflow-x-hidden bg-black text-white">
+      <ThreeBackground />
+
+      <div className="relative z-10">
+        <Hero />
+        <Services />
+        <Process />
+        <Portfolio />
+        <Contact />
+      </div>
+    </main>
   );
 }

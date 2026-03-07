@@ -1,108 +1,102 @@
-"use client";
+'use client';
 
 import { motion } from "framer-motion";
 import { Eye, Palette, Code, Rocket } from "lucide-react";
 
 const steps = [
   {
-    number: "01",
     title: "Kostenlose Demo",
-    description: "Sie erhalten eine maßgeschneiderte Demo-Website, bevor Sie sich entscheiden. Kein Risiko.",
+    description:
+      "Sie erhalten eine maßgeschneiderte Demo-Website, bevor Sie sich entscheiden. Kein Risiko, keine Vorauszahlung.",
     icon: Eye,
   },
   {
-    number: "02",
     title: "Planung & Design",
-    description: "Wir analysieren Ihre Anforderungen und erstellen ein durchdachtes Konzept.",
+    description:
+      "Wir analysieren Ihre Anforderungen und erstellen ein durchdachtes Konzept. Wireframes, Design-Vorschläge, alles abgestimmt.",
     icon: Palette,
   },
   {
-    number: "03",
     title: "Entwicklung",
-    description: "Clean Code, modernste Technologien, optimale Performance.",
+    description:
+      "Clean Code, modernste Technologien, optimale Performance. Wir setzen Ihr Design pixelgenau um.",
     icon: Code,
   },
   {
-    number: "04",
     title: "Launch & Support",
-    description: "Wir kümmern uns um Hosting, Domain und Go-Live.",
+    description:
+      "Wir kümmern uns um Hosting, Domain und Go-Live. Und danach? Wir bleiben an Ihrer Seite.",
     icon: Rocket,
   },
 ];
 
-export function Process() {
+export default function Process() {
   return (
-    <section id="process" className="section relative overflow-hidden">
-      {/* Background Lines */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-white/5 to-transparent" />
-        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-white/5 to-transparent" />
-      </div>
-
-      <div className="container-custom relative">
-        {/* Header */}
+    <section className="relative px-6 py-28 md:px-10 lg:px-16">
+      <div className="mx-auto max-w-6xl">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          viewport={{ once: true, amount: 0.35 }}
+          transition={{ duration: 0.7 }}
+          className="mb-16 max-w-2xl"
         >
-          <h2 className="heading-2 mb-4">
-            Unser <span className="gradient-text">Prozess</span>
-          </h2>
-          <p className="text-gray-400 text-lg">
-            Transparent, effizient, ergebnisorientiert.
+          <p className="mb-4 text-sm uppercase tracking-[0.25em] text-[#2997ff]">
+            Prozess
           </p>
+          <h2 className="text-4xl font-semibold tracking-[-0.04em] md:text-5xl">
+            So arbeiten wir
+          </h2>
         </motion.div>
 
-        {/* Timeline */}
-        <div className="relative max-w-4xl mx-auto">
-          {/* Connection Line */}
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-blue-500/50 via-purple-500/50 to-blue-500/50 hidden md:block" />
+        <div className="relative">
+          <div className="absolute left-6 top-0 hidden h-full w-px bg-gradient-to-b from-[#2997ff]/40 via-white/10 to-[#5856d6]/30 md:block" />
 
-          {/* Steps */}
           <div className="space-y-12">
-            {steps.map((step, index) => (
-              <motion.div
-                key={step.number}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={`relative flex flex-col md:flex-row items-start gap-8 ${
-                  index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                }`}
-              >
-                {/* Number Circle - Desktop */}
-                <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 w-16 h-16 rounded-full glass-strong items-center justify-center z-10">
-                  <span className="text-xl font-bold text-blue-400">{step.number}</span>
-                </div>
+            {steps.map((step, index) => {
+              const Icon = step.icon;
 
-                {/* Content */}
-                <div className={`md:w-1/2 ${index % 2 === 0 ? "md:pr-20 md:text-right" : "md:pl-20"}`}>
-                  {/* Mobile Number */}
-                  <div className="md:hidden flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-full glass-strong flex items-center justify-center">
-                      <span className="text-lg font-bold text-blue-400">{step.number}</span>
-                    </div>
-                    <div className="text-blue-400">
-                      <step.icon size={24} />
-                    </div>
+              return (
+                <motion.div
+                  key={step.title}
+                  initial={{ opacity: 0, y: 28 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{
+                    delay: index * 0.1,
+                    duration: 0.7,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="grid gap-6 md:grid-cols-[80px_1fr]"
+                >
+                  <div className="relative hidden md:flex justify-center">
+                    <motion.div
+                      animate={{ scale: [1, 1.08, 1] }}
+                      transition={{
+                        duration: 2.6,
+                        repeat: Infinity,
+                        delay: index * 0.2,
+                      }}
+                      className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/8 text-[#8cc8ff] backdrop-blur-xl"
+                    >
+                      <Icon className="h-5 w-5" />
+                    </motion.div>
                   </div>
 
-                  {/* Desktop Icon */}
-                  <div className={`hidden md:flex mb-4 ${index % 2 === 0 ? "justify-end" : "justify-start"}`}>
-                    <div className="text-blue-400">
-                      <step.icon size={24} />
+                  <div className="rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-2xl">
+                    <div className="mb-3 text-sm uppercase tracking-[0.22em] text-white/45">
+                      0{index + 1}
                     </div>
+                    <h3 className="mb-4 text-2xl font-medium tracking-[-0.03em]">
+                      {step.title}
+                    </h3>
+                    <p className="max-w-2xl text-white/65 leading-7">
+                      {step.description}
+                    </p>
                   </div>
-
-                  <h3 className="text-xl font-semibold text-white mb-2">{step.title}</h3>
-                  <p className="text-gray-400">{step.description}</p>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>
