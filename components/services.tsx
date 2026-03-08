@@ -1,92 +1,85 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Box, Layers3, Sparkles } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { Sparkles, Code, Globe } from "lucide-react";
 
 const services = [
-  {
-    title: "Web Design",
-    description:
-      "Einzigartige Designs, die Ihre Marke perfekt repräsentieren. Modern, responsiv und konversionsoptimiert.",
-    icon: Sparkles,
-  },
-  {
-    title: "Development",
-    description:
-      "Blitzschnelle Websites mit modernster Technologie. Astro, React, Next.js – alles was Ihr Projekt braucht.",
-    icon: Box,
-  },
-  {
-    title: "Cloud Hosting",
-    description:
-      "Schneller als Vercel. Cloudflare Pages mit globalem CDN, D1 Datenbanken und R2 Storage.",
-    icon: Layers3,
-  },
+  { icon: Sparkles, title: "Design", desc: "Modern & einzigartig" },
+  { icon: Code, title: "Code", desc: "Schnell & sauber" },
+  { icon: Globe, title: "Hosting", desc: "Weltweit schnell" },
 ];
 
 export default function Services() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.3], [0.8, 1]);
+
   return (
-    <section id="services" className="relative px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.7 }}
-          className="mb-12 max-w-2xl"
-        >
-          <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#2997ff]">
-            Services
-          </p>
-          <h2 className="text-3xl font-semibold tracking-[-0.03em] text-white md:text-4xl lg:text-5xl">
+    <section ref={ref} id="services" className="relative overflow-hidden px-4 py-24 sm:px-6">
+      <motion.div style={{ y, opacity }} className="mx-auto max-w-4xl">
+        <motion.div style={{ scale }} className="mb-12 text-center">
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-3 inline-block rounded-full border border-[#2997ff]/30 bg-[#2997ff]/10 px-4 py-1.5 text-sm text-[#2997ff]"
+          >
+            Leistungen
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-3xl font-bold text-white md:text-4xl"
+          >
             Alles aus einer Hand
-          </h2>
-          <p className="mt-4 text-white/60">
-            Von der Idee bis zum Launch begleiten wir Sie durch den gesamten Prozess.
-          </p>
+          </motion.h2>
         </motion.div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service, index) => {
-            const Icon = service.icon;
+        <div className="grid gap-4 sm:grid-cols-3">
+          {services.map((s, i) => (
+            <motion.div
+              key={s.title}
+              initial={{ opacity: 0, y: 50, rotateX: -15 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                delay: 0.2 + i * 0.15,
+                type: "spring",
+                stiffness: 100,
+                damping: 15,
+              }}
+              whileHover={{
+                y: -10,
+                scale: 1.02,
+                transition: { type: "spring", stiffness: 400 },
+              }}
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm"
+            >
+              {/* Hover glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#2997ff]/0 to-[#5856d6]/0 transition-all duration-500 group-hover:from-[#2997ff]/10 group-hover:to-[#5856d6]/10" />
 
-            return (
               <motion.div
-                key={service.title}
-                initial={{ opacity: 0, y: 32 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{
-                  delay: index * 0.12,
-                  duration: 0.7,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                whileHover={{
-                  y: -6,
-                  transition: { type: "spring", stiffness: 200, damping: 20 },
-                }}
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur-xl"
+                whileHover={{ rotate: 360, scale: 1.2 }}
+                transition={{ duration: 0.5 }}
+                className="relative mb-4"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-[#2997ff]/10 via-transparent to-[#5856d6]/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-
-                <div className="relative">
-                  <div className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-xl border border-white/10 bg-white/[0.08] text-[#8cc8ff]">
-                    <Icon className="h-6 w-6" />
-                  </div>
-
-                  <h3 className="mb-3 text-xl font-medium tracking-[-0.02em] text-white">
-                    {service.title}
-                  </h3>
-
-                  <p className="text-sm leading-6 text-white/60">
-                    {service.description}
-                  </p>
-                </div>
+                <s.icon className="h-10 w-10 text-[#2997ff]" />
               </motion.div>
-            );
-          })}
+              <h3 className="relative text-lg font-semibold text-white">{s.title}</h3>
+              <p className="relative mt-1 text-white/50">{s.desc}</p>
+            </motion.div>
+          ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

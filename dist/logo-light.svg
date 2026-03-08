@@ -1,0 +1,15 @@
+<svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer shape -->
+  <path d="M6 22c8-12 24-12 32 0" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <path d="M6 22c8 12 24 12 32 0" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  
+  <!-- Inner iris -->
+  <polygon points="22,14 28,22 22,30 16,22" fill="white" opacity="0.9"/>
+  
+  <!-- Central point -->
+  <circle cx="22" cy="22" r="3" fill="white"/>
+  
+  <!-- Accent lines -->
+  <path d="M22 4v6" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  <path d="M22 34v6" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+</svg>

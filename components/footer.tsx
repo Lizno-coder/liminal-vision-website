@@ -26,18 +26,14 @@ export default function Footer() {
         <div className="grid gap-10 px-6 py-12 sm:px-8 lg:grid-cols-4 lg:px-10">
           <div className="lg:col-span-1">
             <div className="mb-4 flex items-center gap-3">
-              <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border border-white/20 bg-white/10">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#2997ff] via-[#4f7dff] to-[#5856d6]" />
-                <span className="relative text-sm font-bold tracking-[0.2em] text-white">
-                  LV
-                </span>
+              <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-[#0a0a0a] border border-white/10">
+                <img 
+                  src="/logo.svg" 
+                  alt="Liminal Vision" 
+                  className="h-8 w-8 object-contain"
+                />
               </div>
-              <div>
-                <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-white">
-                  Liminal Vision
-                </h3>
-                <p className="text-xs text-white/50">Premium Web Design</p>
-              </div>
+              <span className="text-lg font-semibold text-white">Liminal Vision</span>
             </div>
             <p className="max-w-sm text-sm leading-6 text-white/65">
               Wir erstellen einzigartige Websites für Unternehmen, die sich von der Masse abheben wollen.

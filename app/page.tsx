@@ -1,6 +1,8 @@
+import Blog from "@/components/blog";
 import Contact from "@/components/contact";
+import FAQ from "@/components/faq";
 import Hero from "@/components/hero";
-import Portfolio from "@/components/portfolio";
+import Pricing from "@/components/pricing";
 import Process from "@/components/process";
 import Services from "@/components/services";
 
@@ -10,7 +12,9 @@ export default function Home() {
       <Hero />
       <Services />
       <Process />
-      <Portfolio />
+      <Pricing />
+      <FAQ />
+      <Blog />
       <Contact />
     </>
   );

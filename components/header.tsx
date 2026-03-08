@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -15,13 +15,53 @@ const navLinks = [
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  
+  // Scroll direction detection for hide/show
+  const [isHidden, setIsHidden] = useState(false);
+  const lastScrollY = useRef(0);
+  const ticking = useRef(false);
+
+  // Spring physics for smooth header animation
+  const headerY = useMotionValue(0);
+  const springY = useSpring(headerY, { stiffness: 400, damping: 30 });
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
-    onScroll();
-    window.addEventListener("scroll", onScroll);
+    const onScroll = () => {
+      if (!ticking.current) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          
+          // Add shadow when scrolled
+          setScrolled(currentScrollY > 16);
+          
+          // Hide header when scrolling down, show when scrolling up
+          // Only hide after scrolling past 100px (hero section)
+          if (currentScrollY > 100) {
+            if (currentScrollY > lastScrollY.current + 5) {
+              // Scrolling down - hide
+              setIsHidden(true);
+              headerY.set(-100);
+            } else if (currentScrollY < lastScrollY.current - 5) {
+              // Scrolling up - show
+              setIsHidden(false);
+              headerY.set(0);
+            }
+          } else {
+            // Always show at top
+            setIsHidden(false);
+            headerY.set(0);
+          }
+          
+          lastScrollY.current = currentScrollY;
+          ticking.current = false;
+        });
+        ticking.current = true;
+      }
+    };
+    
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [headerY]);
 
   useEffect(() => {
     const closeOnResize = () => {
@@ -34,26 +74,23 @@ export default function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
       <motion.div
+        style={{ y: springY }}
         initial={{ y: -24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className={`mx-auto max-w-7xl rounded-2xl border border-white/10 bg-white/10 backdrop-blur-xl ${
+        className={`mx-auto max-w-7xl rounded-2xl border border-white/10 bg-white/10 backdrop-blur-xl transition-shadow ${
           scrolled ? "shadow-[0_8px_30px_rgba(0,0,0,0.18)]" : ""
         }`}
       >
         <div className="flex h-16 items-center justify-between px-4 sm:px-6">
           <Link href="/" className="group flex items-center gap-3">
-            <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-white/20 bg-white/10">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#2997ff] via-[#4f7dff] to-[#5856d6] opacity-90" />
-              <span className="relative text-sm font-bold tracking-[0.2em] text-white">
-                LV
-              </span>
-            </div>
-            <div className="flex flex-col leading-none">
-              <span className="text-sm font-semibold uppercase tracking-[0.24em] text-white/90">
-                Liminal Vision
-              </span>
-              <span className="text-xs text-white/50">Premium Web Design</span>
+            {/* Eye Logo Icon */}
+            <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl bg-[#0a0a0a] border border-white/10 transition group-hover:border-[#2997ff]/50 group-hover:shadow-[0_0_20px_rgba(41,151,255,0.3)]">
+              <img 
+                src="/logo.svg" 
+                alt="Liminal Vision" 
+                className="h-9 w-9 object-contain"
+              />
             </div>
           </Link>
 

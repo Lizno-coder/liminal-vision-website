@@ -1,104 +1,73 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Eye, Palette, Code, Rocket } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const steps = [
-  {
-    title: "Kostenlose Demo",
-    description:
-      "Sie erhalten eine maßgeschneiderte Demo-Website, bevor Sie sich entscheiden. Kein Risiko.",
-    icon: Eye,
-  },
-  {
-    title: "Planung & Design",
-    description:
-      "Wir analysieren Ihre Anforderungen und erstellen ein durchdachtes Konzept.",
-    icon: Palette,
-  },
-  {
-    title: "Entwicklung",
-    description:
-      "Clean Code, modernste Technologien, optimale Performance.",
-    icon: Code,
-  },
-  {
-    title: "Launch & Support",
-    description:
-      "Wir kümmern uns um Hosting, Domain und Go-Live.",
-    icon: Rocket,
-  },
+  { nr: "01", title: "Kontakt", desc: "Sie schreiben uns" },
+  { nr: "02", title: "Demo", desc: "Wir zeigen Design" },
+  { nr: "03", title: "Deal", desc: "Sie sagen ja" },
+  { nr: "04", title: "Live", desc: "Website online" },
 ];
 
 export default function Process() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const lineProgress = useTransform(scrollYProgress, [0.2, 0.6], [0, 1]);
+
   return (
-    <section id="process" className="relative px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-6xl">
+    <section ref={ref} id="process" className="relative overflow-hidden px-4 py-24 sm:px-6">
+      <div className="mx-auto max-w-5xl">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.7 }}
-          className="mb-12 max-w-2xl"
+          viewport={{ once: true }}
+          className="mb-16 text-center"
         >
-          <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#2997ff]">
-            Prozess
-          </p>
-          <h2 className="text-3xl font-semibold tracking-[-0.03em] text-white md:text-4xl lg:text-5xl">
-            So arbeiten wir
-          </h2>
+          <span className="mb-3 inline-block rounded-full border border-[#2997ff]/30 bg-[#2997ff]/10 px-4 py-1.5 text-sm text-[#2997ff]">
+            Ablauf
+          </span>
+          <h2 className="text-3xl font-bold text-white md:text-4xl">So funktioniert's</h2>
         </motion.div>
 
+        {/* Progress line */}
         <div className="relative">
-          <div className="absolute left-4 top-0 hidden h-full w-px bg-gradient-to-b from-[#2997ff]/40 via-white/10 to-[#5856d6]/30 md:left-6 lg:left-8" />
+          <motion.div
+            style={{ scaleX: lineProgress }}
+            className="absolute left-0 right-0 top-8 hidden h-0.5 origin-left bg-gradient-to-r from-[#2997ff] to-[#5856d6] md:block"
+          />
 
-          <div className="space-y-6">
-            {steps.map((step, index) => {
-              const Icon = step.icon;
-
-              return (
+          <div className="grid gap-8 md:grid-cols-4">
+            {steps.map((step, i) => (
+              <motion.div
+                key={step.nr}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  delay: 0.2 + i * 0.15,
+                  type: "spring",
+                  stiffness: 100,
+                }}
+                className="relative text-center"
+              >
                 <motion.div
-                  key={step.title}
-                  initial={{ opacity: 0, y: 28 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{
-                    delay: index * 0.1,
-                    duration: 0.7,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className="grid gap-4 md:grid-cols-[60px_1fr] lg:grid-cols-[80px_1fr]"
+                  whileHover={{ scale: 1.1, rotate: 360 }}
+                  transition={{ duration: 0.5 }}
+                  className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#2997ff]/20 to-[#5856d6]/20 backdrop-blur-sm"
                 >
-                  <div className="relative hidden md:flex justify-center">
-                    <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.08] text-[#8cc8ff] backdrop-blur-xl lg:h-12 lg:w-12">
-                      <Icon className="h-4 w-4 lg:h-5 lg:w-5" />
-                    </div>
-                  </div>
-
-                  <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-5 backdrop-blur-xl md:p-6">
-                    <div className="mb-2 flex items-center gap-3 md:hidden">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/[0.08] text-[#8cc8ff]">
-                        <Icon className="h-4 w-4" />
-                      </div>
-                      <span className="text-xs uppercase tracking-[0.22em] text-white/45">
-                        0{index + 1}
-                      </span>
-                    </div>
-                    
-                    <div className="hidden mb-2 text-xs uppercase tracking-[0.22em] text-white/45 md:block">
-                      0{index + 1}
-                    </div>
-                    
-                    <h3 className="mb-2 text-lg font-medium tracking-[-0.02em] text-white md:text-xl">
-                      {step.title}
-                    </h3>
-                    <p className="text-sm leading-6 text-white/60">
-                      {step.description}
-                    </p>
-                  </div>
+                  <span className="bg-gradient-to-r from-[#2997ff] to-[#5856d6] bg-clip-text text-xl font-bold text-transparent">
+                    {step.nr}
+                  </span>
                 </motion.div>
-              );
-            })}
+                <h3 className="text-lg font-semibold text-white">{step.title}</h3>
+                <p className="mt-1 text-sm text-white/50">{step.desc}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
