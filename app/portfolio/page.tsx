@@ -317,12 +317,8 @@ export default function PortfolioPage() {
               Anwendungsbereiche
             </span>
             <h1 className="text-4xl font-semibold tracking-[-0.04em] text-white md:text-5xl">
-              Scrollbare Mini-Websites mit echtem Branchen-Charakter.
+              Websites, die zu Ihrer Branche passen.
             </h1>
-            <p className="mt-4 text-sm leading-6 text-white/58 sm:text-base">
-              Jede Vorschau ist wie eine kleine echte Startseite aufgebaut – kompakt,
-              minimalistisch, scrollbar und bewusst anders gestaltet je nach Branche.
-            </p>
           </div>
 
           <div className="grid gap-10 lg:grid-cols-2">

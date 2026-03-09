@@ -124,12 +124,8 @@ export default function Services() {
             Anwendungsbereiche
           </span>
           <h2 className="text-3xl font-semibold tracking-[-0.03em] text-white md:text-4xl">
-            Für viele Branchen. <br className="hidden sm:block" /> Immer klar und modern.
+            Für viele Branchen. <br className="hidden sm:block" /> <span className="text-[#2997ff]">Immer klar und modern.</span>
           </h2>
-          <p className="mt-4 max-w-lg text-sm leading-6 text-white/55 sm:text-base">
-            Von Gastronomie bis Beauty – wir gestalten Websites passend zum Angebot,
-            zur Zielgruppe und zum ersten Eindruck, den Kunden sofort verstehen.
-          </p>
         </motion.div>
 
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
