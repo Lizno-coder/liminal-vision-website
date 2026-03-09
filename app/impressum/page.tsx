@@ -1,80 +1,78 @@
 export const metadata = {
   title: "Impressum | Liminal Vision",
-  description: "Impressum von Liminal Vision - Webdesign Agentur aus Waldkraiburg.",
+  description: "Impressum von Liminal Vision.",
 };
+
+const details = [
+  {
+    title: "Angaben gemäß § 5 TMG",
+    content: [
+      "Liminal Vision",
+      "Inhaber: Noel Liessel",
+      "Graf-zu-Toerring-Straße 10",
+      "84478 Waldkraiburg",
+      "Deutschland",
+    ],
+  },
+  {
+    title: "Kontakt",
+    content: [
+      "Telefon: 0174 6509061",
+      "E-Mail: liz.claw@gmx.de",
+      "Website: https://liminal-vision.vercel.app",
+    ],
+  },
+  {
+    title: "Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV",
+    content: [
+      "Noel Liessel",
+      "Graf-zu-Toerring-Straße 10",
+      "84478 Waldkraiburg",
+    ],
+  },
+  {
+    title: "Hinweis zur Streitbeilegung",
+    content: [
+      "Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: https://ec.europa.eu/consumers/odr/.",
+      "Wir sind nicht verpflichtet und nicht bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.",
+    ],
+  },
+];
 
 export default function ImpressumPage() {
   return (
-    <section className="min-h-screen pt-32 pb-20">
-      <div className="container-custom">
-        <div className="max-w-3xl mx-auto">
-          <h1 className="heading-1 mb-12">Impressum</h1>
-
-          <div className="space-y-8">
-            <div className="glass rounded-2xl p-8">
-              <h2 className="text-xl font-semibold mb-4">Angaben gemäß § 5 TMG</h2>
-              <p className="text-gray-300 leading-relaxed">
-                <strong className="text-white">Liminal Vision</strong>
-                <br />
-                Noel [Nachname]
-                <br />
-                [Straße Hausnummer]
-                <br />
-                84478 Waldkraiburg
-                <br />
-                Deutschland
-              </p>
-            </div>
-
-            <div className="glass rounded-2xl p-8">
-              <h2 className="text-xl font-semibold mb-4">Kontakt</h2>
-              <p className="text-gray-300">
-                E-Mail:{" "}
-                <a href="mailto:liz.claw@gmx.de" className="text-blue-400 hover:underline">
-                  liz.claw@gmx.de
-                </a>
-                <br />
-                Website:{" "}
-                <a href="https://liminal-vision.de" className="text-blue-400 hover:underline">
-                  www.liminal-vision.de
-                </a>
-              </p>
-            </div>
-
-            <div className="glass rounded-2xl p-8">
-              <h2 className="text-xl font-semibold mb-4">Umsatzsteuer-ID</h2>
-              <p className="text-gray-300">
-                Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:
-                <br />
-                <span className="text-gray-500">
-                  [Noch nicht umsatzsteuerpflichtig - Kleinunternehmer gemäß § 19 UStG]
-                </span>
-              </p>
-            </div>
-
-            <div className="glass rounded-2xl p-8">
-              <h2 className="text-xl font-semibold mb-4">Streitschlichtung</h2>
-              <p className="text-gray-300">
-                Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS)
-                bereit:{" "}
-                <a
-                  href="https://ec.europa.eu/consumers/odr"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-400 hover:underline"
-                >
-                  https://ec.europa.eu/consumers/odr
-                </a>
-              </p>
-              <p className="text-gray-300 mt-4">
-                Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
-                Verbraucherschlichtungsstelle teilzunehmen.
-              </p>
-            </div>
-          </div>
-
-          <p className="text-gray-500 text-sm mt-12 text-center">Stand: März 2025</p>
+    <section className="min-h-screen px-4 pb-20 pt-6 sm:px-6 lg:px-8 lg:pt-10">
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-10 max-w-2xl">
+          <span className="mb-4 inline-block rounded-full border border-[#2997ff]/30 bg-[#2997ff]/10 px-4 py-1.5 text-sm text-[#2997ff]">
+            Impressum
+          </span>
+          <h1 className="text-4xl font-semibold tracking-[-0.04em] text-white md:text-5xl">
+            Rechtliche Angaben.
+          </h1>
+          <p className="mt-4 text-sm leading-6 text-white/55 sm:text-base">
+            Alle Pflichtangaben zu Anbieter, Kontakt und Verantwortlichkeit auf einen Blick.
+          </p>
         </div>
+
+        <div className="grid gap-4 sm:gap-5">
+          {details.map((section, index) => (
+            <div
+              key={section.title}
+              className="rounded-[1.8rem] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl sm:p-7"
+              style={{ animationDelay: `${index * 80}ms` }}
+            >
+              <h2 className="text-lg font-semibold text-white sm:text-xl">{section.title}</h2>
+              <div className="mt-4 space-y-2 text-sm leading-6 text-white/65 sm:text-base">
+                {section.content.map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-8 text-sm text-white/38">Stand: März 2026</p>
       </div>
     </section>
   );

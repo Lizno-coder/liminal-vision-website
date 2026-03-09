@@ -1,109 +1,100 @@
 export const metadata = {
   title: "Datenschutz | Liminal Vision",
-  description: "Datenschutzerklärung von Liminal Vision. Ihre Daten sind bei uns sicher.",
+  description: "Datenschutzerklärung von Liminal Vision.",
 };
+
+const sections = [
+  {
+    title: "1. Verantwortlicher",
+    paragraphs: [
+      "Verantwortlich für die Datenverarbeitung auf dieser Website ist:",
+      "Noel Liessel, Liminal Vision, Graf-zu-Toerring-Straße 10, 84478 Waldkraiburg, Deutschland",
+      "E-Mail: liz.claw@gmx.de | Telefon: 0174 6509061",
+    ],
+  },
+  {
+    title: "2. Hosting",
+    paragraphs: [
+      "Diese Website wird bei Vercel gehostet. Anbieter ist Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA.",
+      "Beim Aufruf der Website können technisch erforderliche Verbindungsdaten wie IP-Adresse, Datum und Uhrzeit, Browserinformationen sowie angeforderte Dateien verarbeitet werden, um den sicheren und stabilen Betrieb der Website zu gewährleisten.",
+      "Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an sicherer Bereitstellung der Website).",
+    ],
+  },
+  {
+    title: "3. Kontaktaufnahme",
+    paragraphs: [
+      "Wenn Sie uns per E-Mail oder über ein Kontaktformular kontaktieren, verarbeiten wir die von Ihnen übermittelten Angaben ausschließlich zur Bearbeitung Ihrer Anfrage und für mögliche Anschlussfragen.",
+      "Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO, sofern Ihre Anfrage mit der Anbahnung oder Durchführung eines Vertrags zusammenhängt, oder auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO bei allgemeinen Anfragen.",
+    ],
+  },
+  {
+    title: "4. Speicherdauer",
+    paragraphs: [
+      "Personenbezogene Daten werden nur so lange gespeichert, wie dies zur Bearbeitung Ihrer Anfrage erforderlich ist oder gesetzliche Aufbewahrungspflichten bestehen.",
+    ],
+  },
+  {
+    title: "5. Ihre Rechte",
+    paragraphs: [
+      "Sie haben das Recht auf Auskunft über Ihre gespeicherten personenbezogenen Daten, auf Berichtigung unrichtiger Daten, auf Löschung, auf Einschränkung der Verarbeitung sowie auf Widerspruch gegen die Verarbeitung im Rahmen der gesetzlichen Vorgaben.",
+      "Außerdem haben Sie das Recht, sich bei einer zuständigen Datenschutz-Aufsichtsbehörde zu beschweren.",
+    ],
+  },
+  {
+    title: "6. Cookies und Analyse-Tools",
+    paragraphs: [
+      "Diese Website verwendet nach aktuellem Stand keine nicht notwendigen Cookies und keine Analyse- oder Tracking-Tools wie Google Analytics.",
+    ],
+  },
+  {
+    title: "7. SSL- bzw. TLS-Verschlüsselung",
+    paragraphs: [
+      "Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte eine SSL- bzw. TLS-Verschlüsselung.",
+    ],
+  },
+];
 
 export default function DatenschutzPage() {
   return (
-    <section className="min-h-screen pt-32 pb-20">
-      <div className="container-custom">
-        <div className="max-w-3xl mx-auto">
-          <h1 className="heading-1 mb-4">
-            Datenschutz-<span className="gradient-text">erklärung</span>
+    <section className="min-h-screen px-4 pb-20 pt-6 sm:px-6 lg:px-8 lg:pt-10">
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-10 max-w-2xl">
+          <span className="mb-4 inline-block rounded-full border border-[#2997ff]/30 bg-[#2997ff]/10 px-4 py-1.5 text-sm text-[#2997ff]">
+            Datenschutz
+          </span>
+          <h1 className="text-4xl font-semibold tracking-[-0.04em] text-white md:text-5xl">
+            Informationen zum Umgang mit Ihren Daten.
           </h1>
-          <p className="text-gray-400 mb-12">
-            Ihre Privatsphäre ist uns wichtig. Hier erfahren Sie, wie wir mit Ihren Daten umgehen.
+          <p className="mt-4 text-sm leading-6 text-white/55 sm:text-base">
+            Transparent, verständlich und auf das Wesentliche reduziert.
           </p>
-
-          <div className="space-y-8">
-            <div className="glass rounded-2xl p-8">
-              <h2 className="text-xl font-semibold mb-4">1. Datenschutz auf einen Blick</h2>
-              <h3 className="text-lg font-medium text-blue-400 mb-2">Allgemeine Hinweise</h3>
-              <p className="text-gray-300">
-                Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren
-                personenbezogenen Daten passiert, wenn Sie diese Website besuchen.
-              </p>
-            </div>
-
-            <div className="glass rounded-2xl p-8">
-              <h2 className="text-xl font-semibold mb-4">2. Verantwortlicher</h2>
-              <p className="text-gray-300">
-                <strong className="text-white">Liminal Vision</strong>
-                <br />
-                Noel [Nachname]
-                <br />
-                [Straße Hausnummer]
-                <br />
-                84478 Waldkraiburg
-                <br />
-                Deutschland
-              </p>
-              <p className="text-gray-300 mt-4">
-                E-Mail:{" "}
-                <a href="mailto:liz.claw@gmx.de" className="text-blue-400 hover:underline">
-                  liz.claw@gmx.de
-                </a>
-              </p>
-            </div>
-
-            <div className="glass rounded-2xl p-8">
-              <h2 className="text-xl font-semibold mb-4">3. Datenerfassung auf dieser Website</h2>
-              <h3 className="text-lg font-medium text-blue-400 mb-2 mt-4">Kontaktformular</h3>
-              <p className="text-gray-300">
-                Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben
-                inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage
-                bei uns gespeichert.
-              </p>
-
-              <h3 className="text-lg font-medium text-blue-400 mb-2 mt-4">Anfrage per E-Mail</h3>
-              <p className="text-gray-300">
-                Wenn Sie uns per E-Mail kontaktieren, wird Ihre Anfrage inklusive aller
-                personenbezogenen Daten zum Zwecke der Bearbeitung Ihres Anliegens bei uns
-                gespeichert und verarbeitet.
-              </p>
-            </div>
-
-            <div className="glass rounded-2xl p-8">
-              <h2 className="text-xl font-semibold mb-4">4. Hosting</h2>
-              <p className="text-gray-300">
-                Diese Website wird bei <strong className="text-white">Vercel</strong> gehostet.
-                Anbieter ist Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA.
-              </p>
-            </div>
-
-            <div className="glass rounded-2xl p-8">
-              <h2 className="text-xl font-semibold mb-4">5. Ihre Rechte</h2>
-              <p className="text-gray-300">Sie haben jederzeit das Recht:</p>
-              <ul className="list-disc list-inside text-gray-300 mt-2 space-y-1">
-                <li>Auskunft über Ihre bei uns gespeicherten Daten zu erhalten (Art. 15 DSGVO)</li>
-                <li>Berichtigung unrichtiger Daten zu verlangen (Art. 16 DSGVO)</li>
-                <li>Löschung Ihrer Daten zu verlangen (Art. 17 DSGVO)</li>
-                <li>Einschränkung der Verarbeitung zu verlangen (Art. 18 DSGVO)</li>
-                <li>Widerspruch gegen die Verarbeitung einzulegen (Art. 21 DSGVO)</li>
-              </ul>
-            </div>
-
-            <div className="glass rounded-2xl p-8">
-              <h2 className="text-xl font-semibold mb-4">6. Cookies & Tracking</h2>
-              <p className="text-gray-300">
-                Diese Website verwendet keine Tracking-Cookies. Wir setzen keine Analyse-Tools wie
-                Google Analytics ein.
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-12 text-center glass rounded-2xl p-8">
-            <h3 className="text-lg font-semibold mb-2">Fragen zum Datenschutz?</h3>
-            <p className="text-gray-400 mb-4">
-              Bei Fragen zum Datenschutz können Sie sich jederzeit an uns wenden.
-            </p>
-            <a href="mailto:liz.claw@gmx.de" className="btn btn-primary">
-              liz.claw@gmx.de
-            </a>
-          </div>
-
-          <p className="text-gray-500 text-sm mt-8 text-center">Stand: März 2025</p>
         </div>
+
+        <div className="grid gap-4 sm:gap-5">
+          {sections.map((section, index) => (
+            <div
+              key={section.title}
+              className="rounded-[1.8rem] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl sm:p-7"
+              style={{ animationDelay: `${index * 70}ms` }}
+            >
+              <h2 className="text-lg font-semibold text-white sm:text-xl">{section.title}</h2>
+              <div className="mt-4 space-y-3 text-sm leading-6 text-white/65 sm:text-base">
+                {section.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-6 rounded-[1.8rem] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl sm:p-7">
+          <h2 className="text-lg font-semibold text-white sm:text-xl">Fragen zum Datenschutz?</h2>
+          <p className="mt-3 text-sm leading-6 text-white/60 sm:text-base">
+            Wenn Sie Fragen zur Verarbeitung Ihrer Daten haben, können Sie sich jederzeit per E-Mail an liz.claw@gmx.de wenden.
+          </p>
+        </div>
+
+        <p className="mt-8 text-sm text-white/38">Stand: März 2026</p>
       </div>
     </section>
   );

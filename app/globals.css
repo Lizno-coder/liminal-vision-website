@@ -54,4 +54,26 @@
   .custom-scroll::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.28);
   }
+
+  .range-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 18px;
+    width: 18px;
+    border-radius: 999px;
+    background: #2997ff;
+    border: 2px solid white;
+    box-shadow: 0 0 20px rgba(41, 151, 255, 0.35);
+    cursor: pointer;
+  }
+
+  .range-slider::-moz-range-thumb {
+    height: 18px;
+    width: 18px;
+    border-radius: 999px;
+    background: #2997ff;
+    border: 2px solid white;
+    box-shadow: 0 0 20px rgba(41, 151, 255, 0.35);
+    cursor: pointer;
+  }
 }

@@ -1,27 +1,37 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
-import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
 
 const navLinks = [
   { name: "Home", href: "#home" },
   { name: "Anwendungsbereiche", href: "/portfolio" },
   { name: "Ablauf", href: "#process" },
   { name: "Preise", href: "#pricing" },
-  { name: "Kontakt", href: "#contact" },
+  { name: "Kontakt", href: "/kontakt" },
 ];
+
+function BrandLockup() {
+  return (
+    <>
+      <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition group-hover:border-[#2997ff]/50 group-hover:shadow-[0_0_20px_rgba(41,151,255,0.3)]">
+        <img src="/logo.svg" alt="Liminal Vision" className="h-9 w-9 object-contain" />
+      </div>
+      <div className="flex items-center text-lg font-semibold tracking-[-0.02em] text-white">
+        <span>Liminal</span>
+        <span className="ml-1 text-[#2997ff]">Vision</span>
+      </div>
+    </>
+  );
+}
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  
-  // Scroll direction detection for hide/show
-  const [isHidden, setIsHidden] = useState(false);
   const lastScrollY = useRef(0);
   const ticking = useRef(false);
 
-  // Spring physics for smooth header animation
   const headerY = useMotionValue(0);
   const springY = useSpring(headerY, { stiffness: 400, damping: 30 });
 
@@ -30,35 +40,25 @@ export default function Header() {
       if (!ticking.current) {
         window.requestAnimationFrame(() => {
           const currentScrollY = window.scrollY;
-          
-          // Add shadow when scrolled
           setScrolled(currentScrollY > 16);
-          
-          // Hide header when scrolling down, show when scrolling up
-          // Only hide after scrolling past 100px (hero section)
+
           if (currentScrollY > 100) {
             if (currentScrollY > lastScrollY.current + 5) {
-              // Scrolling down - hide
-              setIsHidden(true);
               headerY.set(-100);
             } else if (currentScrollY < lastScrollY.current - 5) {
-              // Scrolling up - show
-              setIsHidden(false);
               headerY.set(0);
             }
           } else {
-            // Always show at top
-            setIsHidden(false);
             headerY.set(0);
           }
-          
+
           lastScrollY.current = currentScrollY;
           ticking.current = false;
         });
         ticking.current = true;
       }
     };
-    
+
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [headerY]);
@@ -84,14 +84,7 @@ export default function Header() {
       >
         <div className="flex h-16 items-center justify-between px-4 sm:px-6">
           <Link href="/" className="group flex items-center gap-3">
-            {/* Eye Logo Icon */}
-            <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl bg-[#0a0a0a] border border-white/10 transition group-hover:border-[#2997ff]/50 group-hover:shadow-[0_0_20px_rgba(41,151,255,0.3)]">
-              <img 
-                src="/logo.svg" 
-                alt="Liminal Vision" 
-                className="h-9 w-9 object-contain"
-              />
-            </div>
+            <BrandLockup />
           </Link>
 
           <nav className="hidden items-center gap-8 md:flex">
