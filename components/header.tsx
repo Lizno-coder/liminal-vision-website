@@ -6,10 +6,10 @@ import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from
 
 const navLinks = [
   { name: "Home", href: "#home" },
-  { name: "Services", href: "#services" },
-  { name: "Portfolio", href: "#portfolio" },
-  { name: "Process", href: "#process" },
-  { name: "Contact", href: "#contact" },
+  { name: "Anwendungsbereiche", href: "#anwendungsbereiche" },
+  { name: "Ablauf", href: "#process" },
+  { name: "Preise", href: "#pricing" },
+  { name: "Kontakt", href: "#contact" },
 ];
 
 export default function Header() {

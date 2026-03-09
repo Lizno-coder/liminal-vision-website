@@ -1,13 +1,45 @@
 "use client";
 
+import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { Sparkles, Code, Globe } from "lucide-react";
+import {
+  ArrowRight,
+  Coffee,
+  Dumbbell,
+  Flower2,
+  Hammer,
+} from "lucide-react";
 
-const services = [
-  { icon: Sparkles, title: "Design", desc: "Modern & einzigartig" },
-  { icon: Code, title: "Code", desc: "Schnell & sauber" },
-  { icon: Globe, title: "Hosting", desc: "Weltweit schnell" },
+const useCases = [
+  {
+    icon: Coffee,
+    title: "Cafés & Gastronomie",
+    desc: "Warm, einladend und auf Reservierungen, Karte und Events ausgerichtet.",
+    accent: "from-amber-400/20 to-orange-500/20",
+    iconColor: "text-amber-300",
+  },
+  {
+    icon: Dumbbell,
+    title: "Fitness & Studios",
+    desc: "Klar, energiegeladen und optimiert für Probetrainings und Kursinfos.",
+    accent: "from-emerald-400/20 to-green-500/20",
+    iconColor: "text-emerald-300",
+  },
+  {
+    icon: Hammer,
+    title: "Handwerk",
+    desc: "Ruhig, vertrauensvoll und sauber strukturiert für Leistungen und Anfragen.",
+    accent: "from-violet-400/20 to-purple-500/20",
+    iconColor: "text-violet-300",
+  },
+  {
+    icon: Flower2,
+    title: "Beauty & Kosmetik",
+    desc: "Elegant, leicht und hochwertig für Treatments, Termine und Premium-Auftritt.",
+    accent: "from-rose-400/20 to-pink-500/20",
+    iconColor: "text-rose-300",
+  },
 ];
 
 export default function Services() {
@@ -17,68 +49,86 @@ export default function Services() {
     offset: ["start end", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.3], [0.8, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], [70, -70]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0.75]);
 
   return (
-    <section ref={ref} id="services" className="relative overflow-hidden px-4 py-24 sm:px-6">
-      <motion.div style={{ y, opacity }} className="mx-auto max-w-4xl">
-        <motion.div style={{ scale }} className="mb-12 text-center">
+    <section ref={ref} id="anwendungsbereiche" className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8">
+      <motion.div style={{ y, opacity }} className="mx-auto max-w-7xl">
+        <div className="mb-14 max-w-3xl">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-3 inline-block rounded-full border border-[#2997ff]/30 bg-[#2997ff]/10 px-4 py-1.5 text-sm text-[#2997ff]"
+            className="mb-4 inline-block rounded-full border border-[#2997ff]/30 bg-[#2997ff]/10 px-4 py-1.5 text-sm text-[#2997ff]"
           >
-            Leistungen
+            Anwendungsbereiche
           </motion.span>
+
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl font-bold text-white md:text-4xl"
+            transition={{ delay: 0.08 }}
+            className="text-3xl font-semibold tracking-[-0.03em] text-white md:text-4xl lg:text-5xl"
           >
-            Alles aus einer Hand
+            Mini-Websites, die je nach Branche anders wirken.
           </motion.h2>
-        </motion.div>
 
-        <div className="grid gap-4 sm:grid-cols-3">
-          {services.map((s, i) => (
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.14 }}
+            className="mt-5 max-w-2xl text-base leading-7 text-white/60"
+          >
+            Nicht jede Branche braucht das gleiche Layout. Deshalb gestalten wir
+            Mini-Websites passend zum jeweiligen Einsatzbereich – minimalistisch,
+            aufgeräumt und trotzdem mit eigenem Charakter.
+          </motion.p>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {useCases.map((item, index) => (
             <motion.div
-              key={s.title}
-              initial={{ opacity: 0, y: 50, rotateX: -15 }}
-              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+              key={item.title}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{
-                delay: 0.2 + i * 0.15,
-                type: "spring",
-                stiffness: 100,
-                damping: 15,
-              }}
-              whileHover={{
-                y: -10,
-                scale: 1.02,
-                transition: { type: "spring", stiffness: 400 },
-              }}
-              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm"
+              transition={{ delay: 0.12 + index * 0.08, duration: 0.55 }}
+              whileHover={{ y: -6 }}
+              className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl transition-all duration-300 hover:border-white/20"
             >
-              {/* Hover glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#2997ff]/0 to-[#5856d6]/0 transition-all duration-500 group-hover:from-[#2997ff]/10 group-hover:to-[#5856d6]/10" />
+              <div className={`absolute inset-0 bg-gradient-to-br ${item.accent} opacity-60`} />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))]" />
 
-              <motion.div
-                whileHover={{ rotate: 360, scale: 1.2 }}
-                transition={{ duration: 0.5 }}
-                className="relative mb-4"
-              >
-                <s.icon className="h-10 w-10 text-[#2997ff]" />
-              </motion.div>
-              <h3 className="relative text-lg font-semibold text-white">{s.title}</h3>
-              <p className="relative mt-1 text-white/50">{s.desc}</p>
+              <div className="relative">
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-black/20">
+                  <item.icon className={`h-5 w-5 ${item.iconColor}`} />
+                </div>
+
+                <h3 className="text-xl font-semibold text-white">{item.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-white/65">{item.desc}</p>
+              </div>
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.18 }}
+          className="mt-10"
+        >
+          <Link
+            href="/portfolio"
+            className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-white transition-all hover:border-white/20 hover:bg-white/10"
+          >
+            Anwendungsbereiche ansehen
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </motion.div>
       </motion.div>
     </section>
   );

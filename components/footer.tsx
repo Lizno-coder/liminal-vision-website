@@ -2,8 +2,8 @@ import Link from "next/link";
 
 const navLinks = [
   { name: "Home", href: "/" },
-  { name: "Services", href: "/#services" },
-  { name: "Portfolio", href: "/#portfolio" },
+  { name: "Anwendungsbereiche", href: "/#anwendungsbereiche" },
+  { name: "Preise", href: "/#pricing" },
   { name: "Kontakt", href: "/kontakt" },
 ];
 
