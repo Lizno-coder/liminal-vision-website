@@ -6,7 +6,7 @@ import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from
 
 const navLinks = [
   { name: "Home", href: "#home" },
-  { name: "Anwendungsbereiche", href: "#anwendungsbereiche" },
+  { name: "Anwendungsbereiche", href: "/portfolio" },
   { name: "Ablauf", href: "#process" },
   { name: "Preise", href: "#pricing" },
   { name: "Kontakt", href: "#contact" },
