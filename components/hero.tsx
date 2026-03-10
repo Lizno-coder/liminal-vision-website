@@ -27,11 +27,11 @@ function TypingWord() {
     const currentWord = words[currentWordIndex];
     
     if (isWaiting) {
-      // Word is fully displayed, wait 2 seconds
+      // Word is fully displayed, wait 1.5 seconds
       const timeout = setTimeout(() => {
         setIsWaiting(false);
         setIsDeleting(true);
-      }, 2000);
+      }, 1500);
       return () => clearTimeout(timeout);
     }
     
