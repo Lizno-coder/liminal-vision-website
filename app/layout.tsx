@@ -15,10 +15,12 @@ export const metadata: Metadata = {
   description: "Wir erstellen einzigartige Websites für Unternehmen, die sich von der Masse abheben wollen. Kostenlose Demo vor dem Deal.",
   icons: {
     icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon.ico', sizes: 'any' },
     ],
-    shortcut: '/favicon.svg',
-    apple: '/logo.svg',
+    shortcut: '/favicon-32x32.png',
+    apple: '/apple-touch-icon.png',
   },
 };
 
@@ -29,6 +31,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de" className="scroll-smooth">
+      <head>
+        <link rel="manifest" href="/site.webmanifest" />
+      </head>
       <body className={`${inter.variable} font-sans min-h-screen bg-[#0a0a0a] text-white antialiased`}>
         {/* Interactive Grid Background - covers entire page */}
         <GridBackground />
