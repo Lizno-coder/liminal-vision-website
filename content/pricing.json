@@ -1,0 +1,42 @@
+{
+  "packages": [
+    {
+      "name": "Starter",
+      "price": "ab 1.200 €",
+      "description": "Perfekt für kleine Unternehmen und Startups",
+      "features": [
+        "5 Seiten",
+        "Responsive Design",
+        "Kontaktformular",
+        "SEO-Basisoptimierung"
+      ],
+      "popular": false
+    },
+    {
+      "name": "Business",
+      "price": "ab 2.500 €",
+      "description": "Für wachsende Unternehmen mit höheren Ansprüchen",
+      "features": [
+        "10+ Seiten",
+        "CMS-Integration",
+        "Blog-Funktion",
+        "Erweitertes SEO",
+        "Performance-Optimierung"
+      ],
+      "popular": true
+    },
+    {
+      "name": "Enterprise",
+      "price": "auf Anfrage",
+      "description": "Maßgeschneiderte Lösungen für große Projekte",
+      "features": [
+        "Unbegrenzte Seiten",
+        "Individuelle Features",
+        "API-Integrationen",
+        "Priority Support",
+        "Wartungspaket"
+      ],
+      "popular": false
+    }
+  ]
+}

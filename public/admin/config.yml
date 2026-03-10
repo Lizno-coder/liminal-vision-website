@@ -1,0 +1,83 @@
+backend:
+  name: github
+  repo: Lizno-coder/liminal-vision-website
+  branch: main
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+# Aktiviere Editorial Workflow für Drafts
+publish_mode: editorial_workflow
+
+# Sprache
+collections:
+  # Startseite Inhalte
+  - name: "homepage"
+    label: "Startseite"
+    files:
+      - file: "content/homepage.json"
+        label: "Hero-Bereich"
+        name: "hero"
+        fields:
+          - { label: "Überschrift", name: "headline", widget: "string" }
+          - { label: "Unterüberschrift", name: "subheadline", widget: "text" }
+          - { label: "CTA-Text", name: "ctaText", widget: "string", default: "Demo anfordern" }
+          - { label: "Beschreibung", name: "description", widget: "markdown" }
+      
+      - file: "content/features.json"
+        label: "Leistungen"
+        name: "features"
+        fields:
+          - label: "Leistungen"
+            name: "features"
+            widget: "list"
+            fields:
+              - { label: "Titel", name: "title", widget: "string" }
+              - { label: "Beschreibung", name: "description", widget: "text" }
+              - { label: "Icon", name: "icon", widget: "select", options: ["Zap", "Palette", "Code", "Rocket", "Shield", "Smartphone"] }
+
+  # Blog Posts
+  - name: "blog"
+    label: "Blog"
+    folder: "content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Titel", name: "title", widget: "string" }
+      - { label: "Datum", name: "date", widget: "datetime" }
+      - { label: "Beschreibung", name: "description", widget: "text" }
+      - { label: "Bild", name: "image", widget: "image", required: false }
+      - { label: "Tags", name: "tags", widget: "list", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  # Allgemeine Einstellungen
+  - name: "settings"
+    label: "Einstellungen"
+    files:
+      - file: "content/settings.json"
+        label: "Kontaktdaten"
+        name: "contact"
+        fields:
+          - { label: "E-Mail", name: "email", widget: "string" }
+          - { label: "Telefon", name: "phone", widget: "string" }
+          - { label: "Adresse", name: "address", widget: "text" }
+          - { label: "CTA-Button Text", name: "ctaText", widget: "string" }
+          
+      - file: "content/pricing.json"
+        label: "Preise"
+        name: "pricing"
+        fields:
+          - label: "Pakete"
+            name: "packages"
+            widget: "list"
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Preis", name: "price", widget: "string" }
+              - { label: "Beschreibung", name: "description", widget: "text" }
+              - label: "Features"
+                name: "features"
+                widget: "list"
+                field: { label: "Feature", name: "feature", widget: "string" }
+              - { label: "Popular", name: "popular", widget: "boolean", default: false }

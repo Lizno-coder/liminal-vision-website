@@ -1,0 +1,19 @@
+{
+  "features": [
+    {
+      "title": "Schnelle Ladezeiten",
+      "description": "Blitzschnelle Websites für beste User Experience und SEO.",
+      "icon": "Zap"
+    },
+    {
+      "title": "Modernes Design",
+      "description": "Klare, zeitgemäße Designs, die Ihre Marke perfekt repräsentieren.",
+      "icon": "Palette"
+    },
+    {
+      "title": "SEO-Optimierung",
+      "description": "Von Anfang an für Google und Co. optimiert.",
+      "icon": "Rocket"
+    }
+  ]
+}
