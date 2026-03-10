@@ -63,7 +63,7 @@ export default function DatenschutzPage() {
             Datenschutz
           </span>
           <h1 className="text-4xl font-semibold tracking-[-0.04em] text-white md:text-5xl">
-            Informationen zum Umgang mit Ihren Daten.
+            <span className="text-[#2997ff]">Informationen</span> zum Umgang mit Ihren Daten.
           </h1>
           <p className="mt-4 text-sm leading-6 text-white/55 sm:text-base">
             Transparent, verständlich und auf das Wesentliche reduziert.

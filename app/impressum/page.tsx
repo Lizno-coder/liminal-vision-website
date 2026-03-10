@@ -48,7 +48,7 @@ export default function ImpressumPage() {
             Impressum
           </span>
           <h1 className="text-4xl font-semibold tracking-[-0.04em] text-white md:text-5xl">
-            Rechtliche Angaben.
+            <span className="text-[#2997ff]">Rechtliche</span> Angaben.
           </h1>
           <p className="mt-4 text-sm leading-6 text-white/55 sm:text-base">
             Alle Pflichtangaben zu Anbieter, Kontakt und Verantwortlichkeit auf einen Blick.
