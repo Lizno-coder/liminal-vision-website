@@ -12,11 +12,18 @@ const navLinks = [
   { name: "Kontakt", href: "/kontakt" },
 ];
 
-function BrandLockup() {
+function BrandLockup({ onClick }: { onClick?: () => void }) {
   return (
     <>
-      <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] transition group-hover:border-[#2997ff]/50 group-hover:shadow-[0_0_20px_rgba(41,151,255,0.3)]">
-        <img src="/logo.svg" alt="Liminal Vision" className="h-9 w-9 object-contain" />
+      <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden transition group-hover:shadow-[0_0_20px_rgba(41,151,255,0.3)]">
+        <img 
+          src="/LiminalVision Logo.png" 
+          alt="Liminal Vision" 
+          className="h-full w-full object-contain"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = '/logo.svg';
+          }}
+        />
       </div>
       <div className="flex items-center text-lg font-semibold tracking-[-0.02em] text-white">
         <span>Liminal</span>
@@ -83,7 +90,11 @@ export default function Header() {
         }`}
       >
         <div className="flex h-16 items-center justify-between px-4 sm:px-6">
-          <Link href="/" className="group flex items-center gap-3">
+          <Link 
+            href="/" 
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="group flex cursor-pointer items-center gap-3"
+          >
             <BrandLockup />
           </Link>
 

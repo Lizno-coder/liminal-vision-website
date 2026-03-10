@@ -10,6 +10,7 @@ const navLinks = [
 const legalLinks = [
   { name: "Impressum", href: "/impressum" },
   { name: "Datenschutz", href: "/datenschutz" },
+  { name: "AGB", href: "/agb" },
 ];
 
 export default function Footer() {
@@ -18,15 +19,26 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl overflow-hidden rounded-3xl border border-white/10 bg-white/10 backdrop-blur-xl">
         <div className="grid gap-10 px-6 py-12 sm:px-8 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:px-10">
           <div>
-            <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a]">
-                <img src="/logo.svg" alt="Liminal Vision" className="h-8 w-8 object-contain" />
+            <Link 
+              href="/" 
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="mb-4 flex cursor-pointer items-center gap-3"
+            >
+              <div className="flex h-10 w-10 items-center justify-center overflow-hidden">
+                <img 
+                  src="/LiminalVision Logo.png" 
+                  alt="Liminal Vision" 
+                  className="h-full w-full object-contain"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/logo.svg';
+                  }}
+                />
               </div>
               <div className="flex items-center text-lg font-semibold tracking-[-0.02em] text-white">
                 <span>Liminal</span>
                 <span className="ml-1 text-[#2997ff]">Vision</span>
               </div>
-            </div>
+            </Link>
             <p className="max-w-sm text-sm leading-6 text-white/65">
               Moderne Websites mit klarem Auftritt, starken blauen Akzenten und einer visuellen Sprache, die im Kopf bleibt.
             </p>

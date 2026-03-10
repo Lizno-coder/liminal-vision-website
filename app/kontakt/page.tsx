@@ -27,11 +27,13 @@ const projectTypes: ProjectType[] = [
 ];
 
 const budgetLabels: Record<number, string> = {
-  1200: "ab 1.200 €",
+  50: "ab 50 €",
+  500: "ca. 500 €",
+  1000: "ca. 1.000 €",
   2500: "ca. 2.500 €",
-  4000: "ca. 4.000 €",
-  6000: "ca. 6.000 €",
-  9000: "ab 9.000 €",
+  5000: "ca. 5.000 €",
+  7500: "ca. 7.500 €",
+  10000: "ab 10.000 €",
 };
 
 function Field({
@@ -98,7 +100,7 @@ export default function KontaktPage() {
     phone: "",
     company: "",
     websiteType: "",
-    budget: 2500,
+    budget: 500,
     timeline: "",
     message: "",
   });
@@ -126,7 +128,7 @@ export default function KontaktPage() {
       phone: "",
       company: "",
       websiteType: "",
-      budget: 2500,
+      budget: 500,
       timeline: "",
       message: "",
     });
@@ -165,7 +167,7 @@ export default function KontaktPage() {
             transition={{ delay: 0.06, duration: 0.55 }}
             className="mt-6 text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl"
           >
-            Erzählen Sie uns kurz, was Sie brauchen.
+            <span className="text-[#2997ff]">Erzählen</span> Sie uns kurz, was Sie <span className="text-[#2997ff]">brauchen</span>.
           </motion.h1>
 
           <motion.p
@@ -186,7 +188,9 @@ export default function KontaktPage() {
             className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-5 shadow-[0_30px_80px_rgba(0,0,0,0.32)] backdrop-blur-2xl sm:p-8"
           >
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold tracking-tight text-white">Projektanfrage</h2>
+              <h2 className="text-2xl font-semibold tracking-tight text-white">
+                <span className="text-[#2997ff]">Projekt</span>anfrage
+              </h2>
               <p className="mt-3 text-sm leading-6 text-white/52">
                 Wenige klare Angaben genügen, damit Ihre Anfrage sauber eingeschätzt werden kann.
               </p>
@@ -242,16 +246,16 @@ export default function KontaktPage() {
                   </div>
                   <input
                     type="range"
-                    min="1200"
-                    max="9000"
-                    step="100"
+                    min="50"
+                    max="10000"
+                    step="5"
                     value={form.budget}
                     onChange={(e) => updateField("budget", Number(e.target.value))}
                     className="range-slider h-2 w-full cursor-pointer appearance-none rounded-full bg-white/10"
                   />
                   <div className="mt-3 flex justify-between text-[11px] text-white/35 sm:text-xs">
-                    <span>1.200 €</span>
-                    <span>9.000 €+</span>
+                    <span>50 €</span>
+                    <span>10.000 €</span>
                   </div>
                 </div>
               </Field>
