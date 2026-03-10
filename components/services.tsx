@@ -24,21 +24,19 @@ export default function Services() {
           </h2>
         </motion.div>
 
-        {/* Centered Image */}
+        {/* Centered Image - No background box */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mx-auto max-w-6xl"
+          className="mx-auto max-w-6xl px-2 sm:px-4"
         >
-          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent p-2 sm:p-4 lg:p-6">
-            <img
-              src="/showcase-websites.png"
-              alt="Liminal Vision Website Beispiele - Fitness, Café, Handwerk"
-              className="w-full rounded-xl object-contain"
-            />
-          </div>
+          <img
+            src="/showcase-websites.png"
+            alt="Liminal Vision Website Beispiele - Fitness, Café, Handwerk"
+            className="w-full object-contain"
+          />
         </motion.div>
 
         {/* Centered Button */}
