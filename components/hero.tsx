@@ -1,71 +1,74 @@
 "use client";
 
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Hero3D from "./hero-3d";
 
 const ACCENT = "#2997ff";
 
-// Typing animation component for cycling words
+// Simple and robust typing animation
 function TypingWord() {
   const words = useMemo(() => ["Fair.", "Gut.", "Sicher.", "Perfekt."], []);
-  const [displayText, setDisplayText] = useState("");
-  const [wordIndex, setWordIndex] = useState(0);
-  const [isWaiting, setIsWaiting] = useState(false);
-  const [showCursor, setShowCursor] = useState(true);
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [text, setText] = useState("");
+  const [wordIdx, setWordIdx] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+  const [cursorVisible, setCursorVisible] = useState(true);
 
-  // Blinking cursor
+  // Cursor blink
   useEffect(() => {
-    const interval = setInterval(() => setShowCursor(c => !c), 530);
-    return () => clearInterval(interval);
+    const i = setInterval(() => setCursorVisible(v => !v), 530);
+    return () => clearInterval(i);
   }, []);
 
-  // Animation loop
+  // Typewriter loop - runs on every change
   useEffect(() => {
-    const currentWord = words[wordIndex];
-    let timer: NodeJS.Timeout;
-
-    if (isWaiting) {
-      // Just finished typing - wait before deleting
-      timer = setTimeout(() => {
-        setIsWaiting(false);
-        setIsDeleting(true);
-      }, 1500);
-    } else if (isDeleting) {
-      // Deleting mode
-      if (displayText === "") {
-        // Finished deleting - move to next word and start typing
-        setIsDeleting(false);
-        setWordIndex((prev) => (prev + 1) % words.length);
+    const word = words[wordIdx];
+    
+    // Determine what to do
+    const shouldDelete = deleting;
+    const isComplete = text === word;
+    const isEmpty = text === "";
+    
+    let delay = 100; // default type speed
+    let action: (() => void) | null = null;
+    
+    if (shouldDelete) {
+      if (isEmpty) {
+        // Done deleting - next word
+        action = () => {
+          setDeleting(false);
+          setWordIdx((prev) => (prev + 1) % words.length);
+        };
+        delay = 0; // immediate
       } else {
-        // Delete one character
-        timer = setTimeout(() => {
-          setDisplayText(prev => prev.slice(0, -1));
-        }, 50);
+        // Delete one char
+        action = () => setText(t => t.slice(0, -1));
+        delay = 50;
       }
     } else {
-      // Typing mode
-      if (displayText === currentWord) {
-        // Word complete - start waiting
-        setIsWaiting(true);
-      } else if (displayText.length < currentWord.length) {
-        // Type next character
-        timer = setTimeout(() => {
-          setDisplayText(currentWord.slice(0, displayText.length + 1));
-        }, 100);
+      if (isComplete) {
+        // Done typing - wait then delete
+        action = () => setDeleting(true);
+        delay = 1500;
+      } else {
+        // Type one char
+        action = () => setText(word.slice(0, text.length + 1));
+        delay = 100;
       }
     }
-
+    
+    const timer = setTimeout(action, delay);
     return () => clearTimeout(timer);
-  }, [displayText, isWaiting, isDeleting, wordIndex, words]);
+    
+  }, [text, deleting, wordIdx, words]);
 
   return (
     <span className="text-[#2997ff]">
-      {displayText}
+      {text}
       <span 
-        className={`inline-block w-[3px] h-[0.9em] bg-[#2997ff] ml-[2px] align-middle transition-opacity duration-100 ${showCursor ? 'opacity-100' : 'opacity-0'}`}
+        className={`inline-block w-[3px] h-[0.9em] bg-[#2997ff] ml-[2px] align-middle ${cursorVisible ? 'opacity-100' : 'opacity-0'}`}
+        style={{ transition: 'opacity 0.1s ease' }}
       />
     </span>
   );
