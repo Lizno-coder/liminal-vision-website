@@ -9,61 +9,63 @@ const ACCENT = "#2997ff";
 
 // Typing animation component for cycling words
 function TypingWord() {
-  const words = ["Fair.", "Gut.", "Sicher.", "Perfekt."];
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const words = useMemo(() => ["Fair.", "Gut.", "Sicher.", "Perfekt."], []);
   const [displayText, setDisplayText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [wordIndex, setWordIndex] = useState(0);
+  const [isWaiting, setIsWaiting] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Blinking cursor
   useEffect(() => {
-    const cursorInterval = setInterval(() => {
-      setShowCursor(prev => !prev);
-    }, 530);
-    return () => clearInterval(cursorInterval);
+    const interval = setInterval(() => setShowCursor(c => !c), 530);
+    return () => clearInterval(interval);
   }, []);
 
-  // Main typing animation
+  // Animation loop
   useEffect(() => {
-    const currentWord = words[currentWordIndex];
-    let timeout: NodeJS.Timeout;
+    const currentWord = words[wordIndex];
+    let timer: NodeJS.Timeout;
 
-    if (isDeleting) {
+    if (isWaiting) {
+      // Just finished typing - wait before deleting
+      timer = setTimeout(() => {
+        setIsWaiting(false);
+        setIsDeleting(true);
+      }, 1500);
+    } else if (isDeleting) {
       // Deleting mode
       if (displayText === "") {
-        // Finished deleting, move to next word
+        // Finished deleting - move to next word and start typing
         setIsDeleting(false);
-        setCurrentWordIndex((prev) => (prev + 1) % words.length);
+        setWordIndex((prev) => (prev + 1) % words.length);
       } else {
         // Delete one character
-        timeout = setTimeout(() => {
-          setDisplayText((prev) => prev.slice(0, -1));
+        timer = setTimeout(() => {
+          setDisplayText(prev => prev.slice(0, -1));
         }, 50);
       }
     } else {
       // Typing mode
       if (displayText === currentWord) {
-        // Finished typing, wait then start deleting
-        timeout = setTimeout(() => {
-          setIsDeleting(true);
-        }, 1500);
-      } else {
+        // Word complete - start waiting
+        setIsWaiting(true);
+      } else if (displayText.length < currentWord.length) {
         // Type next character
-        timeout = setTimeout(() => {
-          setDisplayText((prev) => currentWord.slice(0, prev.length + 1));
+        timer = setTimeout(() => {
+          setDisplayText(currentWord.slice(0, displayText.length + 1));
         }, 100);
       }
     }
 
-    return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, currentWordIndex, words]);
+    return () => clearTimeout(timer);
+  }, [displayText, isWaiting, isDeleting, wordIndex, words]);
 
   return (
     <span className="text-[#2997ff]">
       {displayText}
       <span 
-        className={`inline-block w-[3px] h-[0.9em] bg-[#2997ff] ml-[2px] align-middle ${showCursor ? 'opacity-100' : 'opacity-0'}`}
-        style={{ transition: 'opacity 0.1s ease' }}
+        className={`inline-block w-[3px] h-[0.9em] bg-[#2997ff] ml-[2px] align-middle transition-opacity duration-100 ${showCursor ? 'opacity-100' : 'opacity-0'}`}
       />
     </span>
   );
