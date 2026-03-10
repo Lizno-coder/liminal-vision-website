@@ -9,7 +9,7 @@ const ACCENT = "#2997ff";
 
 // Simple and robust typing animation
 function TypingWord() {
-  const words = useMemo(() => ["Fair.", "Gut.", "Sicher.", "Perfekt."], []);
+  const words = useMemo(() => ["Fair.", "Gut.", "Nice.", "Safe."], []);
   const [text, setText] = useState("");
   const [wordIdx, setWordIdx] = useState(0);
   const [deleting, setDeleting] = useState(false);
