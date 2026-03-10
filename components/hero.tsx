@@ -1,11 +1,65 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Hero3D from "./hero-3d";
 
 const ACCENT = "#2997ff";
+
+// Typing animation component for cycling words
+function TypingWord() {
+  const words = ["Fair.", "Gut.", "Sicher.", "Perfekt."];
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [showCursor, setShowCursor] = useState(true);
+
+  useEffect(() => {
+    const cursorInterval = setInterval(() => {
+      setShowCursor(prev => !prev);
+    }, 530);
+    return () => clearInterval(cursorInterval);
+  }, []);
+
+  useEffect(() => {
+    const currentWord = words[currentWordIndex];
+    
+    if (isDeleting) {
+      if (displayText === "") {
+        setIsDeleting(false);
+        setCurrentWordIndex((prev) => (prev + 1) % words.length);
+      } else {
+        const timeout = setTimeout(() => {
+          setDisplayText(displayText.slice(0, -1));
+        }, 80);
+        return () => clearTimeout(timeout);
+      }
+    } else {
+      if (displayText === currentWord) {
+        const timeout = setTimeout(() => {
+          setIsDeleting(true);
+        }, 3000);
+        return () => clearTimeout(timeout);
+      } else {
+        const timeout = setTimeout(() => {
+          setDisplayText(currentWord.slice(0, displayText.length + 1));
+        }, 120);
+        return () => clearTimeout(timeout);
+      }
+    }
+  }, [displayText, isDeleting, currentWordIndex, words]);
+
+  return (
+    <span className="text-[#2997ff]">
+      {displayText}
+      <span 
+        className={`inline-block w-[3px] h-[0.9em] bg-[#2997ff] ml-[2px] align-middle ${showCursor ? 'opacity-100' : 'opacity-0'}`}
+        style={{ transition: 'opacity 0.1s ease' }}
+      />
+    </span>
+  );
+}
 
 export default function Hero(): JSX.Element {
   const textVariants = useMemo(
@@ -35,7 +89,9 @@ export default function Hero(): JSX.Element {
 
             <h1 className="text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
               Ihre Website.
-              <span className="block text-[#2997ff]">Einfach. Fair.</span>
+              <span className="block">
+                Einfach. <TypingWord />
+              </span>
             </h1>
 
             <p className="mt-4 max-w-md text-lg text-white/60">
