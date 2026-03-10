@@ -5,10 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
 
 const navLinks = [
-  { name: "Home", href: "#home" },
+  { name: "Home", href: "/" },
   { name: "Anwendungsbereiche", href: "/portfolio" },
-  { name: "Ablauf", href: "#process" },
-  { name: "Preise", href: "#pricing" },
+  { name: "Ablauf", href: "/#process" },
+  { name: "Preise", href: "/#pricing" },
   { name: "Kontakt", href: "/kontakt" },
 ];
 

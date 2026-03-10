@@ -13,6 +13,7 @@ function TypingWord() {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isWaiting, setIsWaiting] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
 
   useEffect(() => {
@@ -25,30 +26,38 @@ function TypingWord() {
   useEffect(() => {
     const currentWord = words[currentWordIndex];
     
+    if (isWaiting) {
+      // Word is fully displayed, wait 2 seconds
+      const timeout = setTimeout(() => {
+        setIsWaiting(false);
+        setIsDeleting(true);
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }
+    
     if (isDeleting) {
+      // Deleting character by character
       if (displayText === "") {
         setIsDeleting(false);
         setCurrentWordIndex((prev) => (prev + 1) % words.length);
       } else {
         const timeout = setTimeout(() => {
           setDisplayText(displayText.slice(0, -1));
-        }, 80);
+        }, 60);
         return () => clearTimeout(timeout);
       }
     } else {
+      // Typing character by character
       if (displayText === currentWord) {
-        const timeout = setTimeout(() => {
-          setIsDeleting(true);
-        }, 3000);
-        return () => clearTimeout(timeout);
+        setIsWaiting(true);
       } else {
         const timeout = setTimeout(() => {
           setDisplayText(currentWord.slice(0, displayText.length + 1));
-        }, 120);
+        }, 100);
         return () => clearTimeout(timeout);
       }
     }
-  }, [displayText, isDeleting, currentWordIndex, words]);
+  }, [displayText, isDeleting, isWaiting, currentWordIndex, words]);
 
   return (
     <span className="text-[#2997ff]">
@@ -90,7 +99,7 @@ export default function Hero(): JSX.Element {
             <h1 className="text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
               Ihre Website.
               <span className="block">
-                Einfach. <TypingWord />
+                <span className="text-[#2997ff]">Einfach.</span> <TypingWord />
               </span>
             </h1>
 
