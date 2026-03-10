@@ -24,7 +24,7 @@ export default function Footer() {
             <Link 
               href="/" 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="mb-4 flex cursor-pointer items-center gap-3"
+              className="mb-4 flex cursor-pointer items-center gap-1"
             >
               <div className="flex h-10 w-10 items-center justify-center overflow-hidden">
                 <img 

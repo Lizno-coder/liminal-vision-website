@@ -93,7 +93,7 @@ export default function Header() {
           <Link 
             href="/" 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="group flex cursor-pointer items-center gap-3"
+            className="group flex cursor-pointer items-center gap-1"
           >
             <BrandLockup />
           </Link>
