@@ -5,7 +5,7 @@ export const metadata = {
 
 const details = [
   {
-    title: "Angaben gemäß § 5 TMG",
+    title: "Angaben gemäß § 5 DDG",
     content: [
       "Liminal Vision",
       "Inhaber: Noel Liessel",

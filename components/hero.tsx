@@ -12,10 +12,10 @@ function TypingWord() {
   const words = ["Fair.", "Gut.", "Sicher.", "Perfekt."];
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isWaiting, setIsWaiting] = useState(false);
+  const [phase, setPhase] = useState<"typing" | "waiting" | "deleting">("typing");
   const [showCursor, setShowCursor] = useState(true);
 
+  // Blinking cursor
   useEffect(() => {
     const cursorInterval = setInterval(() => {
       setShowCursor(prev => !prev);
@@ -23,41 +23,41 @@ function TypingWord() {
     return () => clearInterval(cursorInterval);
   }, []);
 
+  // Main animation loop
   useEffect(() => {
     const currentWord = words[currentWordIndex];
     
-    if (isWaiting) {
-      // Word is fully displayed, wait 1.5 seconds
-      const timeout = setTimeout(() => {
-        setIsWaiting(false);
-        setIsDeleting(true);
-      }, 1500);
-      return () => clearTimeout(timeout);
-    }
-    
-    if (isDeleting) {
-      // Deleting character by character
-      if (displayText === "") {
-        setIsDeleting(false);
-        setCurrentWordIndex((prev) => (prev + 1) % words.length);
-      } else {
-        const timeout = setTimeout(() => {
-          setDisplayText(displayText.slice(0, -1));
-        }, 60);
-        return () => clearTimeout(timeout);
-      }
-    } else {
-      // Typing character by character
+    if (phase === "typing") {
       if (displayText === currentWord) {
-        setIsWaiting(true);
+        // Word complete, start waiting
+        setPhase("waiting");
       } else {
+        // Type next character
         const timeout = setTimeout(() => {
           setDisplayText(currentWord.slice(0, displayText.length + 1));
         }, 100);
         return () => clearTimeout(timeout);
       }
+    } else if (phase === "waiting") {
+      // Wait 1.5 seconds then start deleting
+      const timeout = setTimeout(() => {
+        setPhase("deleting");
+      }, 1500);
+      return () => clearTimeout(timeout);
+    } else if (phase === "deleting") {
+      if (displayText === "") {
+        // All deleted, move to next word and start typing
+        setCurrentWordIndex((prev) => (prev + 1) % words.length);
+        setPhase("typing");
+      } else {
+        // Delete one character
+        const timeout = setTimeout(() => {
+          setDisplayText(prev => prev.slice(0, -1));
+        }, 60);
+        return () => clearTimeout(timeout);
+      }
     }
-  }, [displayText, isDeleting, isWaiting, currentWordIndex, words]);
+  }, [displayText, phase, currentWordIndex, words]);
 
   return (
     <span className="text-[#2997ff]">

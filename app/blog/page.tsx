@@ -97,7 +97,7 @@ export default function BlogPage() {
               Blog
             </p>
             <h1 className="text-3xl font-semibold tracking-[-0.03em] text-white md:text-4xl lg:text-5xl">
-              Insights & Tipps
+              Insights & <span className="text-[#2997ff]">Tipps</span>
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-white/60">
               Praktisches Wissen für Unternehmer, die online erfolgreich sein wollen. 
