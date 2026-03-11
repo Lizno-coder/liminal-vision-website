@@ -4,7 +4,7 @@ import Link from "next/link";
 import GridBackground from "@/components/grid-background";
 
 export const metadata: Metadata = {
-  title: "Blog | Liminal Vision - Insights für kleine Unternehmen",
+  title: "Blog | Liminalo - Insights für kleine Unternehmen",
   description: "Praktische Tipps und Insights für Unternehmer, die online erfolgreich sein wollen. Website-Strategie, Marketing und mehr.",
 };
 

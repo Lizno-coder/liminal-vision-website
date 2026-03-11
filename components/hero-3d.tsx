@@ -400,7 +400,7 @@ function Dashboard3D() {
         anchorX="left"
         anchorY="middle"
       >
-        Liminal Vision
+        Liminalo
       </Text>
 
       {/* Stats row */}

@@ -295,12 +295,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   
   if (!article) {
     return {
-      title: "Artikel nicht gefunden | Liminal Vision",
+      title: "Artikel nicht gefunden | Liminalo",
     };
   }
 
   return {
-    title: `${article.title} | Liminal Vision Blog`,
+    title: `${article.title} | Liminalo Blog`,
     description: article.excerpt,
   };
 }
@@ -361,7 +361,7 @@ export default async function ArticlePage({ params }: Props) {
             </div>
             <div>
               <p className="font-medium text-white">{article.author}</p>
-              <p className="text-sm text-white/50">Liminal Vision Team</p>
+              <p className="text-sm text-white/50">Liminalo Team</p>
             </div>
           </div>
 

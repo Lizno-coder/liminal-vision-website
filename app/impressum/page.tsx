@@ -1,13 +1,13 @@
 export const metadata = {
-  title: "Impressum | Liminal Vision",
-  description: "Impressum von Liminal Vision.",
+  title: "Impressum | Liminalo",
+  description: "Impressum von Liminalo.",
 };
 
 const details = [
   {
     title: "Angaben gemäß § 5 DDG",
     content: [
-      "Liminal Vision",
+      "Liminalo",
       "Inhaber: Noel Liessel",
       "Graf-zu-Toerring-Straße 10",
       "84478 Waldkraiburg",
@@ -19,7 +19,7 @@ const details = [
     content: [
       "Telefon: 0174 6509061",
       "E-Mail: liz.claw@gmx.de",
-      "Website: https://liminal-vision.vercel.app",
+      "Website: https://liminalo.com",
     ],
   },
   {

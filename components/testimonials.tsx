@@ -26,7 +26,7 @@ const testimonials = [
     location: "Waldkraiburg",
     role: "Handwerkerin",
     rating: 5,
-    text: "Ich hatte null Ahnung von Websites, aber Liminal Vision hat mich Schritt für Schritt begleitet. Jetzt verkaufe ich meine Produkte online und erreiche Kunden aus ganz Bayern. Beste Entscheidung!",
+    text: "Ich hatte null Ahnung von Websites, aber Liminalo hat mich Schritt für Schritt begleitet. Jetzt verkaufe ich meine Produkte online und erreiche Kunden aus ganz Bayern. Beste Entscheidung!",
   },
   {
     name: "Markus Bauer",

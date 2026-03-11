@@ -29,7 +29,7 @@ export default function Footer() {
               <div className="flex h-10 w-10 items-center justify-center overflow-hidden">
                 <img 
                   src="/LiminalVision Logo.png" 
-                  alt="Liminal Vision" 
+                  alt="Liminalo" 
                   className="h-full w-full object-contain"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = '/logo.svg';
@@ -37,8 +37,8 @@ export default function Footer() {
                 />
               </div>
               <div className="flex items-center text-lg font-semibold tracking-[-0.02em] text-white">
-                <span>Liminal</span>
-                <span className="ml-1 text-[#2997ff]">Vision</span>
+                <span>Limi</span>
+                <span className="text-[#2997ff]">nalo</span>
               </div>
             </Link>
             <p className="max-w-sm text-sm leading-6 text-white/65">
@@ -89,7 +89,7 @@ export default function Footer() {
 
         <div className="border-t border-white/10 px-6 py-4 sm:px-8 lg:px-10">
           <div className="flex flex-col gap-2 text-sm text-white/50 sm:flex-row sm:items-center sm:justify-between">
-            <p>© {new Date().getFullYear()} Liminal Vision. Alle Rechte vorbehalten.</p>
+            <p>© {new Date().getFullYear()} Liminalo. Alle Rechte vorbehalten.</p>
             <p>Waldkraiburg, Bayern</p>
           </div>
         </div>

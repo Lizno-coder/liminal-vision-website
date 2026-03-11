@@ -7,7 +7,7 @@ const team = [
     name: "Noel",
     role: "CEO & Founder",
     emoji: "👔",
-    description: "19 Jahre alt, aus Waldkraiburg. Visionär und Gründer von Liminal Vision.",
+    description: "19 Jahre alt, aus Waldkraiburg. Visionär und Gründer von Liminalo.",
     color: "from-[#2997ff] to-[#7ab8ff]",
   },
   {

@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Datenschutz | Liminal Vision",
-  description: "Datenschutzerklärung von Liminal Vision.",
+  title: "Datenschutz | Liminalo",
+  description: "Datenschutzerklärung von Liminalo.",
 };
 
 const sections = [
@@ -8,7 +8,7 @@ const sections = [
     title: "1. Verantwortlicher",
     paragraphs: [
       "Verantwortlich für die Datenverarbeitung auf dieser Website ist:",
-      "Noel Liessel, Liminal Vision, Graf-zu-Toerring-Straße 10, 84478 Waldkraiburg, Deutschland",
+      "Noel Liessel, Liminalo, Graf-zu-Toerring-Straße 10, 84478 Waldkraiburg, Deutschland",
       "E-Mail: liz.claw@gmx.de | Telefon: 0174 6509061",
     ],
   },

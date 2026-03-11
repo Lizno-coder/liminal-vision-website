@@ -1,13 +1,13 @@
 export const metadata = {
-  title: "AGB | Liminal Vision",
-  description: "Allgemeine Geschäftsbedingungen von Liminal Vision.",
+  title: "AGB | Liminalo",
+  description: "Allgemeine Geschäftsbedingungen von Liminalo.",
 };
 
 const sections = [
   {
     title: "1. Geltungsbereich",
     paragraphs: [
-      "Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge zwischen Liminal Vision (nachfolgend 'Auftragnehmer') und dem Kunden (nachfolgend 'Auftraggeber') über die Erstellung von Websites, Webanwendungen und damit zusammenhängende Dienstleistungen.",
+      "Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge zwischen Liminalo (nachfolgend 'Auftragnehmer') und dem Kunden (nachfolgend 'Auftraggeber') über die Erstellung von Websites, Webanwendungen und damit zusammenhängende Dienstleistungen.",
       "Abweichende Bedingungen des Auftraggebers werden nicht anerkannt, es sei denn, der Auftragnehmer hat diesen ausdrücklich schriftlich zugestimmt.",
     ],
   },

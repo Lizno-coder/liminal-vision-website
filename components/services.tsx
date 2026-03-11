@@ -35,13 +35,13 @@ export default function Services() {
           {/* Desktop/Tablet: Original horizontal image */}
           <img
             src="/showcase-websites.png"
-            alt="Liminal Vision Website Beispiele - Fitness, Café, Handwerk"
+            alt="Liminalo Website Beispiele - Fitness, Café, Handwerk"
             className="hidden w-full object-contain md:block"
           />
           {/* Mobile: Optimized vertical image */}
           <img
             src="/images/IMG_0303.png"
-            alt="Liminal Vision Website Beispiele - Mobile optimiert"
+            alt="Liminalo Website Beispiele - Mobile optimiert"
             className="mx-auto block w-full max-w-sm object-contain md:hidden"
           />
         </motion.div>

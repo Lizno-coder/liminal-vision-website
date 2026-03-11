@@ -18,7 +18,7 @@ function BrandLockup({ onClick }: { onClick?: () => void }) {
       <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden transition group-hover:shadow-[0_0_20px_rgba(41,151,255,0.3)]">
         <img 
           src="/LiminalVision Logo.png" 
-          alt="Liminal Vision" 
+          alt="Liminalo" 
           className="h-full w-full object-contain"
           onError={(e) => {
             (e.target as HTMLImageElement).src = '/logo.svg';
@@ -26,8 +26,8 @@ function BrandLockup({ onClick }: { onClick?: () => void }) {
         />
       </div>
       <div className="flex items-center text-lg font-semibold tracking-[-0.02em] text-white">
-        <span>Liminal</span>
-        <span className="ml-1 text-[#2997ff]">Vision</span>
+        <span>Limi</span>
+        <span className="text-[#2997ff]">nalo</span>
       </div>
     </>
   );
