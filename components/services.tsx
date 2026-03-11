@@ -32,10 +32,17 @@ export default function Services() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mx-auto max-w-6xl px-2 sm:px-4"
         >
+          {/* Desktop/Tablet: Original horizontal image */}
           <img
             src="/showcase-websites.png"
             alt="Liminal Vision Website Beispiele - Fitness, Café, Handwerk"
-            className="w-full object-contain"
+            className="hidden w-full object-contain md:block"
+          />
+          {/* Mobile: Optimized vertical image */}
+          <img
+            src="/images/IMG_0303.png"
+            alt="Liminal Vision Website Beispiele - Mobile optimiert"
+            className="mx-auto block w-full max-w-sm object-contain md:hidden"
           />
         </motion.div>
 
