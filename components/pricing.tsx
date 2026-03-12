@@ -112,9 +112,9 @@ export default function Pricing(): React.JSX.Element {
           viewport={{ once: true }}
         >
           <FlowGradientBackground 
-            className="overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl md:p-8"
+            className="overflow-hidden rounded-3xl border border-white/10 p-6 backdrop-blur-xl md:p-8"
             variant="blue"
-            intensity="medium"
+            intensity="high"
           >
           {/* Pages */}
           <div className="mb-6">

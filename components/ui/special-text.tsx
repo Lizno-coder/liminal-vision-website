@@ -31,12 +31,25 @@ export function SpecialText({
   once = true,
 }: SpecialTextProps) {
   const containerRef = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(containerRef, { once, margin: "-100px" });
-  const shouldAnimate = inView ? isInView : true;
+  const isInView = useInView(containerRef, { once, margin: "-50px" });
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Detect mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  // On mobile, always animate. On desktop, respect inView prop
+  const shouldAnimate = isMobile ? true : (inView ? isInView : true);
   const [hasStarted, setHasStarted] = useState(() => !inView && delay <= 0);
   const text = children;
   const [displayText, setDisplayText] = useState<string>(
-    " ".repeat(text.length),
+    text,
   );
   const [currentPhase, setCurrentPhase] = useState<"phase1" | "phase2">(
     "phase1",

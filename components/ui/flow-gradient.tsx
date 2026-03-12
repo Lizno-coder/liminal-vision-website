@@ -17,23 +17,23 @@ export function FlowGradientBackground({
   variant = "blue",
 }: FlowGradientBackgroundProps) {
   const intensityMap = {
-    low: "opacity-20",
-    medium: "opacity-40",
-    high: "opacity-60",
+    low: "opacity-30",
+    medium: "opacity-60",
+    high: "opacity-90",
   };
 
   const variantMap = {
-    blue: "from-[#2997ff]/30 via-[#5856d6]/20 to-[#2997ff]/30",
-    purple: "from-[#5856d6]/30 via-[#af52de]/20 to-[#5856d6]/30",
-    mixed: "from-[#2997ff]/25 via-[#af52de]/20 to-[#5856d6]/25",
+    blue: "from-[#2997ff]/40 via-[#5856d6]/30 to-[#2997ff]/40",
+    purple: "from-[#5856d6]/40 via-[#af52de]/30 to-[#5856d6]/40",
+    mixed: "from-[#2997ff]/35 via-[#af52de]/25 to-[#5856d6]/35",
   };
 
   return (
     <div className={cn("relative overflow-hidden", className)}>
-      {/* Animated gradient blobs */}
+      {/* Animated gradient blobs - bigger and more visible */}
       <div
         className={cn(
-          "absolute -left-20 -top-20 h-64 w-64 rounded-full blur-3xl animate-blob",
+          "absolute -left-32 -top-32 h-96 w-96 rounded-full blur-3xl animate-blob",
           intensityMap[intensity],
           "bg-gradient-to-br",
           variantMap[variant]
@@ -41,7 +41,7 @@ export function FlowGradientBackground({
       />
       <div
         className={cn(
-          "absolute -right-20 -bottom-20 h-64 w-64 rounded-full blur-3xl animate-blob animation-delay-2000",
+          "absolute -right-32 -bottom-32 h-96 w-96 rounded-full blur-3xl animate-blob animation-delay-2000",
           intensityMap[intensity],
           "bg-gradient-to-br",
           variantMap[variant]
@@ -49,7 +49,7 @@ export function FlowGradientBackground({
       />
       <div
         className={cn(
-          "absolute left-1/2 top-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl animate-blob animation-delay-4000",
+          "absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl animate-blob animation-delay-4000",
           intensityMap[intensity],
           "bg-gradient-to-br",
           variantMap[variant]
@@ -84,37 +84,29 @@ export function FlowGradientCard({
   variant = "blue",
 }: FlowGradientCardProps) {
   const variantMap = {
-    blue: "from-[#2997ff]/20 via-transparent to-[#5856d6]/10",
-    purple: "from-[#5856d6]/20 via-transparent to-[#af52de]/10",
-    mixed: "from-[#2997ff]/15 via-[#af52de]/10 to-[#5856d6]/15",
+    blue: "from-[#2997ff]/30 via-transparent to-[#5856d6]/20",
+    purple: "from-[#5856d6]/30 via-transparent to-[#af52de]/20",
+    mixed: "from-[#2997ff]/20 via-[#af52de]/15 to-[#5856d6]/20",
   };
 
   return (
     <div
       className={cn(
-        "group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all duration-300 hover:border-white/20",
+        "group relative overflow-hidden rounded-2xl border border-white/10 bg-black/40 p-6 backdrop-blur-sm transition-all duration-300 hover:border-white/30",
         className
       )}
     >
-      {/* Flow gradient background */}
+      {/* Flow gradient background - always visible but intensifies on hover */}
       <div
         className={cn(
-          "absolute inset-0 -z-10 animate-flow-gradient bg-gradient-to-br opacity-0 transition-opacity duration-500 group-hover:opacity-100",
-          variantMap[variant]
-        )}
-      />
-
-      {/* Static subtle gradient */}
-      <div
-        className={cn(
-          "absolute inset-0 -z-10 bg-gradient-to-br opacity-30",
+          "absolute inset-0 -z-10 animate-flow-gradient bg-gradient-to-br opacity-40 transition-opacity duration-500 group-hover:opacity-80",
           variantMap[variant]
         )}
       />
 
       {/* Animated blobs on hover */}
-      <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-[#2997ff]/20 blur-3xl transition-all duration-700 group-hover:scale-150 group-hover:opacity-100 opacity-0" />
-      <div className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-[#5856d6]/20 blur-3xl transition-all duration-700 delay-100 group-hover:scale-150 group-hover:opacity-100 opacity-0" />
+      <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-[#2997ff]/30 blur-3xl transition-all duration-700 group-hover:scale-150 group-hover:opacity-100 opacity-40" />
+      <div className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-[#5856d6]/30 blur-3xl transition-all duration-700 delay-100 group-hover:scale-150 group-hover:opacity-100 opacity-40" />
 
       {children}
     </div>
