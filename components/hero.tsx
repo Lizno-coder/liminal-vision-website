@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Hero3D from "./hero-3d";
 import { SpecialText } from "@/components/ui/special-text";
+import { LiquidButton } from "@/components/ui/liquid-glass-button";
 
 const ACCENT = "#2997ff";
 
@@ -115,20 +116,26 @@ export default function Hero(): JSX.Element {
               Für Influencer, Cafés, Handwerker & kleine Unternehmen.
             </p>
 
-            <div className="mt-6 flex gap-3">
-              <a
-                href="/kontakt"
-                className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#2997ff] to-[#5856d6] px-6 py-3 text-sm font-medium text-white transition-transform hover:scale-105"
+            <div className="mt-6 flex flex-wrap gap-3">
+              <LiquidButton
+                variant="primary"
+                size="lg"
+                asChild
               >
-                Demo anfordern
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </a>
-              <a
-                href="/#pricing"
-                className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm text-white/80 transition-colors hover:border-white/20"
+                <a href="/kontakt" className="group inline-flex items-center gap-2">
+                  Demo anfordern
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </a>
+              </LiquidButton>
+              <LiquidButton
+                variant="outline"
+                size="lg"
+                asChild
               >
-                Preis berechnen
-              </a>
+                <a href="/#pricing">
+                  Preis berechnen
+                </a>
+              </LiquidButton>
             </div>
           </motion.div>
 
