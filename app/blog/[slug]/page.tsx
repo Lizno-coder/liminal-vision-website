@@ -2,6 +2,7 @@ import { Calendar, Clock, ArrowLeft, User } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import GridBackground from "@/components/grid-background";
 
 const articles = [
   {
@@ -314,13 +315,16 @@ export default async function ArticlePage({ params }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
-      {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-white/5 bg-[#0a0a0a]/80 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
-          <Link href="/" className="text-lg font-semibold text-white">
-            Liminal Vision
-          </Link>
+    <div className="min-h-screen relative">
+      {/* Grid Background */}
+      <GridBackground />
+      
+      {/* Subtle gradient overlay */}
+      <div className="fixed inset-0 -z-10 bg-gradient-to-b from-transparent via-transparent to-[#0a0a0a]/80 pointer-events-none" />
+
+      {/* Back Button Header */}
+      <div className="sticky top-20 z-40 border-b border-white/5 bg-[#0a0a0a]/60 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-4xl items-center justify-end px-6 py-4">
           <Link
             href="/blog"
             className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/85 transition-all hover:border-white/20 hover:bg-white/8"
@@ -329,7 +333,7 @@ export default async function ArticlePage({ params }: Props) {
             Alle Artikel
           </Link>
         </div>
-      </header>
+      </div>
 
       {/* Article */}
       <article className="px-6 py-12 lg:py-16">
