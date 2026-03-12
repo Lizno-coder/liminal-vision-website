@@ -120,9 +120,8 @@ export default function Hero(): JSX.Element {
               <LiquidButton
                 variant="primary"
                 size="lg"
-                asChild
               >
-                <a href="/kontakt" className="group inline-flex items-center gap-2">
+                <a href="/kontakt" className="inline-flex items-center gap-2">
                   Demo anfordern
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </a>
@@ -130,7 +129,6 @@ export default function Hero(): JSX.Element {
               <LiquidButton
                 variant="outline"
                 size="lg"
-                asChild
               >
                 <a href="/#pricing">
                   Preis berechnen
