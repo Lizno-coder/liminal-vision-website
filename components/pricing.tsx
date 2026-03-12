@@ -3,6 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Check } from 'lucide-react';
+import { SpecialText } from "@/components/ui/special-text";
 
 type PageOption = {
   id: string;
@@ -92,7 +93,12 @@ export default function Pricing(): React.JSX.Element {
           <span className="mb-3 inline-block rounded-full border border-[#2997ff]/30 bg-[#2997ff]/10 px-4 py-1.5 text-sm text-[#2997ff]">
             Preis-Rechner
           </span>
-          <h2 className="text-3xl font-bold text-white md:text-4xl">Was kostet Ihre Website?</h2>
+          <h2 className="text-3xl font-bold text-white md:text-4xl">
+            Was kostet Ihre{" "}
+            <SpecialText inView once delay={0.3} className="text-[#2997ff]">
+              Website?
+            </SpecialText>
+          </h2>
           <p className="mx-auto mt-3 max-w-md text-white/60">
             Wählen Sie Seiten, Design & Extras. Ab 50€.
           </p>

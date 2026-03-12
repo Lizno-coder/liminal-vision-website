@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { SpecialText } from "@/components/ui/special-text";
 
 export default function Services() {
   return (
@@ -20,7 +21,12 @@ export default function Services() {
             Anwendungsbereiche
           </span>
           <h2 className="text-3xl font-semibold tracking-[-0.03em] text-white md:text-4xl lg:text-5xl">
-            Für viele Branchen. <span className="text-[#2997ff]">Immer klar und modern.</span>
+            Für viele Branchen.{" "}
+            <span className="text-[#2997ff]">
+              <SpecialText inView once delay={0.3} className="text-[#2997ff]">
+                Immer klar und modern.
+              </SpecialText>
+            </span>
           </h2>
         </motion.div>
 

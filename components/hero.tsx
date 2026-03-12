@@ -4,6 +4,7 @@ import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Hero3D from "./hero-3d";
+import { SpecialText } from "@/components/ui/special-text";
 
 const ACCENT = "#2997ff";
 
@@ -103,7 +104,10 @@ export default function Hero(): JSX.Element {
             <h1 className="text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
               Ihre Website.
               <span className="block">
-                <span className="text-[#2997ff]">Einfach.</span> <TypingWord />
+                <span className="text-[#2997ff]">
+                  <SpecialText inView once delay={0.5} className="text-[#2997ff]">Einfach.</SpecialText>
+                </span>{" "}
+                <TypingWord />
               </span>
             </h1>
 

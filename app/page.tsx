@@ -11,11 +11,11 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <LogoCloudSection />
       <Services />
       <Process />
       <Pricing />
       <FAQ />
+      <LogoCloudSection />
       <Blog />
       <Contact />
     </>
