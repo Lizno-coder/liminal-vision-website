@@ -7,6 +7,7 @@ import Pricing from "@/components/pricing";
 import Process from "@/components/process";
 import Services from "@/components/services";
 import { WorkScrollSection } from "@/components/work-scroll";
+import { TextColor } from "@/components/ui/text-color";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <LogoCloudSection />
       <Blog />
       <Contact />
+      <TextColor />
     </>
   );
 }
