@@ -6,11 +6,13 @@ import LogoCloudSection from "@/components/logo-cloud-section";
 import Pricing from "@/components/pricing";
 import Process from "@/components/process";
 import Services from "@/components/services";
+import { WorkScrollSection } from "@/components/work-scroll";
 
 export default function Home() {
   return (
     <>
       <Hero />
+      <WorkScrollSection />
       <Services />
       <Process />
       <Pricing />
