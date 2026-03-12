@@ -4,6 +4,7 @@ import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Check } from 'lucide-react';
 import { SpecialText } from "@/components/ui/special-text";
+import { LiquidButton } from "@/components/ui/liquid-glass-button";
 
 type PageOption = {
   id: string;
@@ -199,11 +200,15 @@ export default function Pricing(): React.JSX.Element {
                   {formatPrice(totalPrice)}
                 </motion.p>
               </div>
-              <a
-                href="/kontakt"
-                className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#2997ff] to-[#5856d6] px-5 py-2.5 text-sm font-medium text-white transition-all hover:scale-105"
-              >
-                Anfragen <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <a href="/kontakt">
+                <LiquidButton
+                  variant="primary"
+                  size="lg"
+                  className="group"
+                >
+                  Anfragen
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </LiquidButton>
               </a>
             </div>
             <p className="mt-3 text-xs text-white/40">Nur eine Schätzung. Finaler Preis vor Projektstart vereinbart.</p>

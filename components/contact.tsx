@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Send, Check } from "lucide-react";
+import { LiquidButton } from "@/components/ui/liquid-glass-button";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
@@ -59,13 +60,15 @@ export default function Contact() {
                 className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 outline-none transition-all focus:border-[#2997ff]/50 focus:bg-white/[0.07]"
               />
             </div>
-            <button
+            <LiquidButton
               type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#2997ff] to-[#5856d6] py-3 font-medium text-white transition-transform active:scale-[0.98]"
+              variant="primary"
+              size="lg"
+              className="w-full"
             >
               <Send className="h-4 w-4" />
               Abschicken
-            </button>
+            </LiquidButton>
           </form>
         )}
 

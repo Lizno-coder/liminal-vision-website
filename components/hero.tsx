@@ -116,24 +116,25 @@ export default function Hero(): JSX.Element {
               Für Influencer, Cafés, Handwerker & kleine Unternehmen.
             </p>
 
-            <div className="mt-6 flex flex-wrap gap-3">
-              <LiquidButton
-                variant="primary"
-                size="lg"
-              >
-                <a href="/kontakt" className="inline-flex items-center gap-2">
+            <div className="mt-6 flex flex-wrap gap-4">
+              <a href="/kontakt">
+                <LiquidButton
+                  variant="primary"
+                  size="xxl"
+                  className="group"
+                >
                   Demo anfordern
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </a>
-              </LiquidButton>
-              <LiquidButton
-                variant="outline"
-                size="lg"
-              >
-                <a href="/#pricing">
+                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </LiquidButton>
+              </a>
+              <a href="/#pricing">
+                <LiquidButton
+                  variant="outline"
+                  size="xxl"
+                >
                   Preis berechnen
-                </a>
-              </LiquidButton>
+                </LiquidButton>
+              </a>
             </div>
           </motion.div>
 
