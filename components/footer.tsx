@@ -28,7 +28,7 @@ export default function Footer() {
             >
               <div className="flex h-10 w-10 items-center justify-center overflow-hidden">
                 <img 
-                  src="/LiminalVision Logo.png" 
+                  src="/Liminalo.png" 
                   alt="Liminalo" 
                   className="h-full w-full object-contain"
                   onError={(e) => {
