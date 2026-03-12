@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 interface LiquidButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "outline" | "ghost";
-  size?: "sm" | "md" | "lg" | "xl";
+  size?: "sm" | "md" | "lg" | "xl" | "xxl";
 }
 
 function LiquidButton({
