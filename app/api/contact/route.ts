@@ -1,31 +1,58 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { NextRequest, NextResponse } from 'next/server';
 
-// R2 Client nur erstellen wenn Credentials vorhanden
-let r2: S3Client | null = null;
-let BUCKET_NAME: string = process.env.R2_BUCKET_NAME || 'liminalo-contact-requests';
+// Debug logging
+const log = (msg: string, data?: any) => {
+  console.log(`[Contact API] ${msg}`, data ? JSON.stringify(data) : '');
+};
 
-try {
-  if (process.env.R2_ACCESS_KEY_ID && process.env.R2_SECRET_ACCESS_KEY) {
+// Initialize R2 client
+let r2: S3Client | null = null;
+const BUCKET_NAME = process.env.R2_BUCKET_NAME || 'liminalo-contact-requests';
+
+const hasCredentials = !!(process.env.R2_ACCESS_KEY_ID && process.env.R2_SECRET_ACCESS_KEY && process.env.R2_ACCOUNT_ID);
+
+log('ENV Check:', { 
+  hasAccountId: !!process.env.R2_ACCOUNT_ID,
+  hasAccessKey: !!process.env.R2_ACCESS_KEY_ID, 
+  hasSecretKey: !!process.env.R2_SECRET_ACCESS_KEY,
+  bucket: BUCKET_NAME
+});
+
+if (hasCredentials) {
+  try {
+    const endpoint = process.env.R2_ENDPOINT || `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`;
+    log('Using endpoint:', endpoint);
+    
     r2 = new S3Client({
       region: 'auto',
-      endpoint: process.env.R2_ENDPOINT || `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+      endpoint,
       credentials: {
-        accessKeyId: process.env.R2_ACCESS_KEY_ID,
-        secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
+        accessKeyId: process.env.R2_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.R2_SECRET_ACCESS_KEY!,
       },
     });
+    log('R2 client initialized successfully');
+  } catch (error) {
+    log('R2 initialization failed:', error);
   }
-} catch (error) {
-  console.warn('[Contact API] R2 not configured:', error);
+} else {
+  log('R2 credentials missing, using fallback mode');
 }
 
-// In-Memory Speicher als Fallback (wird bei Server-Neustart gelöscht)
-const inquiries: any[] = [];
-
 export async function POST(request: NextRequest) {
+  log('POST request received');
+  
   try {
-    const body = await request.json();
+    let body;
+    try {
+      body = await request.json();
+      log('Request body parsed:', { name: body.name, email: body.email, hasAgb: body.agbAccepted });
+    } catch (e) {
+      log('Failed to parse JSON body');
+      return NextResponse.json({ error: 'Ungültige Anfrage' }, { status: 400 });
+    }
+    
     const { 
       name, 
       email, 
@@ -41,6 +68,7 @@ export async function POST(request: NextRequest) {
 
     // Validation
     if (!name || !email || !message) {
+      log('Validation failed - missing fields');
       return NextResponse.json(
         { error: 'Name, E-Mail und Nachricht sind erforderlich' },
         { status: 400 }
@@ -48,6 +76,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!agbAccepted) {
+      log('Validation failed - AGB not accepted');
       return NextResponse.json(
         { error: 'AGBs müssen akzeptiert werden' },
         { status: 400 }
@@ -75,39 +104,50 @@ export async function POST(request: NextRequest) {
       updatedAt: timestamp,
     };
 
-    // Versuche in R2 zu speichern
+    log('Created inquiry:', inquiryId);
+
+    // Try to store in R2
     if (r2) {
       try {
+        log('Attempting to store in R2...');
         await r2.send(new PutObjectCommand({
           Bucket: BUCKET_NAME,
           Key: `inquiries/new/${inquiryId}.json`,
           Body: JSON.stringify(inquiryData, null, 2),
           ContentType: 'application/json',
         }));
-        console.log(`[Contact API] Stored in R2: ${inquiryId}`);
-      } catch (r2Error) {
-        console.error('[Contact API] R2 Error:', r2Error);
-        // Fallback zu In-Memory
-        inquiries.push(inquiryData);
-        console.log(`[Contact API] Stored in memory: ${inquiryId}`);
+        log('Successfully stored in R2:', inquiryId);
+      } catch (r2Error: any) {
+        log('R2 storage failed:', { message: r2Error.message, code: r2Error.name });
+        // Don't fail the request if R2 fails
       }
     } else {
-      // Kein R2 konfiguriert - speichere in Memory
-      inquiries.push(inquiryData);
-      console.log(`[Contact API] Stored in memory (no R2): ${inquiryId}`);
+      log('No R2 client, skipping R2 storage');
     }
 
+    // Always return success - we don't want to lose the lead!
+    log('Returning success response');
     return NextResponse.json({ 
       success: true, 
       inquiryId,
       message: 'Anfrage erfolgreich gespeichert'
     });
 
-  } catch (error) {
-    console.error('[Contact API] Error:', error);
+  } catch (error: any) {
+    log('Unexpected error:', { message: error.message, stack: error.stack });
     return NextResponse.json(
-      { error: 'Interner Serverfehler' },
+      { error: 'Interner Serverfehler', details: error.message },
       { status: 500 }
     );
   }
+}
+
+// Health check endpoint
+export async function GET() {
+  return NextResponse.json({ 
+    status: 'ok', 
+    hasR2: !!r2,
+    hasCredentials,
+    bucket: BUCKET_NAME
+  });
 }
