@@ -1,77 +1,96 @@
 "use client";
 
-import React, { useMemo, useState, useEffect, useCallback } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Hero3D from "./hero-3d";
-import { SpecialText } from "@/components/ui/special-text";
 import { LiquidButton } from "@/components/ui/liquid-glass-button";
 
-const ACCENT = "#2997ff";
+function SequentialHeroWords() {
+  const firstWord = "Einfach.";
+  const rotatingWords = useMemo(() => ["Nice.", "Schnell.", "Sichtbar.", "Safe."], []);
 
-// Simple and robust typing animation
-function TypingWord() {
-  const words = useMemo(() => ["Fair.", "Gut.", "Nice.", "Safe."], []);
+  const [firstText, setFirstText] = useState("");
+  const [phase, setPhase] = useState<"first" | "pause" | "rotate">("first");
   const [text, setText] = useState("");
   const [wordIdx, setWordIdx] = useState(0);
   const [deleting, setDeleting] = useState(false);
   const [cursorVisible, setCursorVisible] = useState(true);
 
-  // Cursor blink
   useEffect(() => {
-    const i = setInterval(() => setCursorVisible(v => !v), 530);
-    return () => clearInterval(i);
+    const interval = setInterval(() => setCursorVisible((v) => !v), 530);
+    return () => clearInterval(interval);
   }, []);
 
-  // Typewriter loop - runs on every change
   useEffect(() => {
-    const word = words[wordIdx];
-    
-    // Determine what to do
-    const shouldDelete = deleting;
+    if (phase !== "first") return;
+
+    if (firstText === firstWord) {
+      const timer = setTimeout(() => setPhase("pause"), 260);
+      return () => clearTimeout(timer);
+    }
+
+    const timer = setTimeout(() => {
+      setFirstText(firstWord.slice(0, firstText.length + 1));
+    }, 85);
+
+    return () => clearTimeout(timer);
+  }, [firstText, firstWord, phase]);
+
+  useEffect(() => {
+    if (phase !== "pause") return;
+    const timer = setTimeout(() => setPhase("rotate"), 180);
+    return () => clearTimeout(timer);
+  }, [phase]);
+
+  useEffect(() => {
+    if (phase !== "rotate") return;
+
+    const word = rotatingWords[wordIdx];
     const isComplete = text === word;
     const isEmpty = text === "";
-    
-    let delay = 100; // default type speed
+
+    let delay = 95;
     let action: (() => void) | null = null;
-    
-    if (shouldDelete) {
+
+    if (deleting) {
       if (isEmpty) {
-        // Done deleting - next word
         action = () => {
           setDeleting(false);
-          setWordIdx((prev) => (prev + 1) % words.length);
+          setWordIdx((prev) => (prev + 1) % rotatingWords.length);
         };
-        delay = 0; // immediate
+        delay = 0;
       } else {
-        // Delete one char
-        action = () => setText(t => t.slice(0, -1));
-        delay = 50;
+        action = () => setText((prev) => prev.slice(0, -1));
+        delay = 45;
       }
     } else {
       if (isComplete) {
-        // Done typing - wait then delete
         action = () => setDeleting(true);
-        delay = 1500;
+        delay = 1400;
       } else {
-        // Type one char
         action = () => setText(word.slice(0, text.length + 1));
-        delay = 100;
+        delay = wordIdx === 0 ? 105 : 85;
       }
     }
-    
-    const timer = setTimeout(action, delay);
+
+    const timer = setTimeout(() => {
+      action?.();
+    }, delay);
+
     return () => clearTimeout(timer);
-    
-  }, [text, deleting, wordIdx, words]);
+  }, [deleting, phase, rotatingWords, text, wordIdx]);
 
   return (
-    <span className="text-[#2997ff]">
-      {text}
-      <span 
-        className={`inline-block w-[3px] h-[0.9em] bg-[#2997ff] ml-[2px] align-middle ${cursorVisible ? 'opacity-100' : 'opacity-0'}`}
-        style={{ transition: 'opacity 0.1s ease' }}
-      />
+    <span className="block">
+      <span className="text-[#2997ff]">{firstText}</span>{" "}
+      <span className="text-[#2997ff] min-h-[1.1em] inline-block min-w-[5.7ch]">
+        {phase === "rotate" ? text : ""}
+        <span
+          className={`ml-[2px] inline-block h-[0.9em] w-[3px] align-middle bg-[#2997ff] ${cursorVisible ? "opacity-100" : "opacity-0"}`}
+          style={{ transition: "opacity 0.1s ease" }}
+        />
+      </span>
     </span>
   );
 }
@@ -104,12 +123,7 @@ export default function Hero(): JSX.Element {
 
             <h1 className="text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
               Ihre Website.
-              <span className="block">
-                <span className="text-[#2997ff]">
-                  <SpecialText inView once delay={0.5} className="text-[#2997ff]">Einfach.</SpecialText>
-                </span>{" "}
-                <TypingWord />
-              </span>
+              <SequentialHeroWords />
             </h1>
 
             <p className="mt-4 max-w-md text-lg text-white/60">
@@ -118,20 +132,13 @@ export default function Hero(): JSX.Element {
 
             <div className="mt-6 flex flex-wrap gap-4">
               <a href="/kontakt">
-                <LiquidButton
-                  variant="primary"
-                  size="xxl"
-                  className="group"
-                >
+                <LiquidButton variant="primary" size="xxl" className="group">
                   Demo anfordern
                   <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </LiquidButton>
               </a>
               <a href="/#pricing">
-                <LiquidButton
-                  variant="outline"
-                  size="xxl"
-                >
+                <LiquidButton variant="outline" size="xxl">
                   Preis berechnen
                 </LiquidButton>
               </a>
