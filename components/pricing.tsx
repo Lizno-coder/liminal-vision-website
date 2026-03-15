@@ -111,9 +111,9 @@ export default function Pricing(): React.JSX.Element {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.035] p-4 shadow-[0_30px_120px_rgba(16,24,40,0.55)] sm:rounded-3xl sm:p-6 md:p-8">
-            <WarpShader blurClassName="backdrop-blur-[18px] sm:backdrop-blur-[24px]" />
-            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01))]" />
+          <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.02] p-4 shadow-[0_30px_120px_rgba(5,10,20,0.72)] sm:rounded-3xl sm:p-6 md:p-8">
+            <WarpShader blurClassName="backdrop-blur-[6px] sm:backdrop-blur-[10px]" />
+            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.025),rgba(255,255,255,0.005))]" />
             <div className="relative z-10">
           {/* Pages */}
           <div className="mb-5 sm:mb-6">
@@ -130,7 +130,7 @@ export default function Pricing(): React.JSX.Element {
                   className={`min-h-[58px] rounded-xl p-2 text-center text-xs font-medium transition-all sm:min-h-[60px] md:text-sm ${
                     selectedPageId === option.id
                       ? 'bg-gradient-to-r from-[#2997ff] to-[#5856d6] text-white shadow-lg'
-                      : 'border border-white/10 bg-white/5 text-white/70'
+                      : 'border border-white/10 bg-black/20 text-white/70'
                   }`}
                 >
                   <div>{option.label}</div>
@@ -155,7 +155,7 @@ export default function Pricing(): React.JSX.Element {
                   className={`min-h-[58px] rounded-xl p-2 text-center text-sm font-medium transition-all sm:min-h-[60px] ${
                     selectedDesignId === option.id
                       ? 'bg-gradient-to-r from-[#2997ff] to-[#5856d6] text-white shadow-lg'
-                      : 'border border-white/10 bg-white/5 text-white/70'
+                      : 'border border-white/10 bg-black/20 text-white/70'
                   }`}
                 >
                   <div>{option.label}</div>
@@ -176,8 +176,8 @@ export default function Pricing(): React.JSX.Element {
                   whileTap={{ scale: 0.98 }}
                   className={`flex min-h-[60px] items-center justify-between rounded-xl border p-3.5 text-left transition-all sm:p-4 ${
                     selectedAddons.has(option.id)
-                      ? 'border-[#2997ff]/50 bg-[#2997ff]/10'
-                      : 'border-white/10 bg-white/5'
+                      ? 'border-[#2997ff]/45 bg-[#2997ff]/8'
+                      : 'border-white/10 bg-black/20'
                   }`}
                 >
                   <div>
