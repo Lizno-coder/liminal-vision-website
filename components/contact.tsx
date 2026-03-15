@@ -1,16 +1,45 @@
 "use client";
 
 import { useState } from "react";
-import { Send, Check } from "lucide-react";
+import { Send, Check, Loader2 } from "lucide-react";
 import { LiquidButton } from "@/components/ui/liquid-glass-button";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          message: form.message,
+          source: 'homepage-contact'
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSent(true);
+        setForm({ name: "", email: "", message: "" });
+      } else {
+        console.error('Submit error:', data.error);
+        alert('Fehler beim Senden: ' + (data.error || 'Unbekannter Fehler'));
+      }
+    } catch (error) {
+      console.error('Submit error:', error);
+      alert('Fehler beim Senden. Bitte versuchen Sie es erneut.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -65,9 +94,14 @@ export default function Contact() {
               variant="primary"
               size="lg"
               className="w-full"
+              disabled={isSubmitting}
             >
-              <Send className="h-4 w-4" />
-              Abschicken
+              {isSubmitting ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Send className="h-4 w-4" />
+              )}
+              {isSubmitting ? "Wird gesendet..." : "Abschicken"}
             </LiquidButton>
           </form>
         )}

@@ -118,20 +118,40 @@ export default function KontaktPage() {
     setIsSubmitting(true);
     setSubmitted(false);
 
-    await new Promise((resolve) => setTimeout(resolve, 1600));
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...form,
+          source: 'contact-page'
+        }),
+      });
 
-    setIsSubmitting(false);
-    setSubmitted(true);
-    setForm({
-      name: "",
-      email: "",
-      phone: "",
-      company: "",
-      websiteType: "",
-      budget: 500,
-      timeline: "",
-      message: "",
-    });
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitted(true);
+        setForm({
+          name: "",
+          email: "",
+          phone: "",
+          company: "",
+          websiteType: "",
+          budget: 500,
+          timeline: "",
+          message: "",
+        });
+      } else {
+        console.error('Submit error:', data.error);
+        alert('Fehler beim Senden: ' + (data.error || 'Unbekannter Fehler'));
+      }
+    } catch (error) {
+      console.error('Submit error:', error);
+      alert('Fehler beim Senden. Bitte versuchen Sie es erneut.');
+    } finally {
+      setIsSubmitting(false);
+    }
 
     setTimeout(() => setSubmitted(false), 5000);
   };
@@ -236,24 +256,29 @@ export default function KontaktPage() {
               </div>
 
               <Field label="Budgetvorstellung">
-                <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.04] px-4 py-4 backdrop-blur-xl">
-                  <div className="mb-4 flex items-center justify-between gap-4 text-sm text-white/70">
+                <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-5 backdrop-blur-xl">
+                  <div className="mb-5 flex items-center justify-between gap-4 text-sm text-white/70">
                     <div className="inline-flex items-center gap-2">
                       <Euro className="h-4 w-4 text-[#2997ff]" />
                       Geschätzter Rahmen
                     </div>
-                    <span className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-white">{budgetText}</span>
+                    <span className="rounded-full border border-[#2997ff]/30 bg-[#2997ff]/10 px-4 py-1.5 text-sm font-medium text-[#2997ff]">{budgetText}</span>
                   </div>
-                  <input
-                    type="range"
-                    min="50"
-                    max="10000"
-                    step="5"
-                    value={form.budget}
-                    onChange={(e) => updateField("budget", Number(e.target.value))}
-                    className="range-slider h-2 w-full cursor-pointer appearance-none rounded-full bg-white/10"
-                  />
-                  <div className="mt-3 flex justify-between text-[11px] text-white/35 sm:text-xs">
+                  <div className="relative px-1">
+                    <input
+                      type="range"
+                      min="50"
+                      max="10000"
+                      step="50"
+                      value={form.budget}
+                      onChange={(e) => updateField("budget", Number(e.target.value))}
+                      className="range-slider h-3 w-full cursor-pointer appearance-none rounded-full bg-white/10"
+                      style={{
+                        background: `linear-gradient(to right, #2997ff 0%, #5856d6 ${((form.budget - 50) / (10000 - 50)) * 100}%, rgba(255,255,255,0.1) ${((form.budget - 50) / (10000 - 50)) * 100}%, rgba(255,255,255,0.1) 100%)`
+                      }}
+                    />
+                  </div>
+                  <div className="mt-4 flex justify-between text-xs text-white/40">
                     <span>50 €</span>
                     <span>10.000 €</span>
                   </div>
