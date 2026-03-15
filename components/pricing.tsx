@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Check } from 'lucide-react';
 import { SpecialText } from "@/components/ui/special-text";
 import { LiquidButton } from "@/components/ui/liquid-glass-button";
-import { FlowGradientBackground } from "@/components/ui/flow-gradient";
+import WarpShader from "@/components/ui/wrap-shader";
 
 type PageOption = {
   id: string;
@@ -111,11 +111,10 @@ export default function Pricing(): React.JSX.Element {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <FlowGradientBackground 
-            className="overflow-hidden rounded-3xl border border-white/10 p-6 backdrop-blur-xl md:p-8"
-            variant="blue"
-            intensity="high"
-          >
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-[0_30px_120px_rgba(16,24,40,0.45)] md:p-8">
+            <WarpShader blurClassName="backdrop-blur-[64px]" />
+            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.07),rgba(255,255,255,0.015))]" />
+            <div className="relative z-10">
           {/* Pages */}
           <div className="mb-6">
             <div className="mb-3 flex justify-between">
@@ -218,7 +217,8 @@ export default function Pricing(): React.JSX.Element {
             </div>
             <p className="mt-3 text-xs text-white/40">Nur eine Schätzung. Finaler Preis vor Projektstart vereinbart.</p>
             </div>
-          </FlowGradientBackground>
+          </div>
+          </div>
         </motion.div>
       </div>
     </section>
