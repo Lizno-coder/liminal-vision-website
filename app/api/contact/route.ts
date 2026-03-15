@@ -1,16 +1,27 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { NextRequest, NextResponse } from 'next/server';
 
-const r2 = new S3Client({
-  region: 'auto',
-  endpoint: process.env.R2_ENDPOINT || `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
-  credentials: {
-    accessKeyId: process.env.R2_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY!,
-  },
-});
+// R2 Client nur erstellen wenn Credentials vorhanden
+let r2: S3Client | null = null;
+let BUCKET_NAME: string = process.env.R2_BUCKET_NAME || 'liminalo-contact-requests';
 
-const BUCKET_NAME = process.env.R2_BUCKET_NAME || 'liminalo-contact-requests';
+try {
+  if (process.env.R2_ACCESS_KEY_ID && process.env.R2_SECRET_ACCESS_KEY) {
+    r2 = new S3Client({
+      region: 'auto',
+      endpoint: process.env.R2_ENDPOINT || `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+      credentials: {
+        accessKeyId: process.env.R2_ACCESS_KEY_ID,
+        secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
+      },
+    });
+  }
+} catch (error) {
+  console.warn('[Contact API] R2 not configured:', error);
+}
+
+// In-Memory Speicher als Fallback (wird bei Server-Neustart gelöscht)
+const inquiries: any[] = [];
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,6 +35,7 @@ export async function POST(request: NextRequest) {
       budget, 
       timeline, 
       message,
+      agbAccepted,
       source = 'contact-page'
     } = body;
 
@@ -31,6 +43,13 @@ export async function POST(request: NextRequest) {
     if (!name || !email || !message) {
       return NextResponse.json(
         { error: 'Name, E-Mail und Nachricht sind erforderlich' },
+        { status: 400 }
+      );
+    }
+
+    if (!agbAccepted) {
+      return NextResponse.json(
+        { error: 'AGBs müssen akzeptiert werden' },
         { status: 400 }
       );
     }
@@ -49,21 +68,34 @@ export async function POST(request: NextRequest) {
       budget: budget || null,
       timeline: timeline || null,
       message,
+      agbAccepted,
       source,
       status: 'new',
       createdAt: timestamp,
       updatedAt: timestamp,
     };
 
-    // Store in R2 under inquiries/new/
-    await r2.send(new PutObjectCommand({
-      Bucket: BUCKET_NAME,
-      Key: `inquiries/new/${inquiryId}.json`,
-      Body: JSON.stringify(inquiryData, null, 2),
-      ContentType: 'application/json',
-    }));
-
-    console.log(`[Contact API] New inquiry stored: ${inquiryId}`);
+    // Versuche in R2 zu speichern
+    if (r2) {
+      try {
+        await r2.send(new PutObjectCommand({
+          Bucket: BUCKET_NAME,
+          Key: `inquiries/new/${inquiryId}.json`,
+          Body: JSON.stringify(inquiryData, null, 2),
+          ContentType: 'application/json',
+        }));
+        console.log(`[Contact API] Stored in R2: ${inquiryId}`);
+      } catch (r2Error) {
+        console.error('[Contact API] R2 Error:', r2Error);
+        // Fallback zu In-Memory
+        inquiries.push(inquiryData);
+        console.log(`[Contact API] Stored in memory: ${inquiryId}`);
+      }
+    } else {
+      // Kein R2 konfiguriert - speichere in Memory
+      inquiries.push(inquiryData);
+      console.log(`[Contact API] Stored in memory (no R2): ${inquiryId}`);
+    }
 
     return NextResponse.json({ 
       success: true, 
