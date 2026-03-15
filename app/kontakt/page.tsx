@@ -6,7 +6,6 @@ import {
   CheckCircle2,
   Euro,
   Mail,
-  MapPin,
   Phone,
   Send,
   Sparkles,
@@ -18,11 +17,22 @@ type ProjectType = {
 };
 
 const projectTypes: ProjectType[] = [
-  { value: "restaurant", label: "Gastronomie" },
-  { value: "fitness", label: "Fitness / Studio" },
-  { value: "craft", label: "Handwerk" },
-  { value: "beauty", label: "Beauty / Kosmetik" },
   { value: "business", label: "Unternehmenswebsite" },
+  { value: "shop", label: "Onlineshop / E-Commerce" },
+  { value: "restaurant", label: "Restaurant / Gastronomie" },
+  { value: "hotel", label: "Hotel / Unterkunft" },
+  { value: "medical", label: "Arztpraxis / Klinik" },
+  { value: "law", label: "Anwaltskanzlei" },
+  { value: "realestate", label: "Immobilien" },
+  { value: "construction", label: "Bau / Handwerk" },
+  { value: "automotive", label: "Autohaus / Werkstatt" },
+  { value: "beauty", label: "Beauty / Kosmetik / Friseur" },
+  { value: "fitness", label: "Fitness / Studio / Yoga" },
+  { value: "event", label: "Event / Hochzeit" },
+  { value: "portfolio", label: "Portfolio / Persönliche Website" },
+  { value: "blog", label: "Blog / Magazin" },
+  { value: "landing", label: "Landing Page" },
+  { value: "redesign", label: "Website-Relaunch" },
   { value: "other", label: "Sonstiges" },
 ];
 
@@ -100,10 +110,10 @@ export default function KontaktPage() {
     phone: "",
     company: "",
     websiteType: "",
-    budget: 500,
-    timeline: "",
+    budget: 1000,
     message: "",
   });
+  const [agbAccepted, setAgbAccepted] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -115,6 +125,12 @@ export default function KontaktPage() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    
+    if (!agbAccepted) {
+      alert("Bitte akzeptieren Sie die AGBs, um fortzufahren.");
+      return;
+    }
+    
     setIsSubmitting(true);
     setSubmitted(false);
 
@@ -124,6 +140,7 @@ export default function KontaktPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...form,
+          agbAccepted,
           source: 'contact-page'
         }),
       });
@@ -138,10 +155,10 @@ export default function KontaktPage() {
           phone: "",
           company: "",
           websiteType: "",
-          budget: 500,
-          timeline: "",
+          budget: 1000,
           message: "",
         });
+        setAgbAccepted(false);
       } else {
         console.error('Submit error:', data.error);
         alert('Fehler beim Senden: ' + (data.error || 'Unbekannter Fehler'));
@@ -235,25 +252,20 @@ export default function KontaktPage() {
                 </Field>
               </div>
 
-              <div className="grid gap-5 sm:grid-cols-2">
-                <Field label="Website-Art">
-                  <select
-                    value={form.websiteType}
-                    onChange={(e) => updateField("websiteType", e.target.value)}
-                    className="w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3.5 text-white outline-none backdrop-blur-xl transition-all duration-300 focus:border-[#2997ff]/50 focus:bg-white/[0.06] focus:shadow-[0_0_0_1px_rgba(41,151,255,0.25),0_0_30px_rgba(41,151,255,0.12)]"
-                  >
-                    <option value="" className="bg-[#0a0a0a] text-white/70">Bitte auswählen</option>
-                    {projectTypes.map((type) => (
-                      <option key={type.value} value={type.value} className="bg-[#0a0a0a]">
-                        {type.label}
-                      </option>
-                    ))}
-                  </select>
-                </Field>
-                <Field label="Gewünschter Zeitraum">
-                  <Input value={form.timeline} onChange={(v) => updateField("timeline", v)} placeholder="z. B. in 2 Wochen" />
-                </Field>
-              </div>
+              <Field label="Website-Art">
+                <select
+                  value={form.websiteType}
+                  onChange={(e) => updateField("websiteType", e.target.value)}
+                  className="w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3.5 text-white outline-none backdrop-blur-xl transition-all duration-300 focus:border-[#2997ff]/50 focus:bg-white/[0.06] focus:shadow-[0_0_0_1px_rgba(41,151,255,0.25),0_0_30px_rgba(41,151,255,0.12)]"
+                >
+                  <option value="" className="bg-[#0a0a0a] text-white/70">Bitte auswählen</option>
+                  {projectTypes.map((type) => (
+                    <option key={type.value} value={type.value} className="bg-[#0a0a0a]">
+                      {type.label}
+                    </option>
+                  ))}
+                </select>
+              </Field>
 
               <Field label="Budgetvorstellung">
                 <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-5 backdrop-blur-xl">
@@ -293,8 +305,26 @@ export default function KontaktPage() {
                 />
               </Field>
 
+              {/* AGB Checkbox */}
+              <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+                <input
+                  type="checkbox"
+                  id="agb"
+                  checked={agbAccepted}
+                  onChange={(e) => setAgbAccepted(e.target.checked)}
+                  className="mt-1 h-5 w-5 rounded border-white/20 bg-white/5 text-[#2997ff] focus:ring-[#2997ff] cursor-pointer"
+                />
+                <label htmlFor="agb" className="text-sm text-white/60 cursor-pointer">
+                  Ich habe die{" "}
+                  <a href="/agb" className="text-[#2997ff] hover:underline" target="_blank">
+                    AGBs
+                  </a>{" "}
+                  gelesen und akzeptiere sie. *
+                </label>
+              </div>
+
               <div className="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center sm:justify-between">
-                <div className="text-sm text-white/40">Antwort in der Regel innerhalb von 24 Stunden.</div>
+                <div className="text-sm text-white/40">* Pflichtfeld</div>
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
@@ -349,7 +379,7 @@ export default function KontaktPage() {
               {
                 icon: <Mail className="h-5 w-5" />,
                 title: "E-Mail",
-                value: "liz.claw@gmx.de",
+                value: "business@liminalo.com",
                 sub: "Für Anfragen, Rückfragen und Projektbesprechungen.",
               },
               {
@@ -357,12 +387,6 @@ export default function KontaktPage() {
                 title: "Telefon",
                 value: "0174 6509061",
                 sub: "Direkter Kontakt für schnelle Abstimmung.",
-              },
-              {
-                icon: <MapPin className="h-5 w-5" />,
-                title: "Standort",
-                value: "Waldkraiburg, Bayern",
-                sub: "Zusammenarbeit lokal und digital möglich.",
               },
             ].map((item, index) => (
               <motion.div

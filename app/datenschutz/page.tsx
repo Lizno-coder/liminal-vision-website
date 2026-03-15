@@ -9,7 +9,7 @@ const sections = [
     paragraphs: [
       "Verantwortlich für die Datenverarbeitung auf dieser Website ist:",
       "Noel Liessel, Liminalo, Graf-zu-Toerring-Straße 10, 84478 Waldkraiburg, Deutschland",
-      "E-Mail: liz.claw@gmx.de | Telefon: 0174 6509061",
+      "E-Mail: business@liminalo.com | Telefon: 0174 6509061",
     ],
   },
   {
@@ -90,7 +90,7 @@ export default function DatenschutzPage() {
         <div className="mt-6 rounded-[1.8rem] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl sm:p-7">
           <h2 className="text-lg font-semibold text-white sm:text-xl">Fragen zum Datenschutz?</h2>
           <p className="mt-3 text-sm leading-6 text-white/60 sm:text-base">
-            Wenn Sie Fragen zur Verarbeitung Ihrer Daten haben, können Sie sich jederzeit per E-Mail an liz.claw@gmx.de wenden.
+            Wenn Sie Fragen zur Verarbeitung Ihrer Daten haben, können Sie sich jederzeit per E-Mail an business@liminalo.com wenden.
           </p>
         </div>
 

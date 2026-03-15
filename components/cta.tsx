@@ -61,8 +61,8 @@ export function CTA() {
               Demo anfordern
               <ArrowRight size={18} />
             </Link>
-            <Link href="mailto:liz.claw@gmx.de" className="btn btn-secondary text-base py-4 px-8">
-              liz.claw@gmx.de
+            <Link href="mailto:business@liminalo.com" className="btn btn-secondary text-base py-4 px-8">
+              business@liminalo.com
             </Link>
           </motion.div>
 

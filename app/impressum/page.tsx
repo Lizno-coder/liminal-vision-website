@@ -18,7 +18,7 @@ const details = [
     title: "Kontakt",
     content: [
       "Telefon: 0174 6509061",
-      "E-Mail: liz.claw@gmx.de",
+      "E-Mail: business@liminalo.com",
       "Website: https://liminalo.com",
     ],
   },
