@@ -112,7 +112,7 @@ export default function Pricing(): React.JSX.Element {
           viewport={{ once: true }}
         >
           <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.02] p-4 shadow-[0_30px_120px_rgba(5,10,20,0.72)] sm:rounded-3xl sm:p-6 md:p-8">
-            <WarpShader blurClassName="backdrop-blur-[6px] sm:backdrop-blur-[10px]" />
+            <WarpShader blurClassName="backdrop-blur-[4px] sm:backdrop-blur-[10px]" />
             <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.025),rgba(255,255,255,0.005))]" />
             <div className="relative z-10">
           {/* Pages */}

@@ -15,7 +15,7 @@ export function TextColor() {
           <Plus className="absolute -bottom-3 -right-3 h-6 w-6 text-[#2997ff]" />
           
           <h1 className="flex select-none flex-col items-center justify-center gap-2 text-center text-5xl font-extrabold leading-tight tracking-tighter sm:text-6xl md:flex-row md:text-7xl lg:text-8xl">
-            {/* Design - Cyan to Blue */}
+            {/* Design - first */}
             <span className="relative">
               <span className="animate-gradient-foreground-1 bg-gradient-to-r from-[#00D4AA] to-[#2997ff] bg-clip-text px-2 text-transparent sm:px-4">
                 Design.
@@ -25,7 +25,7 @@ export function TextColor() {
               </span>
             </span>
             
-            {/* Build - Purple to Pink */}
+            {/* Build - second */}
             <span className="relative">
               <span className="animate-gradient-foreground-2 bg-gradient-to-r from-[#5856d6] to-[#ff6b9d] bg-clip-text px-2 text-transparent sm:px-4">
                 Build.
@@ -35,7 +35,7 @@ export function TextColor() {
               </span>
             </span>
             
-            {/* Launch - Orange to Yellow */}
+            {/* Launch - third */}
             <span className="relative">
               <span className="animate-gradient-foreground-3 bg-gradient-to-r from-[#ff9500] to-[#ffd60a] bg-clip-text px-2 text-transparent sm:px-4">
                 Launch.

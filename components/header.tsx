@@ -15,19 +15,12 @@ const navLinks = [
 function BrandLockup({ onClick }: { onClick?: () => void }) {
   return (
     <>
-      <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden transition group-hover:shadow-[0_0_20px_rgba(41,151,255,0.3)]">
+      <div className="relative flex h-11 items-center overflow-hidden transition group-hover:drop-shadow-[0_0_20px_rgba(41,151,255,0.22)] sm:h-12">
         <img 
-          src="/LiminaloMain.png?v=1" 
+          src="/Liminalo.png?v=2" 
           alt="Liminalo" 
-          className="h-full w-full object-contain"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = '/logo.svg';
-          }}
+          className="h-full w-auto object-contain"
         />
-      </div>
-      <div className="flex items-center text-lg font-semibold tracking-[-0.02em] text-white">
-        <span>Limi</span>
-        <span className="text-[#2997ff]">nalo</span>
       </div>
     </>
   );

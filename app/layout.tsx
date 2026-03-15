@@ -14,7 +14,9 @@ export const metadata: Metadata = {
   title: "Liminalo | Premium Websites für Unternehmen",
   description: "Wir erstellen einzigartige Websites für Unternehmen, die sich von der Masse abheben wollen. Kostenlose Demo vor dem Deal.",
   icons: {
-    icon: '/favicon-32x32.png',
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
   },
 };
 

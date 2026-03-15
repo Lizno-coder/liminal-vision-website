@@ -24,21 +24,14 @@ export default function Footer() {
             <Link 
               href="/" 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="mb-4 flex cursor-pointer items-center gap-1"
+              className="mb-4 flex cursor-pointer items-center"
             >
-              <div className="flex h-10 w-10 items-center justify-center overflow-hidden">
+              <div className="flex h-11 items-center overflow-hidden sm:h-12">
                 <img 
-                  src="/LiminaloMain.png?v=1" 
+                  src="/Liminalo.png?v=2" 
                   alt="Liminalo" 
-                  className="h-full w-full object-contain"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/logo.svg';
-                  }}
+                  className="h-full w-auto object-contain"
                 />
-              </div>
-              <div className="flex items-center text-lg font-semibold tracking-[-0.02em] text-white">
-                <span>Limi</span>
-                <span className="text-[#2997ff]">nalo</span>
               </div>
             </Link>
             <p className="max-w-sm text-sm leading-6 text-white/65">
