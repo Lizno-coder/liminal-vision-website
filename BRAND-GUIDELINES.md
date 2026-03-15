@@ -1,4 +1,4 @@
-# Brand Guidelines - Liminal Vision
+# Brand Guidelines - Liminalo
 
 ## Farben
 
