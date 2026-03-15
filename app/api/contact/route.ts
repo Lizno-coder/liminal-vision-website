@@ -10,7 +10,7 @@ const r2 = new S3Client({
   },
 });
 
-const BUCKET_NAME = process.env.R2_BUCKET_NAME || 'liminalo-crm';
+const BUCKET_NAME = process.env.R2_BUCKET_NAME || 'liminalo-contact-requests';
 
 export async function POST(request: NextRequest) {
   try {
