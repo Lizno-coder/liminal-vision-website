@@ -111,23 +111,23 @@ export default function Pricing(): React.JSX.Element {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-[0_30px_120px_rgba(16,24,40,0.45)] md:p-8">
-            <WarpShader blurClassName="backdrop-blur-[64px]" />
-            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.07),rgba(255,255,255,0.015))]" />
+          <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.035] p-4 shadow-[0_30px_120px_rgba(16,24,40,0.55)] sm:rounded-3xl sm:p-6 md:p-8">
+            <WarpShader blurClassName="backdrop-blur-[18px] sm:backdrop-blur-[24px]" />
+            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01))]" />
             <div className="relative z-10">
           {/* Pages */}
-          <div className="mb-6">
+          <div className="mb-5 sm:mb-6">
             <div className="mb-3 flex justify-between">
               <span className="text-sm text-white/70">Seiten</span>
               <span className="text-sm text-[#2997ff]">{selectedPage.label}</span>
             </div>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {pageOptions.map((option) => (
                 <motion.button
                   key={option.id}
                   onClick={() => setSelectedPageId(option.id)}
                   whileTap={{ scale: 0.98 }}
-                  className={`min-h-[60px] rounded-xl p-2 text-center text-xs font-medium transition-all md:text-sm ${
+                  className={`min-h-[58px] rounded-xl p-2 text-center text-xs font-medium transition-all sm:min-h-[60px] md:text-sm ${
                     selectedPageId === option.id
                       ? 'bg-gradient-to-r from-[#2997ff] to-[#5856d6] text-white shadow-lg'
                       : 'border border-white/10 bg-white/5 text-white/70'
@@ -141,18 +141,18 @@ export default function Pricing(): React.JSX.Element {
           </div>
 
           {/* Design */}
-          <div className="mb-6">
+          <div className="mb-5 sm:mb-6">
             <div className="mb-3 flex justify-between">
               <span className="text-sm text-white/70">Design</span>
               <span className="text-sm text-[#2997ff]">{selectedDesign.label}</span>
             </div>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
               {designOptions.map((option) => (
                 <motion.button
                   key={option.id}
                   onClick={() => setSelectedDesignId(option.id)}
                   whileTap={{ scale: 0.98 }}
-                  className={`min-h-[60px] rounded-xl p-2 text-center text-sm font-medium transition-all ${
+                  className={`min-h-[58px] rounded-xl p-2 text-center text-sm font-medium transition-all sm:min-h-[60px] ${
                     selectedDesignId === option.id
                       ? 'bg-gradient-to-r from-[#2997ff] to-[#5856d6] text-white shadow-lg'
                       : 'border border-white/10 bg-white/5 text-white/70'
@@ -166,15 +166,15 @@ export default function Pricing(): React.JSX.Element {
           </div>
 
           {/* Addons */}
-          <div className="mb-6 border-t border-white/10 pt-6">
+          <div className="mb-5 border-t border-white/10 pt-5 sm:mb-6 sm:pt-6">
             <p className="mb-3 text-sm text-white/70">Optionale Extras</p>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {addonOptions.map((option) => (
                 <motion.button
                   key={option.id}
                   onClick={() => toggleAddon(option.id)}
                   whileTap={{ scale: 0.98 }}
-                  className={`flex min-h-[60px] items-center justify-between rounded-xl border p-4 text-left transition-all ${
+                  className={`flex min-h-[60px] items-center justify-between rounded-xl border p-3.5 text-left transition-all sm:p-4 ${
                     selectedAddons.has(option.id)
                       ? 'border-[#2997ff]/50 bg-[#2997ff]/10'
                       : 'border-white/10 bg-white/5'
@@ -191,8 +191,8 @@ export default function Pricing(): React.JSX.Element {
           </div>
 
           {/* Total */}
-          <div className="border-t border-white/10 pt-6">
-            <div className="flex items-end justify-between">
+          <div className="border-t border-white/10 pt-5 sm:pt-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-sm text-white/50">Schätzung</p>
                 <motion.p
@@ -204,11 +204,11 @@ export default function Pricing(): React.JSX.Element {
                   {formatPrice(totalPrice)}
                 </motion.p>
               </div>
-              <a href="/kontakt">
+              <a href="/kontakt" className="w-full sm:w-auto">
                 <LiquidButton
                   variant="primary"
                   size="lg"
-                  className="group"
+                  className="group w-full justify-center sm:w-auto"
                 >
                   Anfragen
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
