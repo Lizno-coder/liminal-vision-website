@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+let resend: Resend | null = null;
+function getResend() {
+  if (!resend && process.env.RESEND_API_KEY) {
+    resend = new Resend(process.env.RESEND_API_KEY);
+  }
+  return resend;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -37,7 +43,7 @@ export async function POST(request: NextRequest) {
     // Create inquiry ID
     const inquiryId = `inq-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     
-    const websiteTypeLabel = {
+    const websiteTypeLabels: Record<string, string> = {
       business: 'Unternehmenswebsite',
       shop: 'Onlineshop / E-Commerce',
       restaurant: 'Restaurant / Gastronomie',
@@ -55,12 +61,14 @@ export async function POST(request: NextRequest) {
       landing: 'Landing Page',
       redesign: 'Website-Relaunch',
       other: 'Sonstiges',
-    }[websiteType] || websiteType || 'Nicht angegeben';
+    };
+    const websiteTypeLabel = websiteTypeLabels[websiteType as string] || websiteType || 'Nicht angegeben';
 
     // Send Email
-    if (process.env.RESEND_API_KEY) {
+    const resendClient = getResend();
+    if (resendClient) {
       try {
-        await resend.emails.send({
+        await resendClient.emails.send({
           from: 'Liminalo <noreply@liminalo.com>',
           to: ['business@liminalo.com'],
           subject: `Neue Anfrage von ${name}`,

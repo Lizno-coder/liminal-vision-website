@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 export const metadata = {
   title: "CRM | Liminalo",
   description: "Kundenanfragen verwalten",
