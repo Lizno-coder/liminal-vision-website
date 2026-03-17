@@ -6,7 +6,7 @@ import {
 
 const title = "Kontakt und kostenlose Website-Beratung | Liminalo";
 const description =
-  "Kontaktieren Sie Liminalo fuer eine kostenlose Website-Beratung. Teilen Sie Ihr Projekt, Ihre Branche und Ihre Ziele mit, damit wir ein passendes Konzept vorbereiten koennen.";
+  "Kontaktieren Sie Liminalo für eine kostenlose Website-Beratung. Teilen Sie Ihr Projekt, Ihre Branche und Ihre Ziele mit, damit wir ein passendes Konzept vorbereiten können.";
 const keywords = [
   "kontakt webdesign",
   "website beratung",

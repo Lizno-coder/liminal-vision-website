@@ -12,13 +12,13 @@ import {
 } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Blog fuer Websites, Webdesign und lokale Sichtbarkeit",
+  title: "Blog für Websites, Webdesign und lokale Sichtbarkeit",
   description:
-    "Praxisnahe Artikel zu Websites, lokaler Sichtbarkeit, Landingpages, SEO und digitalen Strategien fuer kleine Unternehmen und lokale Betriebe.",
+    "Praxisnahe Artikel zu Websites, lokaler Sichtbarkeit, Landingpages, SEO und digitalen Strategien für kleine Unternehmen und lokale Betriebe.",
   path: "/blog",
   keywords: [
     "blog webdesign",
-    "seo fuer kleine unternehmen",
+    "seo für kleine unternehmen",
     "website tipps",
     "lokale sichtbarkeit",
     "landingpage tipps",
@@ -71,7 +71,7 @@ export default function BlogPage() {
         data={createCollectionPageSchema({
           title: "Liminalo Blog",
           description:
-            "Artikel zu Webdesign, SEO, Websites fuer Unternehmen und lokaler Auffindbarkeit.",
+            "Artikel zu Webdesign, SEO, Websites für Unternehmen und lokaler Auffindbarkeit.",
           path: "/blog",
           items: blogArticles.map((article) => ({
             name: article.title,
@@ -97,7 +97,7 @@ export default function BlogPage() {
               Insights & <span className="text-[#2997ff]">Tipps</span>
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-white/60">
-              Praktisches Wissen fuer Unternehmer, die online erfolgreich sein wollen.
+              Praktisches Wissen für Unternehmer, die online erfolgreich sein wollen.
               Website-Strategie, Marketing und mehr.
             </p>
           </div>
@@ -108,7 +108,7 @@ export default function BlogPage() {
               className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/85 transition-all hover:border-white/20 hover:bg-white/8"
             >
               <ArrowLeft className="h-4 w-4" />
-              Zurueck zur Startseite
+              Zurück zur Startseite
             </Link>
           </div>
 
@@ -121,7 +121,7 @@ export default function BlogPage() {
           <div className="mt-16 rounded-2xl border border-white/10 bg-gradient-to-br from-[#2997ff]/10 via-transparent to-[#5856d6]/10 p-8 text-center backdrop-blur-xl">
             <h3 className="mb-2 text-xl font-semibold text-white">Keinen Artikel verpassen?</h3>
             <p className="mb-6 text-white/60">
-              Wir schreiben regelmaessig ueber Websites, Marketing und digitale Strategien fuer kleine Unternehmen.
+              Wir schreiben regelmäßig über Websites, Marketing und digitale Strategien für kleine Unternehmen.
             </p>
             <a
               href="/kontakt"

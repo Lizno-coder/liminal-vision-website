@@ -7,6 +7,7 @@ import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motio
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "Branchen", href: "/branchen" },
+  { name: "Standorte", href: "/standorte" },
   { name: "Ablauf", href: "/#process" },
   { name: "Preise", href: "/#pricing" },
   { name: "Kontakt", href: "/kontakt" },
@@ -112,7 +113,7 @@ export default function Header() {
               href="/kontakt"
               className="inline-flex items-center rounded-full border border-white/20 bg-gradient-to-r from-[#2997ff] to-[#5856d6] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#2997ff]/20 transition hover:scale-[1.02] hover:shadow-[#5856d6]/30"
             >
-              Demo anfordern
+              Kontakt
             </Link>
           </div>
 
@@ -175,7 +176,7 @@ export default function Header() {
                   onClick={() => setIsOpen(false)}
                   className="mt-2 inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#2997ff] to-[#5856d6] px-4 py-3 text-sm font-semibold text-white"
                 >
-                  Demo anfordern
+                  Kontakt
                 </Link>
               </div>
             </motion.div>

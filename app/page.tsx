@@ -19,9 +19,9 @@ import {
 } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Webdesign fuer Unternehmen und lokale Betriebe",
+  title: "Webdesign für Unternehmen und lokale Betriebe",
   description:
-    "Liminalo erstellt moderne Websites fuer Unternehmen, Restaurants, Handwerk, Studios und lokale Dienstleister. Schnell, suchmaschinenfreundlich und auf Anfragen optimiert.",
+    "Liminalo erstellt moderne Websites für Unternehmen, Restaurants, Handwerk, Studios und lokale Dienstleister. Schnell, suchmaschinenfreundlich und auf Anfragen optimiert.",
   path: "/",
   keywords: [
     "webdesign unternehmen",
@@ -37,9 +37,9 @@ export default function Home() {
     <>
       <JsonLd
         data={createServiceSchema({
-          name: "Webdesign und SEO fuer Unternehmen",
+          name: "Webdesign und SEO für Unternehmen",
           description:
-            "Liminalo entwickelt moderne, schnelle und suchmaschinenfreundliche Websites fuer Unternehmen, lokale Dienstleister und branchenspezifische Landingpages.",
+            "Liminalo entwickelt moderne, schnelle und suchmaschinenfreundliche Websites für Unternehmen, lokale Dienstleister und branchenspezifische Landingpages.",
           path: "/",
           keywords: [
             "webdesign",

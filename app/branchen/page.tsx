@@ -18,7 +18,7 @@ const industries = [
   { id: "education", icon: GraduationCap, title: "Bildung & Coaching", shortDesc: "Wissen, das beeindruckt", benefits: ["Kurskalender", "Buchungssystem"], color: "#f97316", stat: "+200%", href: "/branchen/bildung-coaching" },
   { id: "auto", icon: Car, title: "Automobil & Service", shortDesc: "Ihr Autohaus digital", benefits: ["Fahrzeug-Showcase", "Werkstatt-Termine"], color: "#6366f1", stat: "+78%", href: "/branchen/automobil-service" },
   { id: "creative", icon: PaintBrush, title: "Kreative & Künstler", shortDesc: "Aufmerksamkeit verdienen", benefits: ["Portfolio", "Buchungsanfragen"], color: "#a855f7", stat: "5x", href: "/branchen/kreative-kuenstler" },
-  { id: "other", icon: Sparkle, title: "Weitere Branchen", shortDesc: "Maßgeschneidert für Sie", benefits: ["Individuell", "Flexibel"], color: "#2997ff", stat: "100%", href: "/kontakt" },
+  { id: "other", icon: Sparkle, title: "Weitere Branchen", shortDesc: "Maßgeschneidert für Sie", benefits: ["Individuell", "Flexibel"], color: "#2997ff", stat: "100%", href: "/kontakt?websiteType=other" },
 ];
 
 const processSteps = [
@@ -59,7 +59,7 @@ export default function IndustriesPage() {
             className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/kontakt"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#2997ff] to-[#5856d6] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#2997ff]/25 hover:shadow-[#2997ff]/40 transition-all hover:scale-[1.02]">
-              Kostenloses Erstgespräch<ArrowRight className="w-5 h-5" />
+              Kontakt<ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
         </div>
@@ -186,7 +186,7 @@ export default function IndustriesPage() {
                 href="/kontakt"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#2997ff] to-[#5856d6] px-8 py-4 text-base font-semibold text-white hover:shadow-lg hover:shadow-[#2997ff]/25 transition-all hover:scale-[1.02]"
               >
-                Termin vereinbaren
+                Kontakt
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
@@ -265,7 +265,7 @@ export default function IndustriesPage() {
                 onClick={() => setSelectedIndustry(null)}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#2997ff] to-[#5856d6] px-6 py-3 text-base font-semibold text-white hover:shadow-lg hover:shadow-[#2997ff]/25 transition-all"
               >
-                Jetzt anfragen
+                Kontakt
                 <ArrowRight className="w-5 h-5" />
               </Link>
             </motion.div>

@@ -5,9 +5,9 @@ import {
   createCollectionPageSchema,
 } from "@/lib/seo";
 
-const title = "Portfolio und Branchenbeispiele fuer Websites | Liminalo";
+const title = "Portfolio und Branchenbeispiele für Websites | Liminalo";
 const description =
-  "Entdecken Sie Branchenbeispiele und Website-Konzepte von Liminalo. Moderne Auftritte fuer Restaurants, Handwerk, Studios, Dienstleister und lokale Unternehmen.";
+  "Entdecken Sie Branchenbeispiele und Website-Konzepte von Liminalo. Moderne Auftritte für Restaurants, Handwerk, Studios, Dienstleister und lokale Unternehmen.";
 const keywords = [
   "webdesign portfolio",
   "website beispiele",

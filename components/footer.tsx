@@ -7,6 +7,7 @@ import { ChevronDown } from "lucide-react";
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "Branchen", href: "/branchen" },
+  { name: "Standorte", href: "/standorte" },
   { name: "Preise", href: "/#pricing" },
   { name: "Kontakt", href: "/kontakt" },
 ];
@@ -165,7 +166,7 @@ export default function Footer() {
                 href="/kontakt"
                 className="mt-3 inline-flex items-center rounded-full bg-gradient-to-r from-[#2997ff] to-[#5856d6] px-4 py-2 text-sm font-semibold text-white"
               >
-                Demo anfordern
+                Kontakt
               </Link>
             </div>
           </div>

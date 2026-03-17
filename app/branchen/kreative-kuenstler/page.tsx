@@ -50,8 +50,8 @@ export default function KreativePage() {
                 Fotografen, Designer, Musiker und Künstler: Zeigen Sie Ihre Arbeiten in einem atemberaubenden Portfolio. 
                 Direkte Buchungsanfragen für Ihre Dienste.
               </p>
-              <Link href="/kontakt" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#a855f7] to-[#c084fc] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#a855f7]/25 hover:shadow-[#a855f7]/40 transition-all hover:scale-[1.02]">
-                Kostenlose Beratung <ArrowRight className="w-5 h-5" />
+              <Link href="/kontakt?websiteType=creative" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#a855f7] to-[#c084fc] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#a855f7]/25 hover:shadow-[#a855f7]/40 transition-all hover:scale-[1.02]">
+                Kontakt <ArrowRight className="w-5 h-5" />
               </Link>
             </motion.div>
             
@@ -179,8 +179,8 @@ export default function KreativePage() {
             <p className="text-white/60 mb-8 max-w-xl mx-auto">
               Lassen Sie uns besprechen, wie wir Ihre kreative Arbeit online erfolgreich präsentieren.
             </p>
-            <Link href="/kontakt" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#a855f7] to-[#c084fc] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#a855f7]/25 hover:shadow-[#a855f7]/40 transition-all hover:scale-[1.02]">
-              Jetzt Beratungstermin vereinbaren <ArrowRight className="w-5 h-5" />
+            <Link href="/kontakt?websiteType=creative" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#a855f7] to-[#c084fc] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#a855f7]/25 hover:shadow-[#a855f7]/40 transition-all hover:scale-[1.02]">
+              Kontakt aufnehmen <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
         </div>

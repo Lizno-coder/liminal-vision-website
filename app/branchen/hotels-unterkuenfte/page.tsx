@@ -50,8 +50,8 @@ export default function HotelsPage() {
                 Präsentieren Sie Ihre Zimmer, Preise und Ausstattung stilvoll. 
                 Mit direkter Buchungsanfrage füllen Sie Ihre Betten – auch während Sie schlafen.
               </p>
-              <Link href="/kontakt" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ec4899] to-[#f472b6] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#ec4899]/25 hover:shadow-[#ec4899]/40 transition-all hover:scale-[1.02]">
-                Kostenlose Beratung <ArrowRight className="w-5 h-5" />
+              <Link href="/kontakt?websiteType=hotel" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ec4899] to-[#f472b6] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#ec4899]/25 hover:shadow-[#ec4899]/40 transition-all hover:scale-[1.02]">
+                Kontakt <ArrowRight className="w-5 h-5" />
               </Link>
             </motion.div>
             
@@ -179,8 +179,8 @@ export default function HotelsPage() {
             <p className="text-white/60 mb-8 max-w-xl mx-auto">
               Lassen Sie uns besprechen, wie wir Ihr Hotel oder Ihre Unterkunft online erfolgreich machen.
             </p>
-            <Link href="/kontakt" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ec4899] to-[#f472b6] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#ec4899]/25 hover:shadow-[#ec4899]/40 transition-all hover:scale-[1.02]">
-              Jetzt Beratungstermin vereinbaren <ArrowRight className="w-5 h-5" />
+            <Link href="/kontakt?websiteType=hotel" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ec4899] to-[#f472b6] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#ec4899]/25 hover:shadow-[#ec4899]/40 transition-all hover:scale-[1.02]">
+              Kontakt aufnehmen <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
         </div>

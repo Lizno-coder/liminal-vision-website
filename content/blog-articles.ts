@@ -17,59 +17,59 @@ export const blogArticles: BlogArticle[] = [
     slug: "warum-jede-kleine-firma-website-braucht",
     title: "Warum jede kleine Firma eine Website braucht",
     excerpt:
-      "Instagram reicht nicht mehr. Eine eigene Website ist das Fundament Ihrer digitalen Praesenz und macht Sie unabhaengiger von Plattformen.",
+      "Instagram reicht nicht mehr. Eine eigene Website ist das Fundament Ihrer digitalen Präsenz und macht Sie unabhängiger von Plattformen.",
     content: `## Das Problem mit Instagram und Co.
 
-Viele kleine Unternehmen denken: "Ich habe doch Instagram, da erreiche ich meine Kunden." Das stimmt nur teilweise. Social-Media-Plattformen haben einen grossen Nachteil: **Sie gehoeren Ihnen nicht.**
+Viele kleine Unternehmen denken: "Ich habe doch Instagram, da erreiche ich meine Kunden." Das stimmt nur teilweise. Social-Media-Plattformen haben einen großen Nachteil: **Sie gehören Ihnen nicht.**
 
 ### Algorithmen bestimmen, wer Sie sieht
 
 Auf Instagram entscheidet ein Algorithmus, wer Ihre Inhalte zu Gesicht bekommt. Selbst Ihre eigenen Follower sehen nicht automatisch alles, was Sie posten.
 
-### Gesperrt? Geaendert? Alles weg.
+### Gesperrt? Geändert? Alles weg.
 
-Wenn Ihr Account ploetzlich eingeschraenkt oder geloescht wird, sind Reichweite und Inhalte sofort gefaehrdet. Bei einer eigenen Website behalten Sie die Kontrolle.
+Wenn Ihr Account plötzlich eingeschränkt oder gelöscht wird, sind Reichweite und Inhalte sofort gefährdet. Bei einer eigenen Website behalten Sie die Kontrolle.
 
 ## Warum eine Website anders ist
 
-### 1. Sie gehoert Ihnen
+### 1. Sie gehört Ihnen
 
-Ihre Website ist Ihr eigener digitaler Standort. Kein Algorithmus, keine fremde Plattform und keine willkuerlichen Regeln.
+Ihre Website ist Ihr eigener digitaler Standort. Kein Algorithmus, keine fremde Plattform und keine willkürlichen Regeln.
 
 ### 2. Google kann Sie finden
 
-Wenn jemand nach "Cafe Muenchen" oder "Schreiner Rosenheim" sucht, erscheinen Websites in den Suchergebnissen. Genau dort wollen Sie sichtbar sein.
+Wenn jemand nach "Café München" oder "Schreiner Rosenheim" sucht, erscheinen Websites in den Suchergebnissen. Genau dort wollen Sie sichtbar sein.
 
-### 3. Professionalitaet schafft Vertrauen
+### 3. Professionalität schafft Vertrauen
 
-Eine professionelle Website signalisiert Serioesitaet und macht sofort klar, dass Ihr Unternehmen ernst genommen werden will.
+Eine professionelle Website signalisiert Seriosität und macht sofort klar, dass Ihr Unternehmen ernst genommen werden will.
 
 ### 4. Alles an einem Ort
 
-Oeffnungszeiten, Leistungen, Preise, Kontakt und Anfahrt stehen gebuendelt an einem Ort. Das spart Rueckfragen und erleichtert die Entscheidung.
+Öffnungszeiten, Leistungen, Preise, Kontakt und Anfahrt stehen gebündelt an einem Ort. Das spart Rückfragen und erleichtert die Entscheidung.
 
 ## Aber Websites sind doch teuer?
 
 Nicht zwingend:
 
-- **1 Seite**: Ab 50 EUR
-- **3 Seiten**: Ab 100 EUR
-- **5 Seiten**: Ab 150 EUR
+- **1 Seite**: Ab 50 €
+- **3 Seiten**: Ab 100 €
+- **5 Seiten**: Ab 150 €
 
 ## Fazit
 
-Social Media ist wichtig, aber eher als Ergaenzung. Das stabile Fundament Ihrer digitalen Sichtbarkeit sollte eine eigene Website sein.
+Social Media ist wichtig, aber eher als Ergänzung. Das stabile Fundament Ihrer digitalen Sichtbarkeit sollte eine eigene Website sein.
 
-**Bereit fuer Ihre Website?** [Fordern Sie eine kostenlose Demo an](/kontakt).`,
+**Bereit für Ihre Website?** [Kontakt aufnehmen](/kontakt).`,
     publishedAt: "2026-03-05",
     updatedAt: "2026-03-05",
-    dateLabel: "5. Maerz 2026",
+    dateLabel: "5. März 2026",
     readTime: "5 Min",
     category: "Strategie",
     author: "Liminalo",
     keywords: [
-      "website fuer kleine unternehmen",
-      "digitale praesenz",
+      "website für kleine unternehmen",
+      "digitale präsenz",
       "website erstellen lassen",
       "lokale sichtbarkeit",
     ],
@@ -78,33 +78,33 @@ Social Media ist wichtig, aber eher als Ergaenzung. Das stabile Fundament Ihrer 
     slug: "website-vs-instagram",
     title: "Website vs. Instagram: Was bringt mehr?",
     excerpt:
-      "Social Media ist wichtig, aber Ihre Website bleibt Ihr digitales Eigentum. Beide Kanaele erfuellen unterschiedliche Aufgaben.",
+      "Social Media ist wichtig, aber Ihre Website bleibt Ihr digitales Eigentum. Beide Kanäle erfüllen unterschiedliche Aufgaben.",
     content: `## Das falsche Entweder-oder
 
-"Brauche ich wirklich eine Website?" Die ehrliche Antwort ist: **Sie brauchen beides**, aber fuer unterschiedliche Zwecke.
+"Brauche ich wirklich eine Website?" Die ehrliche Antwort ist: **Sie brauchen beides**, aber für unterschiedliche Zwecke.
 
-## Instagram: Stark fuer Aufmerksamkeit
+## Instagram: Stark für Aufmerksamkeit
 
-**Staerken:**
+**Stärken:**
 - Schnelle Reichweite
 - Direkter Kontakt
-- Visuelle Praesentation
+- Visuelle Präsentation
 - Einfacher Start
 
-**Schwaechen:**
-- Abhaengigkeit vom Algorithmus
+**Schwächen:**
+- Abhängigkeit vom Algorithmus
 - Inhalte verschwinden schnell
-- Schwierig ueber Google auffindbar
+- Schwierig über Google auffindbar
 
-## Website: Stark fuer Conversion
+## Website: Stark für Conversion
 
-**Staerken:**
+**Stärken:**
 - Sichtbarkeit in Google
-- Permanente Praesenz
-- Volle Kontrolle ueber Inhalte und Struktur
+- Permanente Präsenz
+- Volle Kontrolle über Inhalte und Struktur
 - Professionellerer Gesamteindruck
 
-**Schwaechen:**
+**Schwächen:**
 - Braucht eine erste Investition
 - Keine automatische virale Reichweite
 
@@ -129,23 +129,23 @@ Instagram bringt Menschen auf Sie aufmerksam. Ihre Website macht daraus konkrete
   },
   {
     slug: "5-groesste-fehler-website-erstellung",
-    title: "Die 5 groessten Fehler bei der Website-Erstellung",
+    title: "Die 5 größten Fehler bei der Website-Erstellung",
     excerpt:
       "Langsame Ladezeiten, schlechte mobile Darstellung und fehlende SEO-Basis kosten Sichtbarkeit und Anfragen. Diese Fehler sollten Sie vermeiden.",
     content: `## Fehler 1: Zu langsame Ladezeit
 
-Wenn eine Website zu langsam laedt, springen Nutzer frueh wieder ab.
+Wenn eine Website zu langsam lädt, springen Nutzer früh wieder ab.
 
-**Loesung:**
+**Lösung:**
 - Bilder optimieren
-- Solides Hosting waehlen
-- Unnoetigen Code reduzieren
+- Solides Hosting wählen
+- Unnötigen Code reduzieren
 
 ## Fehler 2: Keine Mobile-Optimierung
 
-Ein grosser Teil der Besucher kommt ueber Smartphones. Wenn die mobile Darstellung schwach ist, verlieren Sie Vertrauen und Anfragen.
+Ein großer Teil der Besucher kommt über Smartphones. Wenn die mobile Darstellung schwach ist, verlieren Sie Vertrauen und Anfragen.
 
-**Loesung:**
+**Lösung:**
 - Mobile-First Design
 - Saubere responsive Layouts
 - Touch-freundliche Bedienung
@@ -154,25 +154,25 @@ Ein grosser Teil der Besucher kommt ueber Smartphones. Wenn die mobile Darstellu
 
 Wenn Besucher nicht sofort sehen, was sie tun sollen, sinkt die Conversion.
 
-**Loesung:**
+**Lösung:**
 - Ein klarer CTA pro Seite
-- Sichtbare Kontaktmoeglichkeit
+- Sichtbare Kontaktmöglichkeit
 - Kurze Wege zur Anfrage
 
-## Fehler 4: Vernachlaessigtes SEO
+## Fehler 4: Vernachlässigtes SEO
 
 Ohne Titles, Descriptions, Sitemap und relevante Inhalte bleibt viel Potenzial ungenutzt.
 
-**Loesung:**
+**Lösung:**
 - Meta-Titel und Descriptions setzen
 - Lokale Suchbegriffe einbauen
 - Saubere technische SEO umsetzen
 
-## Fehler 5: DIY statt Professionalitaet
+## Fehler 5: DIY statt Professionalität
 
 Eine schwache Website kostet oft mehr, als sie spart, weil Vertrauen und Sichtbarkeit verloren gehen.
 
-**Loesung:**
+**Lösung:**
 - Mit klarer Strategie starten
 - Struktur, Design und SEO zusammendenken
 - Inhalte auf Conversion ausrichten`,

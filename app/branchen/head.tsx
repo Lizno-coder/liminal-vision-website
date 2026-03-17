@@ -5,15 +5,15 @@ import {
   createCollectionPageSchema,
 } from "@/lib/seo";
 
-const title = "Webdesign fuer Branchen und lokale Betriebe | Liminalo";
+const title = "Webdesign für Branchen und lokale Betriebe | Liminalo";
 const description =
-  "Branchenspezifische Websites fuer Restaurants, Handwerk, Fitness, Beauty, Einzelhandel, Praxen und weitere lokale Unternehmen. Liminalo entwickelt Seiten mit klarer Conversion und SEO-Basis.";
+  "Branchenspezifische Websites für Restaurants, Handwerk, Fitness, Beauty, Einzelhandel, Praxen und weitere lokale Unternehmen. Liminalo entwickelt Seiten mit klarer Conversion und SEO-Basis.";
 const keywords = [
   "webdesign branchen",
   "branchenspezifische websites",
-  "website fuer lokale unternehmen",
+  "website für lokale unternehmen",
   "landingpages branchen",
-  "webdesign branchenloesungen",
+  "webdesign branchenlösungen",
 ];
 
 export default function Head() {

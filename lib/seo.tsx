@@ -7,14 +7,14 @@ const defaultImagePath = "/Liminalo.png";
 export const siteConfig = {
   name: "Liminalo",
   url: "https://liminalo.com",
-  title: "Liminalo | Premium Websites fuer Unternehmen",
+  title: "Liminalo | Premium Websites für Unternehmen",
   description:
-    "Liminalo erstellt moderne Websites fuer Unternehmen, Restaurants, Handwerk und lokale Dienstleister. Schnell, klar, conversionstark und suchmaschinenfreundlich.",
+    "Liminalo erstellt moderne Websites für Unternehmen, Restaurants, Handwerk und lokale Dienstleister. Schnell, klar, conversionstark und suchmaschinenfreundlich.",
   image: defaultImagePath,
   email: "business@liminalo.com",
   phone: "+491746509061",
   telephoneDisplay: "0174 6509061",
-  streetAddress: "Graf-zu-Toerring-Strasse 10",
+  streetAddress: "Graf-zu-Toerring-Straße 10",
   postalCode: "84478",
   city: "Waldkraiburg",
   region: "Bayern",

@@ -20,7 +20,7 @@ export default function Head() {
         createBreadcrumbSchema([
           { name: "Startseite", path: "/" },
           { name: "Branchen", path: "/branchen" },
-          { name: "Automobil & Service", path: page.path },
+          { name: page.serviceName, path: page.path },
         ]),
       ]}
     />

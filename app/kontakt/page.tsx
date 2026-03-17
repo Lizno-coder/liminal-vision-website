@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useSearchParams } from "next/navigation";
 import {
   CheckCircle2,
   Euro,
@@ -28,6 +29,9 @@ const projectTypes: ProjectType[] = [
   { value: "automotive", label: "Autohaus / Werkstatt" },
   { value: "beauty", label: "Beauty / Kosmetik / Friseur" },
   { value: "fitness", label: "Fitness / Studio / Yoga" },
+  { value: "retail", label: "Einzelhandel" },
+  { value: "education", label: "Bildung / Coaching" },
+  { value: "creative", label: "Kreative / Künstler" },
   { value: "event", label: "Event / Hochzeit" },
   { value: "portfolio", label: "Portfolio / Persönliche Website" },
   { value: "blog", label: "Blog / Magazin" },
@@ -104,18 +108,40 @@ function Textarea({
 }
 
 export default function KontaktPage() {
+  const searchParams = useSearchParams();
+  const preselectedWebsiteType = useMemo(() => {
+    const value = searchParams.get("websiteType");
+    return projectTypes.some((type) => type.value === value) ? value ?? "" : "";
+  }, [searchParams]);
+  const preselectedProjectLabel = useMemo(
+    () =>
+      projectTypes.find((type) => type.value === preselectedWebsiteType)?.label ?? "",
+    [preselectedWebsiteType]
+  );
   const [form, setForm] = useState({
     name: "",
     email: "",
     phone: "",
     company: "",
-    websiteType: "",
+    websiteType: preselectedWebsiteType,
     budget: 1000,
     message: "",
   });
   const [agbAccepted, setAgbAccepted] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (!preselectedWebsiteType) {
+      return;
+    }
+
+    setForm((prev) =>
+      prev.websiteType === preselectedWebsiteType
+        ? prev
+        : { ...prev, websiteType: preselectedWebsiteType }
+    );
+  }, [preselectedWebsiteType]);
 
   const budgetText = useMemo(() => budgetLabels[form.budget] ?? `${form.budget} €`, [form.budget]);
 
@@ -154,7 +180,7 @@ export default function KontaktPage() {
           email: "",
           phone: "",
           company: "",
-          websiteType: "",
+          websiteType: preselectedWebsiteType,
           budget: 1000,
           message: "",
         });
@@ -195,7 +221,7 @@ export default function KontaktPage() {
             className="inline-flex items-center gap-2 rounded-full border border-[#2997ff]/30 bg-[#2997ff]/10 px-4 py-1.5 text-sm text-[#2997ff]"
           >
             <Sparkles className="h-4 w-4" />
-            Demo anfordern
+            Kontakt
           </motion.span>
 
           <motion.h1
@@ -213,8 +239,19 @@ export default function KontaktPage() {
             transition={{ delay: 0.12, duration: 0.55 }}
             className="mx-auto mt-5 max-w-2xl text-sm leading-6 text-white/58 sm:text-base"
           >
-            Je klarer Ihre Angaben, desto passender kann die Demo und das Konzept für Ihre Website vorbereitet werden.
+            Je klarer Ihre Angaben, desto passender können wir Ihr Konzept und Ihre Website vorbereiten.
           </motion.p>
+
+          {preselectedProjectLabel ? (
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.18, duration: 0.45 }}
+              className="mx-auto mt-4 inline-flex max-w-max rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-white/70"
+            >
+              Vorausgewählt: {preselectedProjectLabel}
+            </motion.p>
+          ) : null}
         </section>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">

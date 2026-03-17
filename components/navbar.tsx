@@ -32,7 +32,7 @@ export function Navbar() {
             href="/kontakt"
             className="rounded-full bg-gradient-to-r from-[#2997ff] to-[#5856d6] px-4 py-2 text-sm font-medium text-white"
           >
-            Demo
+            Kontakt
           </Link>
         </div>
 
@@ -65,7 +65,7 @@ export function Navbar() {
                 className="mt-4 block rounded-full bg-gradient-to-r from-[#2997ff] to-[#5856d6] px-4 py-3 text-center text-sm font-medium text-white"
                 onClick={() => setIsOpen(false)}
               >
-                Demo anfordern
+                Kontakt
               </Link>
             </div>
           </motion.div>

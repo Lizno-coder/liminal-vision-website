@@ -10,7 +10,7 @@ const relatedIndustryMap: Record<string, string[]> = {
   "beauty-kosmetik": ["fitness-wellness", "cafes-restaurants", "einzelhandel"],
   "bildung-coaching": ["dienstleister", "gesundheit-praxen", "kreative-kuenstler"],
   "cafes-restaurants": ["hotels-unterkuenfte", "einzelhandel", "beauty-kosmetik"],
-  dienstleister: ["bildung-coaching", "handwerk-gewerbe", "gesundheit-praxen"],
+  dienstleister: ["bildung-coaching", "gesundheit-praxen", "handwerk-gewerbe"],
   einzelhandel: ["cafes-restaurants", "beauty-kosmetik", "automobil-service"],
   "fitness-wellness": ["beauty-kosmetik", "gesundheit-praxen", "bildung-coaching"],
   "gesundheit-praxen": ["bildung-coaching", "dienstleister", "fitness-wellness"],
@@ -32,74 +32,46 @@ export default function IndustrySeoLinks({
     .map((slug) => industryPages.find((page) => page.slug === slug))
     .filter((page): page is NonNullable<typeof page> => Boolean(page));
 
-  const helpfulArticles = blogArticles.slice(0, 3);
+  const helpfulArticles = blogArticles.slice(0, 2);
 
   if (relatedIndustries.length === 0) {
     return null;
   }
 
   return (
-    <section className="relative px-4 py-20">
-      <div className="mx-auto max-w-6xl">
-        <div className="mb-10 max-w-3xl">
-          <span
-            className="mb-4 inline-flex rounded-full border px-4 py-1.5 text-sm font-medium"
-            style={{
-              color: accentColor,
-              borderColor: `${accentColor}40`,
-              backgroundColor: `${accentColor}12`,
-            }}
-          >
-            Weitere Themen
-          </span>
-          <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
-            Weitere Branchen und passende Inhalte
-          </h2>
-          <p className="text-white/60">
-            Diese internen Links helfen Besuchern schneller zum passenden Angebot
-            und staerken gleichzeitig die thematische Verknuepfung der
-            Branchen-Seiten fuer Suchmaschinen.
-          </p>
-        </div>
-
-        <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="grid gap-4 md:grid-cols-3">
-            {relatedIndustries.map((page) => (
-              <Link
-                key={page.slug}
-                href={page.path}
-                className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.05]"
-              >
-                <div
-                  className="mb-3 inline-flex rounded-full border px-3 py-1 text-xs font-medium"
-                  style={{
-                    color: accentColor,
-                    borderColor: `${accentColor}35`,
-                    backgroundColor: `${accentColor}10`,
-                  }}
+    <section className="relative px-4 py-10 sm:py-12">
+      <div className="mx-auto max-w-5xl rounded-[1.75rem] border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl sm:p-6">
+        <div className="grid gap-6 lg:grid-cols-[1fr_0.85fr]">
+          <div>
+            <div className="mb-3 text-sm font-semibold text-white">
+              Weitere passende Branchen
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {relatedIndustries.map((page) => (
+                <Link
+                  key={page.slug}
+                  href={page.path}
+                  className="rounded-2xl border border-white/10 bg-white/[0.02] px-4 py-3.5 text-sm text-white/80 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.05] hover:text-white"
                 >
-                  Branchenloesung
-                </div>
-                <h3 className="mb-3 text-lg font-semibold text-white">{page.serviceName}</h3>
-                <p className="text-sm leading-6 text-white/55">{page.description}</p>
-              </Link>
-            ))}
+                  <div className="font-medium">{page.serviceName}</div>
+                </Link>
+              ))}
+            </div>
           </div>
 
-          <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-            <h3 className="mb-4 text-xl font-semibold text-white">Hilfreiche Artikel</h3>
-            <div className="space-y-4">
+          <div>
+            <div className="mb-3 text-sm font-semibold text-white">
+              Aus dem Blog
+            </div>
+            <div className="space-y-3">
               {helpfulArticles.map((article) => (
                 <Link
                   key={article.slug}
                   href={`/blog/${article.slug}`}
-                  className="block rounded-2xl border border-white/8 bg-white/[0.02] p-4 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.05]"
+                  className="block rounded-2xl border border-white/10 bg-white/[0.02] px-4 py-3.5 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.05]"
                 >
-                  <div className="mb-2 text-xs uppercase tracking-[0.2em] text-white/45">
-                    {article.category}
-                  </div>
-                  <div className="mb-2 text-base font-semibold text-white">{article.title}</div>
-                  <p className="text-sm leading-6 text-white/55">{article.excerpt}</p>
+                  <div className="mb-1 text-sm font-medium text-white">{article.title}</div>
+                  <div className="text-sm text-white/50">{article.category}</div>
                 </Link>
               ))}
             </div>

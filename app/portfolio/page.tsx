@@ -155,7 +155,7 @@ export default function IndustriesPage() {
               href="/kontakt"
               className="inline-flex items-center gap-2 rounded-full bg-[#2997ff] px-8 py-4 text-base font-semibold text-white hover:bg-[#2997ff]/90 transition-all"
             >
-              Kostenloses Erstgespräch
+              Kontakt
               <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>

@@ -54,8 +54,8 @@ export default function CafeRestaurantPage() {
                 Perfekt für Gastronomen, die mehr Gäste erreichen wollen.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/kontakt" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f59e0b] to-[#f97316] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#f59e0b]/25 hover:shadow-[#f59e0b]/40 transition-all hover:scale-[1.02]">
-                  Kostenlose Beratung <ArrowRight className="w-5 h-5" />
+                <Link href="/kontakt?websiteType=restaurant" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f59e0b] to-[#f97316] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#f59e0b]/25 hover:shadow-[#f59e0b]/40 transition-all hover:scale-[1.02]">
+                  Kontakt <ArrowRight className="w-5 h-5" />
                 </Link>
                 <Link href="/#pricing" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-8 py-4 text-base font-semibold text-white hover:bg-white/5 transition-all">
                   Preise ansehen
@@ -192,8 +192,8 @@ export default function CafeRestaurantPage() {
             <p className="text-white/60 mb-8 max-w-xl mx-auto">
               Lassen Sie uns in einem kostenlosen Gespräch besprechen, wie wir Ihr Restaurant oder Café online erfolgreich machen können.
             </p>
-            <Link href="/kontakt" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f59e0b] to-[#f97316] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#f59e0b]/25 hover:shadow-[#f59e0b]/40 transition-all hover:scale-[1.02]">
-              Jetzt Beratungstermin vereinbaren <ArrowRight className="w-5 h-5" />
+            <Link href="/kontakt?websiteType=restaurant" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f59e0b] to-[#f97316] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#f59e0b]/25 hover:shadow-[#f59e0b]/40 transition-all hover:scale-[1.02]">
+              Kontakt aufnehmen <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
         </div>

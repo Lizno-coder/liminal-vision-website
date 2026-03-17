@@ -50,8 +50,8 @@ export default function BeautyPage() {
                 Stylisch Ihre Treatments, Preise und Verfügbarkeiten präsentieren. 
                 Mit integrierter Terminbuchung vereinfachen Sie den Alltag für Sie und Ihre Kundinnen.
               </p>
-              <Link href="/kontakt" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f43f5e] to-[#fb7185] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#f43f5e]/25 hover:shadow-[#f43f5e]/40 transition-all hover:scale-[1.02]">
-                Kostenlose Beratung <ArrowRight className="w-5 h-5" />
+              <Link href="/kontakt?websiteType=beauty" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f43f5e] to-[#fb7185] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#f43f5e]/25 hover:shadow-[#f43f5e]/40 transition-all hover:scale-[1.02]">
+                Kontakt <ArrowRight className="w-5 h-5" />
               </Link>
             </motion.div>
             
@@ -179,8 +179,8 @@ export default function BeautyPage() {
             <p className="text-white/60 mb-8 max-w-xl mx-auto">
               Lassen Sie uns besprechen, wie wir Ihren Beauty-Salon online erfolgreich machen.
             </p>
-            <Link href="/kontakt" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f43f5e] to-[#fb7185] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#f43f5e]/25 hover:shadow-[#f43f5e]/40 transition-all hover:scale-[1.02]">
-              Jetzt Beratungstermin vereinbaren <ArrowRight className="w-5 h-5" />
+            <Link href="/kontakt?websiteType=beauty" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f43f5e] to-[#fb7185] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#f43f5e]/25 hover:shadow-[#f43f5e]/40 transition-all hover:scale-[1.02]">
+              Kontakt aufnehmen <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
         </div>

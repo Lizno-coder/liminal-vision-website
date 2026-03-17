@@ -2,6 +2,7 @@ import { MetadataRoute } from "next";
 
 import { blogArticles } from "@/content/blog-articles";
 import { industryPages } from "@/content/industry-pages";
+import { locationPages } from "@/content/locations";
 import { absoluteUrl } from "@/lib/seo";
 
 const siteLastModified = new Date("2026-03-17");
@@ -38,6 +39,12 @@ const staticRoutes: MetadataRoute.Sitemap = [
     priority: 0.85,
   },
   {
+    url: absoluteUrl("/standorte"),
+    lastModified: siteLastModified,
+    changeFrequency: "weekly",
+    priority: 0.86,
+  },
+  {
     url: absoluteUrl("/impressum"),
     lastModified: siteLastModified,
     changeFrequency: "yearly",
@@ -65,6 +72,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: siteLastModified,
       changeFrequency: "monthly" as const,
       priority: 0.84,
+    })),
+    ...locationPages.map((location) => ({
+      url: absoluteUrl(location.path),
+      lastModified: siteLastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.78,
     })),
     ...blogArticles.map((article) => ({
       url: absoluteUrl(`/blog/${article.slug}`),

@@ -50,8 +50,8 @@ export default function BildungPage() {
                 Von Nachhilfe bis Business-Coaching: Zeigen Sie Ihr Angebot, Ihre Methoden und Erfolge. 
                 Buchen Sie Kurse und Beratungstermine online.
               </p>
-              <Link href="/kontakt" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f97316] to-[#fb923c] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#f97316]/25 hover:shadow-[#f97316]/40 transition-all hover:scale-[1.02]">
-                Kostenlose Beratung <ArrowRight className="w-5 h-5" />
+              <Link href="/kontakt?websiteType=education" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f97316] to-[#fb923c] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#f97316]/25 hover:shadow-[#f97316]/40 transition-all hover:scale-[1.02]">
+                Kontakt <ArrowRight className="w-5 h-5" />
               </Link>
             </motion.div>
             
@@ -179,8 +179,8 @@ export default function BildungPage() {
             <p className="text-white/60 mb-8 max-w-xl mx-auto">
               Lassen Sie uns besprechen, wie wir Ihr Bildungsangebot online erfolgreich machen.
             </p>
-            <Link href="/kontakt" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f97316] to-[#fb923c] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#f97316]/25 hover:shadow-[#f97316]/40 transition-all hover:scale-[1.02]">
-              Jetzt Beratungstermin vereinbaren <ArrowRight className="w-5 h-5" />
+            <Link href="/kontakt?websiteType=education" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f97316] to-[#fb923c] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#f97316]/25 hover:shadow-[#f97316]/40 transition-all hover:scale-[1.02]">
+              Kontakt aufnehmen <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
         </div>

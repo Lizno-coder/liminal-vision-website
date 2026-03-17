@@ -11,39 +11,39 @@ export const industryPages: IndustryPage[] = [
   {
     slug: "cafes-restaurants",
     path: "/branchen/cafes-restaurants",
-    title: "Webdesign fuer Cafes und Restaurants | Liminalo",
+    title: "Webdesign für Cafés und Restaurants | Liminalo",
     description:
-      "Moderne Websites fuer Cafes und Restaurants mit Speisekarte, Reservierung, Oeffnungszeiten und lokalem SEO. Liminalo entwickelt Seiten, die mehr Gaeste und Anfragen bringen.",
+      "Moderne Websites für Cafés und Restaurants mit Speisekarte, Reservierung, Öffnungszeiten und lokalem SEO. Liminalo entwickelt Seiten, die mehr Gäste und Anfragen bringen.",
     keywords: [
       "webdesign restaurant",
-      "website fuer cafe",
+      "website für café",
       "restaurant website erstellen lassen",
       "webdesign gastronomie",
       "restaurant seo",
     ],
-    serviceName: "Webdesign fuer Cafes und Restaurants",
+    serviceName: "Webdesign für Cafés und Restaurants",
   },
   {
     slug: "handwerk-gewerbe",
     path: "/branchen/handwerk-gewerbe",
-    title: "Webdesign fuer Handwerk und Gewerbe | Liminalo",
+    title: "Webdesign für Handwerk und Gewerbe | Liminalo",
     description:
-      "Professionelle Websites fuer Handwerksbetriebe und Gewerbe mit Leistungsseiten, Referenzen, Kontaktformular und regionaler Sichtbarkeit in Google.",
+      "Professionelle Websites für Handwerksbetriebe und Gewerbe mit Leistungsseiten, Referenzen, Kontaktformular und regionaler Sichtbarkeit in Google.",
     keywords: [
-      "website fuer handwerker",
+      "website für handwerker",
       "webdesign handwerk",
       "homepage handwerksbetrieb",
-      "seo fuer handwerker",
+      "seo für handwerker",
       "website gewerbe",
     ],
-    serviceName: "Webdesign fuer Handwerk und Gewerbe",
+    serviceName: "Webdesign für Handwerk und Gewerbe",
   },
   {
     slug: "fitness-wellness",
     path: "/branchen/fitness-wellness",
-    title: "Webdesign fuer Fitness und Wellness | Liminalo",
+    title: "Webdesign für Fitness und Wellness | Liminalo",
     description:
-      "Websites fuer Fitnessstudios, Yoga und Wellness mit Kursplan, Mitgliedschaft, Trainerprofilen und klarer Conversion fuer neue Mitglieder.",
+      "Websites für Fitnessstudios, Yoga und Wellness mit Kursplan, Mitgliedschaft, Trainerprofilen und klarer Conversion für neue Mitglieder.",
     keywords: [
       "website fitnessstudio",
       "webdesign wellness",
@@ -51,14 +51,14 @@ export const industryPages: IndustryPage[] = [
       "fitnessstudio website",
       "webdesign fitness",
     ],
-    serviceName: "Webdesign fuer Fitness und Wellness",
+    serviceName: "Webdesign für Fitness und Wellness",
   },
   {
     slug: "beauty-kosmetik",
     path: "/branchen/beauty-kosmetik",
-    title: "Webdesign fuer Beauty und Kosmetik | Liminalo",
+    title: "Webdesign für Beauty und Kosmetik | Liminalo",
     description:
-      "Elegante Websites fuer Friseure, Beauty-Studios und Kosmetik mit Online-Terminbuchung, Preislisten und lokaler Sichtbarkeit.",
+      "Elegante Websites für Friseure, Beauty-Studios und Kosmetik mit Online-Terminbuchung, Preislisten und lokaler Sichtbarkeit.",
     keywords: [
       "website kosmetikstudio",
       "webdesign friseur",
@@ -66,29 +66,29 @@ export const industryPages: IndustryPage[] = [
       "online terminbuchung kosmetik",
       "webdesign beauty",
     ],
-    serviceName: "Webdesign fuer Beauty und Kosmetik",
+    serviceName: "Webdesign für Beauty und Kosmetik",
   },
   {
     slug: "einzelhandel",
     path: "/branchen/einzelhandel",
-    title: "Webdesign fuer Einzelhandel | Liminalo",
+    title: "Webdesign für Einzelhandel | Liminalo",
     description:
-      "Websites fuer Einzelhandel und lokale Geschaefte mit Produkt-Showcase, Oeffnungszeiten, Standorten und starker lokaler Auffindbarkeit.",
+      "Websites für Einzelhandel und lokale Geschäfte mit Produkt-Showcase, Öffnungszeiten, Standorten und starker lokaler Auffindbarkeit.",
     keywords: [
       "website einzelhandel",
-      "webdesign lokales geschaeft",
+      "webdesign lokales geschäft",
       "homepage boutique",
       "website laden",
       "lokales seo einzelhandel",
     ],
-    serviceName: "Webdesign fuer Einzelhandel",
+    serviceName: "Webdesign für Einzelhandel",
   },
   {
     slug: "dienstleister",
     path: "/branchen/dienstleister",
-    title: "Webdesign fuer Dienstleister | Liminalo",
+    title: "Webdesign für Dienstleister | Liminalo",
     description:
-      "Professionelle Websites fuer Berater, Agenturen und Dienstleister mit klarer Positionierung, Referenzen, Leistungen und Kontaktanfragen.",
+      "Professionelle Websites für Berater, Agenturen und Dienstleister mit klarer Positionierung, Referenzen, Leistungen und Kontaktanfragen.",
     keywords: [
       "website dienstleister",
       "webdesign berater",
@@ -96,14 +96,14 @@ export const industryPages: IndustryPage[] = [
       "website serviceunternehmen",
       "seo dienstleister",
     ],
-    serviceName: "Webdesign fuer Dienstleister",
+    serviceName: "Webdesign für Dienstleister",
   },
   {
     slug: "hotels-unterkuenfte",
     path: "/branchen/hotels-unterkuenfte",
-    title: "Webdesign fuer Hotels und Unterkuenfte | Liminalo",
+    title: "Webdesign für Hotels und Unterkünfte | Liminalo",
     description:
-      "Websites fuer Hotels, Pensionen und Unterkuenfte mit Zimmerdarstellung, Buchungsanfrage, Lageinfos und mehr Sichtbarkeit fuer Direktbuchungen.",
+      "Websites für Hotels, Pensionen und Unterkünfte mit Zimmerdarstellung, Buchungsanfrage, Lageinfos und mehr Sichtbarkeit für Direktbuchungen.",
     keywords: [
       "website hotel",
       "webdesign unterkunft",
@@ -111,14 +111,14 @@ export const industryPages: IndustryPage[] = [
       "hotel website erstellen lassen",
       "seo hotel",
     ],
-    serviceName: "Webdesign fuer Hotels und Unterkuenfte",
+    serviceName: "Webdesign für Hotels und Unterkünfte",
   },
   {
     slug: "gesundheit-praxen",
     path: "/branchen/gesundheit-praxen",
-    title: "Webdesign fuer Gesundheit und Praxen | Liminalo",
+    title: "Webdesign für Gesundheit und Praxen | Liminalo",
     description:
-      "Vertrauensvolle Websites fuer Arztpraxen, Therapien und Gesundheitsbetriebe mit Terminbuchung, Leistungen und seriouser Nutzerfuehrung.",
+      "Vertrauensvolle Websites für Arztpraxen, Therapien und Gesundheitsbetriebe mit Terminbuchung, Leistungen und seriöser Nutzerführung.",
     keywords: [
       "website arztpraxis",
       "webdesign gesundheit",
@@ -126,14 +126,14 @@ export const industryPages: IndustryPage[] = [
       "website praxis",
       "seo arztpraxis",
     ],
-    serviceName: "Webdesign fuer Gesundheit und Praxen",
+    serviceName: "Webdesign für Gesundheit und Praxen",
   },
   {
     slug: "bildung-coaching",
     path: "/branchen/bildung-coaching",
-    title: "Webdesign fuer Bildung und Coaching | Liminalo",
+    title: "Webdesign für Bildung und Coaching | Liminalo",
     description:
-      "Websites fuer Coaches, Akademien und Bildungsangebote mit Kursen, Buchungen, Referenzen und klarer Positionierung fuer neue Kunden.",
+      "Websites für Coaches, Akademien und Bildungsangebote mit Kursen, Buchungen, Referenzen und klarer Positionierung für neue Kunden.",
     keywords: [
       "website coach",
       "webdesign bildung",
@@ -141,14 +141,14 @@ export const industryPages: IndustryPage[] = [
       "website coaching",
       "seo coach",
     ],
-    serviceName: "Webdesign fuer Bildung und Coaching",
+    serviceName: "Webdesign für Bildung und Coaching",
   },
   {
     slug: "automobil-service",
     path: "/branchen/automobil-service",
-    title: "Webdesign fuer Automobil und Service | Liminalo",
+    title: "Webdesign für Automobil und Service | Liminalo",
     description:
-      "Websites fuer Autohandel, Werkstaetten und Servicebetriebe mit Fahrzeug-Showcase, Terminanfragen und lokaler Sichtbarkeit.",
+      "Websites für Autohandel, Werkstätten und Servicebetriebe mit Fahrzeug-Showcase, Terminanfragen und lokaler Sichtbarkeit.",
     keywords: [
       "website autohaus",
       "webdesign werkstatt",
@@ -156,22 +156,22 @@ export const industryPages: IndustryPage[] = [
       "website kfz betrieb",
       "seo werkstatt",
     ],
-    serviceName: "Webdesign fuer Automobil und Service",
+    serviceName: "Webdesign für Automobil und Service",
   },
   {
     slug: "kreative-kuenstler",
     path: "/branchen/kreative-kuenstler",
-    title: "Webdesign fuer Kreative und Kuenstler | Liminalo",
+    title: "Webdesign für Kreative und Künstler | Liminalo",
     description:
-      "Portfolio-Websites fuer Kreative, Fotografen und Kuenstler mit starker Bildsprache, Anfragen und klarer Positionierung.",
+      "Portfolio-Websites für Kreative, Fotografen und Künstler mit starker Bildsprache, Anfragen und klarer Positionierung.",
     keywords: [
-      "portfolio website kuenstler",
+      "portfolio website künstler",
       "webdesign kreative",
       "website fotograf",
       "homepage designer",
       "portfolio erstellen lassen",
     ],
-    serviceName: "Webdesign fuer Kreative und Kuenstler",
+    serviceName: "Webdesign für Kreative und Künstler",
   },
 ];
 

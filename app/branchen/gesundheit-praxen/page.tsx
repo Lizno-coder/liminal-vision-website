@@ -50,8 +50,8 @@ export default function GesundheitPage() {
                 Ärzte, Therapeuten und Wellness-Experten: Präsentieren Sie Ihre Qualifikationen, 
                 Behandlungen und Terminoptionen vertrauensvoll und professionell.
               </p>
-              <Link href="/kontakt" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ef4444] to-[#f87171] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#ef4444]/25 hover:shadow-[#ef4444]/40 transition-all hover:scale-[1.02]">
-                Kostenlose Beratung <ArrowRight className="w-5 h-5" />
+              <Link href="/kontakt?websiteType=medical" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ef4444] to-[#f87171] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#ef4444]/25 hover:shadow-[#ef4444]/40 transition-all hover:scale-[1.02]">
+                Kontakt <ArrowRight className="w-5 h-5" />
               </Link>
             </motion.div>
             
@@ -179,8 +179,8 @@ export default function GesundheitPage() {
             <p className="text-white/60 mb-8 max-w-xl mx-auto">
               Lassen Sie uns besprechen, wie wir Ihre Praxis oder Ihr Wellness-Center online erfolgreich machen.
             </p>
-            <Link href="/kontakt" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ef4444] to-[#f87171] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#ef4444]/25 hover:shadow-[#ef4444]/40 transition-all hover:scale-[1.02]">
-              Jetzt Beratungstermin vereinbaren <ArrowRight className="w-5 h-5" />
+            <Link href="/kontakt?websiteType=medical" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ef4444] to-[#f87171] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#ef4444]/25 hover:shadow-[#ef4444]/40 transition-all hover:scale-[1.02]">
+              Kontakt aufnehmen <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
         </div>

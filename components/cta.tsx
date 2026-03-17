@@ -58,7 +58,7 @@ export function CTA() {
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Link href="/kontakt" className="btn btn-primary text-base py-4 px-8 glow">
-              Demo anfordern
+              Kontakt
               <ArrowRight size={18} />
             </Link>
             <Link href="mailto:business@liminalo.com" className="btn btn-secondary text-base py-4 px-8">

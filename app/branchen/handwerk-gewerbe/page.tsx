@@ -51,8 +51,8 @@ export default function HandwerkPage() {
                 Ihre Website arbeitet für Sie, auch außerhalb der Geschäftszeiten.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/kontakt" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#8b5cf6] to-[#a78bfa] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#8b5cf6]/25 hover:shadow-[#8b5cf6]/40 transition-all hover:scale-[1.02]">
-                  Kostenlose Beratung <ArrowRight className="w-5 h-5" />
+                <Link href="/kontakt?websiteType=construction" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#8b5cf6] to-[#a78bfa] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#8b5cf6]/25 hover:shadow-[#8b5cf6]/40 transition-all hover:scale-[1.02]">
+                  Kontakt <ArrowRight className="w-5 h-5" />
                 </Link>
               </div>
             </motion.div>
@@ -181,8 +181,8 @@ export default function HandwerkPage() {
             <p className="text-white/60 mb-8 max-w-xl mx-auto">
               Lassen Sie uns besprechen, wie wir Ihren Handwerksbetrieb online erfolgreich machen.
             </p>
-            <Link href="/kontakt" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#8b5cf6] to-[#a78bfa] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#8b5cf6]/25 hover:shadow-[#8b5cf6]/40 transition-all hover:scale-[1.02]">
-              Jetzt Beratungstermin vereinbaren <ArrowRight className="w-5 h-5" />
+            <Link href="/kontakt?websiteType=construction" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#8b5cf6] to-[#a78bfa] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#8b5cf6]/25 hover:shadow-[#8b5cf6]/40 transition-all hover:scale-[1.02]">
+              Kontakt aufnehmen <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
         </div>

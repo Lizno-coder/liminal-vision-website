@@ -133,7 +133,7 @@ export default function Hero(): JSX.Element {
             <div className="mt-6 flex flex-wrap gap-4">
               <a href="/kontakt">
                 <LiquidButton variant="primary" size="xxl" className="group">
-                  Demo anfordern
+                  Kontakt
                   <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </LiquidButton>
               </a>

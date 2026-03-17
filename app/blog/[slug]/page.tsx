@@ -196,12 +196,12 @@ export default function ArticlePage({ params }: Props) {
           <div className="article-content">{contentElements}</div>
 
           <div className="mt-12 rounded-2xl border border-white/10 bg-gradient-to-br from-[#2997ff]/10 via-transparent to-[#5856d6]/10 p-6 sm:p-8">
-            <h3 className="mb-3 text-xl font-semibold text-white">Bereit fuer Ihre eigene Website?</h3>
+            <h3 className="mb-3 text-xl font-semibold text-white">Bereit für Ihre eigene Website?</h3>
             <p className="mb-6 text-sm text-white/60 sm:text-base">
-              Lassen Sie uns in einem kostenlosen Gespraech besprechen, wie wir Ihnen helfen koennen.
+              Lassen Sie uns besprechen, wie wir Ihnen mit einer klaren Website weiterhelfen können.
             </p>
             <Link href="/kontakt" className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#2997ff] to-[#5856d6] px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#2997ff]/25">
-              Kostenlose Demo anfordern
+              Kontakt
             </Link>
           </div>
         </div>
