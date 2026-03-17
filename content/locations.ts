@@ -2,8 +2,8 @@ export type LocationPage = {
   slug: string;
   city: string;
   state: string;
-  nearby: string[];
-  focusIndustries: string[];
+  nearby: readonly string[];
+  focusIndustries: readonly string[];
   path: string;
 };
 
