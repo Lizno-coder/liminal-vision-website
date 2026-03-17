@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import {
@@ -107,7 +107,7 @@ function Textarea({
   );
 }
 
-export default function KontaktPage() {
+function KontaktPageContent() {
   const searchParams = useSearchParams();
   const preselectedWebsiteType = useMemo(() => {
     const value = searchParams.get("websiteType");
@@ -461,5 +461,13 @@ export default function KontaktPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function KontaktPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-transparent" />}>
+      <KontaktPageContent />
+    </Suspense>
   );
 }
