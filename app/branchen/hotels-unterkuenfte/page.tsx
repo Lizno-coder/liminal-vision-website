@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Check, Star, TrendingUp, Bed, Calendar, MapPin, CreditCard } from "lucide-react";
+import GridBackground from "@/components/grid-background";
 
 const features = [
   { icon: Bed, title: "Zimmer-Übersicht", desc: "Mit Fotos & Ausstattung" },
@@ -29,7 +30,7 @@ const stats = [
 export default function HotelsPage() {
   return (
     <div className="min-h-screen bg-[#08090d] text-white overflow-x-hidden">
-      <div className="fixed inset-0 bg-[linear-gradient(rgba(236,72,153,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(236,72,153,0.03)_1px,transparent_1px)] bg-[size:80px_80px] pointer-events-none" />
+      <GridBackground color="#ec4899" />
       
       <section className="relative px-4 pt-24 pb-16 sm:pt-32 sm:pb-20">
         <div className="mx-auto max-w-6xl">

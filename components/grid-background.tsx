@@ -13,8 +13,22 @@ type Point = {
 
 const SPACING = 60;
 
-export default function GridBackground(): JSX.Element {
+interface GridBackgroundProps {
+  color?: string; // hex color like "#2997ff"
+}
+
+export default function GridBackground({ color = "#2997ff" }: GridBackgroundProps): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  
+  // Convert hex to rgb
+  const hexToRgb = (hex: string) => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : { r: 41, g: 151, b: 255 }; // default blue
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -23,6 +37,8 @@ export default function GridBackground(): JSX.Element {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const rgb = hexToRgb(color);
+    
     let animationFrame = 0;
     let dpr = Math.max(1, window.devicePixelRatio || 1);
     let width = 0;
@@ -122,7 +138,7 @@ export default function GridBackground(): JSX.Element {
           if (dist > lineDistance) continue;
 
           const alpha = Math.max(0, 1 - dist / lineDistance) * 0.22;
-          ctx.strokeStyle = `rgba(41, 151, 255, ${alpha})`;
+          ctx.strokeStyle = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
@@ -142,7 +158,7 @@ export default function GridBackground(): JSX.Element {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(41, 151, 255, ${0.2 + glow * 0.65})`;
+        ctx.fillStyle = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${0.2 + glow * 0.65})`;
         ctx.fill();
       }
     };
@@ -166,7 +182,7 @@ export default function GridBackground(): JSX.Element {
       window.removeEventListener("mousemove", handlePointerMove);
       document.body.removeEventListener("mouseleave", handlePointerLeave);
     };
-  }, []);
+  }, [color]);
 
   return (
     <canvas

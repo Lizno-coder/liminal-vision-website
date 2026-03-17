@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Check, Star, TrendingUp, Car, Wrench, Calendar, CreditCard } from "lucide-react";
+import GridBackground from "@/components/grid-background";
 
 const features = [
   { icon: Car, title: "Fahrzeug-Showcase", desc: "Bestand mit Bildern & Details" },
@@ -29,7 +30,7 @@ const stats = [
 export default function AutomobilPage() {
   return (
     <div className="min-h-screen bg-[#08090d] text-white overflow-x-hidden">
-      <div className="fixed inset-0 bg-[linear-gradient(rgba(99,102,241,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.03)_1px,transparent_1px)] bg-[size:80px_80px] pointer-events-none" />
+      <GridBackground color="#6366f1" />
       
       <section className="relative px-4 pt-24 pb-16 sm:pt-32 sm:pb-20">
         <div className="mx-auto max-w-6xl">

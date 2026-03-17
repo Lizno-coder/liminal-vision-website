@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Check, Star, TrendingUp, GraduationCap, Calendar, BookOpen, Trophy } from "lucide-react";
+import GridBackground from "@/components/grid-background";
 
 const features = [
   { icon: Calendar, title: "Kurskalender", desc: "Alle Termine übersichtlich" },
@@ -29,7 +30,7 @@ const stats = [
 export default function BildungPage() {
   return (
     <div className="min-h-screen bg-[#08090d] text-white overflow-x-hidden">
-      <div className="fixed inset-0 bg-[linear-gradient(rgba(249,115,22,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(249,115,22,0.03)_1px,transparent_1px)] bg-[size:80px_80px] pointer-events-none" />
+      <GridBackground color="#f97316" />
       
       <section className="relative px-4 pt-24 pb-16 sm:pt-32 sm:pb-20">
         <div className="mx-auto max-w-6xl">
