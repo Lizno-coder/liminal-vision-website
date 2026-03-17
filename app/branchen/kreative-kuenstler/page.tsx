@@ -29,7 +29,7 @@ const stats = [
 
 export default function KreativePage() {
   return (
-    <div className="min-h-screen bg-[#08090d] text-white overflow-x-hidden">
+    <div className="min-h-screen bg-black text-white overflow-x-hidden">
       <GridBackground color="#a855f7" />
       
       <section className="relative px-4 pt-24 pb-16 sm:pt-32 sm:pb-20">
@@ -59,7 +59,7 @@ export default function KreativePage() {
             
             <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="relative">
               <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-br from-[#a855f7]/10 to-transparent p-2">
-                <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-[#1a1a2e] to-[#0a0a0f] flex items-center justify-center">
+                <div className="aspect-[4/3] rounded-2xl bg-transparent flex items-center justify-center">
                   <div className="text-center">
                     <div className="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-[#a855f7]/20 mb-4">
                       <Palette className="w-12 h-12 text-[#a855f7]" />
@@ -68,7 +68,7 @@ export default function KreativePage() {
                   </div>
                 </div>
               </div>
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="absolute -bottom-6 -left-6 bg-[#0d0d0f] border border-white/10 rounded-2xl p-4 shadow-xl">
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="absolute -bottom-6 -left-6 bg-transparent border border-white/10 rounded-2xl p-4 shadow-xl">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-[#a855f7]/20 flex items-center justify-center">
                     <TrendingUp className="w-5 h-5 text-[#a855f7]" />
@@ -142,7 +142,7 @@ export default function KreativePage() {
             </motion.div>
             
             <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative">
-              <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-transparent p-8">
+              <div className="rounded-3xl border border-white/10 bg-transparent p-8">
                 <div className="flex items-center gap-4 mb-6">
                   <div className="flex -space-x-2">
                     {[1,2,3].map((i) => (
