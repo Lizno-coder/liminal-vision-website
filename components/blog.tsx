@@ -4,11 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-const posts = [
-  { title: "Warum eine Website wichtig ist", slug: "warum-jede-kleine-firma-website-braucht" },
-  { title: "Website vs. Instagram", slug: "website-vs-instagram" },
-  { title: "5 Fehler vermeiden", slug: "5-groesste-fehler-website-erstellung" },
-];
+import { blogArticles } from "@/content/blog-articles";
 
 export default function Blog() {
   return (
@@ -25,7 +21,7 @@ export default function Blog() {
         </div>
 
         <div className="grid gap-3 sm:grid-cols-3">
-          {posts.map((post, i) => (
+          {blogArticles.slice(0, 3).map((post, i) => (
             <motion.div
               key={post.slug}
               initial={{ opacity: 0, y: 20 }}
