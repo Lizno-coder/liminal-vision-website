@@ -11,6 +11,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1009.0",
     "@paper-design/shaders-react": "^0.0.71",
+    "@phosphor-icons/react": "^2.1.10",
     "@radix-ui/react-slot": "^1.2.4",
     "@react-three/drei": "^9.121.4",
     "@react-three/fiber": "^8.17.10",

@@ -78,69 +78,61 @@
   }
 }
 
-/* Text Color Gradient Animations - Fixed Timing */
-@keyframes gradient-foreground-1 {
-  0%, 100% { opacity: 1; }
-  33% { opacity: 0.2; }
-  66% { opacity: 0.2; }
+/* Text Color Gradient Animations - Sequential: Kontakt (0-33%) → Deal (33-66%) → Launch (66-100%) */
+@keyframes gradient-kontakt {
+  0%, 33% { opacity: 1; }
+  34%, 100% { opacity: 0.2; }
 }
 
-@keyframes gradient-foreground-2 {
-  0%, 100% { opacity: 0.2; }
-  33% { opacity: 1; }
-  66% { opacity: 0.2; }
+@keyframes gradient-deal {
+  0%, 33% { opacity: 0.2; }
+  34%, 66% { opacity: 1; }
+  67%, 100% { opacity: 0.2; }
 }
 
-@keyframes gradient-foreground-3 {
-  0%, 100% { opacity: 0.2; }
-  33% { opacity: 0.2; }
-  66% { opacity: 1; }
+@keyframes gradient-launch {
+  0%, 66% { opacity: 0.2; }
+  67%, 100% { opacity: 1; }
 }
 
-@keyframes gradient-background-1 {
-  0%, 100% { opacity: 0.4; }
-  33% { opacity: 0; }
-  66% { opacity: 0; }
+@keyframes gradient-kontakt-bg {
+  0%, 33% { opacity: 0.4; }
+  34%, 100% { opacity: 0; }
 }
 
-@keyframes gradient-background-2 {
-  0%, 100% { opacity: 0; }
-  33% { opacity: 0.4; }
-  66% { opacity: 0; }
+@keyframes gradient-deal-bg {
+  0%, 33% { opacity: 0; }
+  34%, 66% { opacity: 0.4; }
+  67%, 100% { opacity: 0; }
 }
 
-@keyframes gradient-background-3 {
-  0%, 100% { opacity: 0; }
-  33% { opacity: 0; }
-  66% { opacity: 0.4; }
+@keyframes gradient-launch-bg {
+  0%, 66% { opacity: 0; }
+  67%, 100% { opacity: 0.4; }
 }
 
-.animate-gradient-foreground-1 {
-  animation: gradient-foreground-1 4.5s ease-in-out infinite;
+.animate-gradient-kontakt {
+  animation: gradient-kontakt 6s ease-in-out infinite;
 }
 
-.animate-gradient-foreground-2 {
-  animation: gradient-foreground-2 4.5s ease-in-out infinite;
-  animation-delay: 1.5s;
+.animate-gradient-deal {
+  animation: gradient-deal 6s ease-in-out infinite;
 }
 
-.animate-gradient-foreground-3 {
-  animation: gradient-foreground-3 4.5s ease-in-out infinite;
-  animation-delay: 3s;
+.animate-gradient-launch {
+  animation: gradient-launch 6s ease-in-out infinite;
 }
 
-.animate-gradient-background-1 {
-  animation: gradient-background-1 4.5s ease-in-out infinite;
+.animate-gradient-kontakt-bg {
+  animation: gradient-kontakt-bg 6s ease-in-out infinite;
 }
 
-.animate-gradient-background-2 {
-  animation: gradient-background-2 4.5s ease-in-out infinite;
-  animation-delay: 1.5s;
+.animate-gradient-deal-bg {
+  animation: gradient-deal-bg 6s ease-in-out infinite;
 }
 
-.animate-gradient-background-3 {
-  animation: gradient-background-3 4.5s ease-in-out infinite;
-  animation-delay: 3s;
+.animate-gradient-launch-bg {
+  animation: gradient-launch-bg 6s ease-in-out infinite;
 }
 
 /* Flow Gradient Background */

@@ -18,7 +18,7 @@ export default function Services() {
           className="mb-10 text-center sm:mb-12"
         >
           <span className="mb-4 inline-block rounded-full border border-[#2997ff]/30 bg-[#2997ff]/10 px-4 py-1.5 text-sm text-[#2997ff]">
-            Anwendungsbereiche
+            Branchen
           </span>
           <h2 className="text-3xl font-semibold tracking-[-0.03em] text-white md:text-4xl lg:text-5xl">
             Für viele Branchen.{" "}
@@ -61,10 +61,10 @@ export default function Services() {
           className="mt-8 flex justify-center sm:mt-10"
         >
           <Link
-            href="/portfolio"
+            href="/branchen"
             className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-white transition-all hover:border-white/20 hover:bg-white/10"
           >
-            Alle Anwendungsbereiche ansehen
+            Weitere Branchen
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </motion.div>

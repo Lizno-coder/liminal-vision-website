@@ -6,7 +6,7 @@ import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motio
 
 const navLinks = [
   { name: "Home", href: "/" },
-  { name: "Anwendungsbereiche", href: "/portfolio" },
+  { name: "Branchen", href: "/branchen" },
   { name: "Ablauf", href: "/#process" },
   { name: "Preise", href: "/#pricing" },
   { name: "Kontakt", href: "/kontakt" },
@@ -83,13 +83,17 @@ export default function Header() {
         }`}
       >
         <div className="flex h-16 items-center justify-between px-4 sm:px-6">
+          {/* Logo - hidden on mobile, visible on md+ */}
           <Link 
             href="/" 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="group flex cursor-pointer items-center gap-1"
+            className="group hidden cursor-pointer items-center gap-1 md:flex"
           >
             <BrandLockup />
           </Link>
+
+          {/* Spacer for mobile to push menu to right */}
+          <div className="md:hidden" />
 
           <nav className="hidden items-center gap-8 md:flex">
             {navLinks.map((link) => (
@@ -112,6 +116,7 @@ export default function Header() {
             </Link>
           </div>
 
+          {/* Mobile: Only menu button */}
           <button
             type="button"
             aria-label="Toggle menu"
