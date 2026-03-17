@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Check, Star, TrendingUp, Store, ShoppingBag, MapPin, Tag, CreditCard } from "lucide-react";
+import IndustrySeoLinks from "@/components/industry-seo-links";
 
 const features = [
   { icon: ShoppingBag, title: "Produkt-Showcase", desc: "Ihre Artikel professionell präsentieren" },
@@ -170,6 +171,8 @@ export default function EinzelhandelPage() {
           </div>
         </div>
       </section>
+
+      <IndustrySeoLinks currentSlug="einzelhandel" accentColor="#3b82f6" />
 
       <section className="relative px-4 py-24">
         <div className="mx-auto max-w-4xl text-center">

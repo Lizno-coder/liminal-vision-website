@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Check, Star, TrendingUp, Brush, Camera, Palette, Mail } from "lucide-react";
+import IndustrySeoLinks from "@/components/industry-seo-links";
 
 const features = [
   { icon: Camera, title: "Portfolio-Showcase", desc: "Ihre Arbeiten in Bestform" },
@@ -168,6 +169,8 @@ export default function KreativePage() {
           </div>
         </div>
       </section>
+
+      <IndustrySeoLinks currentSlug="kreative-kuenstler" accentColor="#a855f7" />
 
       <section className="relative px-4 py-24">
         <div className="mx-auto max-w-4xl text-center">

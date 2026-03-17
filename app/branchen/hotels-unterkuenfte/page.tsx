@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Check, Star, TrendingUp, Bed, Calendar, MapPin, CreditCard } from "lucide-react";
+import IndustrySeoLinks from "@/components/industry-seo-links";
 
 const features = [
   { icon: Bed, title: "Zimmer-Übersicht", desc: "Mit Fotos & Ausstattung" },
@@ -168,6 +169,8 @@ export default function HotelsPage() {
           </div>
         </div>
       </section>
+
+      <IndustrySeoLinks currentSlug="hotels-unterkuenfte" accentColor="#ec4899" />
 
       <section className="relative px-4 py-24">
         <div className="mx-auto max-w-4xl text-center">

@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Check, Star, TrendingUp, Hammer, Shield, Clock, Wrench } from "lucide-react";
+import IndustrySeoLinks from "@/components/industry-seo-links";
 
 const features = [
   { icon: Wrench, title: "Leistungsübersicht", desc: "Alle Services übersichtlich dargestellt" },
@@ -170,6 +171,8 @@ export default function HandwerkPage() {
           </div>
         </div>
       </section>
+
+      <IndustrySeoLinks currentSlug="handwerk-gewerbe" accentColor="#8b5cf6" />
 
       <section className="relative px-4 py-24">
         <div className="mx-auto max-w-4xl text-center">

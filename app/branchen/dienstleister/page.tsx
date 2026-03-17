@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Check, Star, TrendingUp, Building2, Briefcase, FileText, Users, Award } from "lucide-react";
+import IndustrySeoLinks from "@/components/industry-seo-links";
 
 const features = [
   { icon: Briefcase, title: "Service-Übersicht", desc: "Alle Leistungen klar strukturiert" },
@@ -168,6 +169,8 @@ export default function DienstleisterPage() {
           </div>
         </div>
       </section>
+
+      <IndustrySeoLinks currentSlug="dienstleister" accentColor="#06b6d4" />
 
       <section className="relative px-4 py-24">
         <div className="mx-auto max-w-4xl text-center">

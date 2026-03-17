@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Check, Star, TrendingUp, Users, Clock } from "lucide-react";
 import { Coffee, Utensils, Calendar, MapPin, Phone } from "lucide-react";
+import IndustrySeoLinks from "@/components/industry-seo-links";
 
 
 const features = [
@@ -180,6 +181,8 @@ export default function CafeRestaurantPage() {
           </div>
         </div>
       </section>
+
+      <IndustrySeoLinks currentSlug="cafes-restaurants" accentColor="#f59e0b" />
 
       {/* CTA Section */}
       <section className="relative px-4 py-24">

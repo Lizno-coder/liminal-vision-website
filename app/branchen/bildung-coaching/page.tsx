@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Check, Star, TrendingUp, GraduationCap, Calendar, BookOpen, Trophy } from "lucide-react";
+import IndustrySeoLinks from "@/components/industry-seo-links";
 
 const features = [
   { icon: Calendar, title: "Kurskalender", desc: "Alle Termine übersichtlich" },
@@ -168,6 +169,8 @@ export default function BildungPage() {
           </div>
         </div>
       </section>
+
+      <IndustrySeoLinks currentSlug="bildung-coaching" accentColor="#f97316" />
 
       <section className="relative px-4 py-24">
         <div className="mx-auto max-w-4xl text-center">

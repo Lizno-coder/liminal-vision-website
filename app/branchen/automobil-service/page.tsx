@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Check, Star, TrendingUp, Car, Wrench, Calendar, CreditCard } from "lucide-react";
+import IndustrySeoLinks from "@/components/industry-seo-links";
 
 const features = [
   { icon: Car, title: "Fahrzeug-Showcase", desc: "Bestand mit Bildern & Details" },
@@ -168,6 +169,8 @@ export default function AutomobilPage() {
           </div>
         </div>
       </section>
+
+      <IndustrySeoLinks currentSlug="automobil-service" accentColor="#6366f1" />
 
       <section className="relative px-4 py-24">
         <div className="mx-auto max-w-4xl text-center">

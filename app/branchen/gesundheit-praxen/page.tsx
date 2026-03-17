@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Check, Star, TrendingUp, Stethoscope, Calendar, Shield, HeartPulse } from "lucide-react";
+import IndustrySeoLinks from "@/components/industry-seo-links";
 
 const features = [
   { icon: Calendar, title: "Online-Termine", desc: "Einfach & schnell buchen" },
@@ -168,6 +169,8 @@ export default function GesundheitPage() {
           </div>
         </div>
       </section>
+
+      <IndustrySeoLinks currentSlug="gesundheit-praxen" accentColor="#ef4444" />
 
       <section className="relative px-4 py-24">
         <div className="mx-auto max-w-4xl text-center">

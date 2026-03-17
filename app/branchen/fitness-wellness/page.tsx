@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Check, Star, TrendingUp, Dumbbell, Calendar, Users, Clock } from "lucide-react";
+import IndustrySeoLinks from "@/components/industry-seo-links";
 
 const features = [
   { icon: Calendar, title: "Kursplan", desc: "Aktuelle Kurse & Zeiten" },
@@ -168,6 +169,8 @@ export default function FitnessPage() {
           </div>
         </div>
       </section>
+
+      <IndustrySeoLinks currentSlug="fitness-wellness" accentColor="#10b981" />
 
       <section className="relative px-4 py-24">
         <div className="mx-auto max-w-4xl text-center">
