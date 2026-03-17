@@ -4,7 +4,6 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Check, Star, TrendingUp, Stethoscope, Calendar, Shield, HeartPulse } from "lucide-react";
-import GridBackground from "@/components/grid-background";
 
 const features = [
   { icon: Calendar, title: "Online-Termine", desc: "Einfach & schnell buchen" },
@@ -29,9 +28,7 @@ const stats = [
 
 export default function GesundheitPage() {
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
-      <GridBackground color="#ef4444" />
-      
+    <div className="min-h-screen text-white overflow-x-hidden">
       <section className="relative px-4 pt-24 pb-16 sm:pt-32 sm:pb-20">
         <div className="mx-auto max-w-6xl">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -124,7 +121,6 @@ export default function GesundheitPage() {
       </section>
 
       <section className="relative px-4 py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(239,68,68,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(239,68,68,0.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
         <div className="relative mx-auto max-w-6xl">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>

@@ -32,9 +32,7 @@ export default function IndustriesPage() {
   const [selectedIndustry, setSelectedIndustry] = useState<typeof industries[0] | null>(null);
 
   return (
-    <div className="min-h-screen bg-[#08090d] text-white overflow-x-hidden">
-      <div className="fixed inset-0 bg-[linear-gradient(rgba(41,151,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(41,151,255,0.03)_1px,transparent_1px)] bg-[size:80px_80px] pointer-events-none" />
-      
+    <div className="min-h-screen text-white overflow-x-hidden">
       <section className="relative px-4 pt-24 pb-16 sm:pt-32 sm:pb-20">
         <div className="mx-auto max-w-5xl text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
@@ -119,7 +117,6 @@ export default function IndustriesPage() {
       </section>
 
       <section className="relative px-4 py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(41,151,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(41,151,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
         <div className="relative mx-auto max-w-6xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
             <span className="inline-block mb-4 text-xs font-medium uppercase tracking-[0.2em] text-[#2997ff]">Unser Prozess</span>
