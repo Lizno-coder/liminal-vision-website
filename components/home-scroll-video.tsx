@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const FALLBACK_DURATION = 6;
+const FALLBACK_SECTION_HEIGHT = "280vh";
 
 export default function HomeScrollVideo() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -10,7 +11,7 @@ export default function HomeScrollVideo() {
   const frameRef = useRef<number | null>(null);
 
   const [videoDuration, setVideoDuration] = useState(FALLBACK_DURATION);
-  const [sectionHeight, setSectionHeight] = useState("400vh");
+  const [sectionHeight, setSectionHeight] = useState(FALLBACK_SECTION_HEIGHT);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -42,7 +43,7 @@ export default function HomeScrollVideo() {
   useEffect(() => {
     const updateSectionHeight = () => {
       const viewportHeight = window.innerHeight;
-      const scrollDistance = Math.max(viewportHeight * 3.2, videoDuration * 420);
+      const scrollDistance = Math.max(viewportHeight * 1.85, videoDuration * 180);
       setSectionHeight(`${Math.round(scrollDistance + viewportHeight)}px`);
     };
 
@@ -106,16 +107,15 @@ export default function HomeScrollVideo() {
       className="relative w-full bg-black"
       style={{ height: sectionHeight }}
     >
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden bg-black px-4 sm:px-6 md:px-10">
         <video
           ref={videoRef}
-          className="h-full w-full object-cover"
+          className="h-auto max-h-[72vh] w-full max-w-[1040px] object-contain"
           src="/home-page-video.mp4"
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
         />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/15 via-transparent to-black/35" />
       </div>
     </section>
   );
