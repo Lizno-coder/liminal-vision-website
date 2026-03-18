@@ -6,9 +6,9 @@ const FALLBACK_DURATION = 6;
 const HEADER_OFFSET = 96;
 const SCRUB_DISTANCE_PER_SECOND = 360;
 const MIN_SCRUB_DISTANCE = 1600;
-const ACTIVATION_PADDING = 180;
+const ACTIVATION_PADDING = 160;
 const END_FRAME_OFFSET = 0.016;
-const TOUCH_MULTIPLIER = 1.1;
+const TOUCH_MULTIPLIER = 1.08;
 const KEY_DELTA = 140;
 const PAGE_DELTA = 420;
 
@@ -17,19 +17,10 @@ const clamp = (value: number, min: number, max: number) =>
 
 type ScrollMetrics = {
   lockTop: number;
-  releaseTop: number;
 };
 
-type PageLockStyles = {
-  bodyOverflow: string;
-  bodyPosition: string;
-  bodyTop: string;
-  bodyLeft: string;
-  bodyRight: string;
-  bodyWidth: string;
-  bodyPaddingRight: string;
-  bodyTouchAction: string;
-  htmlOverflow: string;
+type OverscrollStyles = {
+  bodyOverscrollBehavior: string;
   htmlOverscrollBehavior: string;
 };
 
@@ -41,8 +32,9 @@ export default function HomeScrollVideo() {
   const durationRef = useRef(FALLBACK_DURATION);
   const scrubDistanceRef = useRef(MIN_SCRUB_DISTANCE);
   const touchStartYRef = useRef<number | null>(null);
-  const pageLockTopRef = useRef<number | null>(null);
-  const pageLockStylesRef = useRef<PageLockStyles | null>(null);
+  const activeRef = useRef(false);
+  const lockedTopRef = useRef<number | null>(null);
+  const overscrollStylesRef = useRef<OverscrollStyles | null>(null);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -86,87 +78,51 @@ export default function HomeScrollVideo() {
 
       const rect = section.getBoundingClientRect();
       const absoluteTop = window.scrollY + rect.top;
-      const lockTop = Math.max(absoluteTop - HEADER_OFFSET, 0);
-      const releaseTop = Math.max(lockTop + section.offsetHeight - HEADER_OFFSET, lockTop);
 
-      return { lockTop, releaseTop };
+      return {
+        lockTop: Math.max(absoluteTop - HEADER_OFFSET, 0),
+      };
     };
 
-    const lockPage = (targetTop: number) => {
-      if (pageLockTopRef.current === targetTop) {
+    const setOverscrollLock = (enabled: boolean) => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      if (enabled) {
+        if (!overscrollStylesRef.current) {
+          overscrollStylesRef.current = {
+            bodyOverscrollBehavior: body.style.overscrollBehavior,
+            htmlOverscrollBehavior: html.style.overscrollBehavior,
+          };
+        }
+
+        body.style.overscrollBehavior = "none";
+        html.style.overscrollBehavior = "none";
         return;
       }
 
-      const body = document.body;
-      const html = document.documentElement;
-
-      pageLockStylesRef.current = {
-        bodyOverflow: body.style.overflow,
-        bodyPosition: body.style.position,
-        bodyTop: body.style.top,
-        bodyLeft: body.style.left,
-        bodyRight: body.style.right,
-        bodyWidth: body.style.width,
-        bodyPaddingRight: body.style.paddingRight,
-        bodyTouchAction: body.style.touchAction,
-        htmlOverflow: html.style.overflow,
-        htmlOverscrollBehavior: html.style.overscrollBehavior,
-      };
-
-      const scrollbarWidth = Math.max(window.innerWidth - html.clientWidth, 0);
-
-      window.scrollTo({ top: targetTop, behavior: "auto" });
-
-      body.style.overflow = "hidden";
-      body.style.position = "fixed";
-      body.style.top = `${-targetTop}px`;
-      body.style.left = "0";
-      body.style.right = "0";
-      body.style.width = "100%";
-      body.style.touchAction = "none";
-
-      if (scrollbarWidth > 0) {
-        body.style.paddingRight = `${scrollbarWidth}px`;
+      if (!overscrollStylesRef.current) {
+        body.style.removeProperty("overscroll-behavior");
+        html.style.removeProperty("overscroll-behavior");
+        return;
       }
 
-      html.style.overflow = "hidden";
-      html.style.overscrollBehavior = "none";
-
-      pageLockTopRef.current = targetTop;
+      body.style.overscrollBehavior = overscrollStylesRef.current.bodyOverscrollBehavior;
+      html.style.overscrollBehavior = overscrollStylesRef.current.htmlOverscrollBehavior;
+      overscrollStylesRef.current = null;
     };
 
-    const unlockPage = (targetTop: number) => {
-      const styles = pageLockStylesRef.current;
-      const body = document.body;
-      const html = document.documentElement;
+    const activate = (lockTop: number) => {
+      activeRef.current = true;
+      lockedTopRef.current = lockTop;
+      setOverscrollLock(true);
+      window.scrollTo({ top: lockTop, behavior: "auto" });
+    };
 
-      if (styles) {
-        body.style.overflow = styles.bodyOverflow;
-        body.style.position = styles.bodyPosition;
-        body.style.top = styles.bodyTop;
-        body.style.left = styles.bodyLeft;
-        body.style.right = styles.bodyRight;
-        body.style.width = styles.bodyWidth;
-        body.style.paddingRight = styles.bodyPaddingRight;
-        body.style.touchAction = styles.bodyTouchAction;
-        html.style.overflow = styles.htmlOverflow;
-        html.style.overscrollBehavior = styles.htmlOverscrollBehavior;
-      } else {
-        body.style.removeProperty("overflow");
-        body.style.removeProperty("position");
-        body.style.removeProperty("top");
-        body.style.removeProperty("left");
-        body.style.removeProperty("right");
-        body.style.removeProperty("width");
-        body.style.removeProperty("padding-right");
-        body.style.removeProperty("touch-action");
-        html.style.removeProperty("overflow");
-        html.style.removeProperty("overscroll-behavior");
-      }
-
-      pageLockStylesRef.current = null;
-      pageLockTopRef.current = null;
-      window.scrollTo({ top: targetTop, behavior: "auto" });
+    const deactivate = () => {
+      activeRef.current = false;
+      lockedTopRef.current = null;
+      setOverscrollLock(false);
     };
 
     const setVideoProgress = (nextProgress: number) => {
@@ -199,6 +155,18 @@ export default function HomeScrollVideo() {
       });
     };
 
+    const getEntryDelta = (rawDelta: number, currentScroll: number, lockTop: number) => {
+      if (rawDelta > 0 && currentScroll < lockTop) {
+        return Math.max(rawDelta - (lockTop - currentScroll), 0);
+      }
+
+      if (rawDelta < 0 && currentScroll > lockTop) {
+        return Math.min(rawDelta + (currentScroll - lockTop), 0);
+      }
+
+      return rawDelta;
+    };
+
     const handleScrub = (rawDelta: number) => {
       if (!rawDelta) {
         return false;
@@ -210,55 +178,48 @@ export default function HomeScrollVideo() {
         return false;
       }
 
-      const { lockTop, releaseTop } = metrics;
+      const { lockTop } = metrics;
       const currentScroll = window.scrollY;
-      const direction = Math.sign(rawDelta);
-      const movingDown = direction > 0;
-      const movingUp = direction < 0;
-      const pageIsLocked = pageLockTopRef.current !== null;
-      const approachingFromAbove =
+      const movingDown = rawDelta > 0;
+      const movingUp = rawDelta < 0;
+      const isActive = activeRef.current;
+      const canEnterFromAbove =
         movingDown &&
-        progressRef.current < 1 &&
         currentScroll < lockTop &&
         currentScroll + rawDelta >= lockTop - ACTIVATION_PADDING;
-      const approachingFromBelow =
+      const canEnterFromBelow =
         movingUp &&
-        progressRef.current > 0 &&
-        currentScroll > releaseTop &&
-        currentScroll + rawDelta <= releaseTop + ACTIVATION_PADDING;
-      const sectionRect = sectionRef.current?.getBoundingClientRect();
-      const sectionVisible =
-        !!sectionRect &&
-        sectionRect.top <= HEADER_OFFSET + ACTIVATION_PADDING &&
-        sectionRect.bottom >= window.innerHeight * 0.45;
-      const shouldLock =
-        pageIsLocked || sectionVisible || approachingFromAbove || approachingFromBelow;
+        currentScroll > lockTop &&
+        currentScroll + rawDelta <= lockTop + ACTIVATION_PADDING;
+      const canEnterNearLock =
+        Math.abs(currentScroll - lockTop) <= ACTIVATION_PADDING &&
+        ((movingDown && progressRef.current < 1) || (movingUp && progressRef.current > 0));
 
-      if (!shouldLock) {
+      if (!isActive && !canEnterFromAbove && !canEnterFromBelow && !canEnterNearLock) {
         return false;
       }
 
-      if (!pageIsLocked) {
-        lockPage(lockTop);
+      if (!isActive) {
+        activate(lockTop);
+      } else if (lockedTopRef.current !== lockTop) {
+        lockedTopRef.current = lockTop;
+        window.scrollTo({ top: lockTop, behavior: "auto" });
+      }
+
+      const effectiveDelta = getEntryDelta(rawDelta, currentScroll, lockTop);
+      const isPastEnd = movingDown && progressRef.current >= 1;
+      const isPastStart = movingUp && progressRef.current <= 0;
+
+      if (isPastEnd || isPastStart) {
+        deactivate();
+        return false;
       }
 
       const nextProgress = clamp(
-        progressRef.current + rawDelta / scrubDistanceRef.current,
+        progressRef.current + effectiveDelta / scrubDistanceRef.current,
         0,
         1
       );
-      const videoReachedEnd = movingDown && progressRef.current >= 1;
-      const videoReachedStart = movingUp && progressRef.current <= 0;
-
-      if (videoReachedEnd) {
-        unlockPage(releaseTop + 2);
-        return false;
-      }
-
-      if (videoReachedStart) {
-        unlockPage(Math.max(lockTop - 2, 0));
-        return false;
-      }
 
       setVideoProgress(nextProgress);
 
@@ -310,13 +271,13 @@ export default function HomeScrollVideo() {
       }
     };
 
-    const handleTouchEnd = () => {
+    const resetTouch = () => {
       touchStartYRef.current = null;
     };
 
     const keepLockedPosition = () => {
-      if (pageLockTopRef.current !== null && Math.abs(window.scrollY - pageLockTopRef.current) > 1) {
-        window.scrollTo({ top: pageLockTopRef.current, behavior: "auto" });
+      if (activeRef.current && lockedTopRef.current !== null && Math.abs(window.scrollY - lockedTopRef.current) > 1) {
+        window.scrollTo({ top: lockedTopRef.current, behavior: "auto" });
       }
     };
 
@@ -324,8 +285,8 @@ export default function HomeScrollVideo() {
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("touchstart", handleTouchStart, { passive: true });
     window.addEventListener("touchmove", handleTouchMove, { passive: false });
-    window.addEventListener("touchend", handleTouchEnd);
-    window.addEventListener("touchcancel", handleTouchEnd);
+    window.addEventListener("touchend", resetTouch);
+    window.addEventListener("touchcancel", resetTouch);
     window.addEventListener("scroll", keepLockedPosition, { passive: true });
 
     return () => {
@@ -333,17 +294,14 @@ export default function HomeScrollVideo() {
         cancelAnimationFrame(frameRef.current);
       }
 
+      deactivate();
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleTouchEnd);
-      window.removeEventListener("touchcancel", handleTouchEnd);
+      window.removeEventListener("touchend", resetTouch);
+      window.removeEventListener("touchcancel", resetTouch);
       window.removeEventListener("scroll", keepLockedPosition);
-
-      if (pageLockTopRef.current !== null) {
-        unlockPage(pageLockTopRef.current);
-      }
     };
   }, []);
 
