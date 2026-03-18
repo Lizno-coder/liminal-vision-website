@@ -4,6 +4,7 @@ import Blog from "@/components/blog";
 import Contact from "@/components/contact";
 import FAQ from "@/components/faq";
 import Hero from "@/components/hero";
+import HomeScrollVideo from "@/components/home-scroll-video";
 import LogoCloudSection from "@/components/logo-cloud-section";
 import Pricing from "@/components/pricing";
 import Process from "@/components/process";
@@ -53,6 +54,7 @@ export default function Home() {
       <JsonLd data={createFAQSchema(homeFaqs)} />
 
       <Hero />
+      <HomeScrollVideo />
       <WorkScrollSection />
       <Services />
       <Process />
