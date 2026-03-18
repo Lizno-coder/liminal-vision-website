@@ -1,4 +1,6 @@
 User-Agent: *
 Allow: /
+Disallow: /crm
 
+Host: https://liminalo.com
 Sitemap: https://liminalo.com/sitemap.xml

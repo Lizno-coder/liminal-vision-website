@@ -1,118 +1,118 @@
 "use client";
 
-import { useAnimationFrame } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// Register ScrollTrigger plugin
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const FALLBACK_DURATION = 6;
-const HEADER_OFFSET = 96;
-const MOBILE_PIXELS_PER_SECOND = 220;
-const DESKTOP_PIXELS_PER_SECOND = 280;
-const MIN_SCROLL_VIEWPORTS = 1.2;
 const END_FRAME_OFFSET = 0.016;
 
-const clamp = (value: number, min: number, max: number) =>
-  Math.min(Math.max(value, min), max);
-
 export default function HomeScrollVideo() {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const durationRef = useRef(FALLBACK_DURATION);
-  const currentTimeRef = useRef(0);
-  const [sectionHeight, setSectionHeight] = useState("260dvh");
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoDuration, setVideoDuration] = useState(FALLBACK_DURATION);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
   useEffect(() => {
     const video = videoRef.current;
+    if (!video) return;
 
-    if (!video) {
-      return;
-    }
-
-    const updateLayout = () => {
-      const viewportHeight = window.innerHeight;
-      const stageHeight = Math.max(viewportHeight - HEADER_OFFSET, viewportHeight * 0.72);
-      const pixelsPerSecond =
-        window.innerWidth < 768 ? MOBILE_PIXELS_PER_SECOND : DESKTOP_PIXELS_PER_SECOND;
-      const scrollDistance = Math.max(
-        viewportHeight * MIN_SCROLL_VIEWPORTS,
-        durationRef.current * pixelsPerSecond
-      );
-
-      setSectionHeight(`${Math.round(stageHeight + scrollDistance)}px`);
-    };
-
-    const syncDuration = () => {
-      if (!Number.isFinite(video.duration) || video.duration <= 0) {
-        return;
+    const handleLoadedMetadata = () => {
+      if (video.duration && video.duration > 0) {
+        setVideoDuration(video.duration);
+        video.pause();
+        video.currentTime = 0;
+        setIsLoaded(true);
       }
-
-      durationRef.current = video.duration;
-      video.pause();
-      video.currentTime = 0;
-      currentTimeRef.current = 0;
-      updateLayout();
     };
-
-    updateLayout();
 
     if (video.readyState >= 1) {
-      syncDuration();
+      handleLoadedMetadata();
+    } else {
+      video.addEventListener("loadedmetadata", handleLoadedMetadata);
     }
 
-    video.addEventListener("loadedmetadata", syncDuration);
-    window.addEventListener("resize", updateLayout);
-
     return () => {
-      video.removeEventListener("loadedmetadata", syncDuration);
-      window.removeEventListener("resize", updateLayout);
+      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
     };
   }, []);
 
-  useAnimationFrame((_, delta) => {
-    const section = sectionRef.current;
+  useEffect(() => {
+    if (!isLoaded) return;
+
     const video = videoRef.current;
+    const container = containerRef.current;
+    if (!video || !container) return;
 
-    if (!section || !video) {
-      return;
+    // Kill any existing ScrollTrigger for this component
+    if (scrollTriggerRef.current) {
+      scrollTriggerRef.current.kill();
     }
 
-    const stageHeight = Math.max(window.innerHeight - HEADER_OFFSET, 1);
-    const totalScrollable = Math.max(section.offsetHeight - stageHeight, 1);
-    const distanceIntoSection = HEADER_OFFSET - section.getBoundingClientRect().top;
-    const progress = clamp(distanceIntoSection / totalScrollable, 0, 1);
-    const duration =
-      Number.isFinite(video.duration) && video.duration > 0
-        ? video.duration
-        : durationRef.current;
-    const targetTime =
-      progress >= 1 ? Math.max(duration - END_FRAME_OFFSET, 0) : progress * duration;
-    const easing = 1 - Math.exp(-delta / 42);
-    const nextTime =
-      Math.abs(targetTime - currentTimeRef.current) < 0.004
-        ? targetTime
-        : currentTimeRef.current + (targetTime - currentTimeRef.current) * easing;
+    // Create the scroll-driven video animation with PINNING
+    const tween = gsap.to(video, {
+      currentTime: videoDuration - END_FRAME_OFFSET,
+      ease: "none",
+      scrollTrigger: {
+        trigger: container,
+        start: "top top",
+        end: () => `+=${videoDuration * 250}`, // 250px scroll per second of video
+        scrub: 0.8, // Smooth scrubbing
+        pin: true, // PIN the section during scroll
+        anticipatePin: 1,
+        onUpdate: (self) => {
+          // Optional debug
+        },
+      },
+    });
 
-    currentTimeRef.current = nextTime;
+    scrollTriggerRef.current = tween.scrollTrigger as ScrollTrigger;
 
-    if (Math.abs(video.currentTime - nextTime) > 0.004) {
-      video.currentTime = nextTime;
-    }
-  });
+    return () => {
+      if (scrollTriggerRef.current) {
+        scrollTriggerRef.current.kill();
+      }
+    };
+  }, [isLoaded, videoDuration]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (scrollTriggerRef.current) {
+        scrollTriggerRef.current.kill();
+      }
+      // Clean up any remaining ScrollTriggers from this component
+      ScrollTrigger.getAll().forEach(st => {
+        if (st.trigger === containerRef.current) {
+          st.kill();
+        }
+      });
+    };
+  }, []);
 
   return (
-    <section ref={sectionRef} className="relative bg-black" style={{ height: sectionHeight }}>
-      <div
-        className="sticky flex min-h-[calc(100dvh-6rem)] items-center justify-center bg-black px-4 sm:px-6 md:px-10"
-        style={{ top: HEADER_OFFSET }}
-      >
+    <div 
+      ref={containerRef} 
+      className="relative w-full bg-black"
+      style={{ height: "100vh" }}
+    >
+      <div className="flex h-full w-full items-center justify-center bg-black px-4 sm:px-6 md:px-10">
         <video
           ref={videoRef}
-          className="h-auto max-h-[68dvh] w-full max-w-[980px] bg-black object-contain [transform:translateZ(0)]"
+          className="h-auto max-h-[75vh] w-full max-w-[1000px] bg-black object-contain"
           src="/home-page-video.mp4"
           muted
           playsInline
           preload="auto"
+          style={{ willChange: "transform" }}
         />
       </div>
-    </section>
+    </div>
   );
 }
