@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from "react";
 
 const FALLBACK_DURATION = 6;
 const DESKTOP_BREAKPOINT = 768;
-const SCROLL_PIXELS_PER_SECOND = 320;
+const SCROLL_PIXELS_PER_SECOND = 960;
+const MIN_SCROLL_DISTANCE = 4200;
 const END_FRAME_OFFSET = 0.016;
 
 export default function HomeScrollVideo() {
@@ -83,11 +84,13 @@ export default function HomeScrollVideo() {
       const tween = gsap.to(video, {
         currentTime: videoDuration - END_FRAME_OFFSET,
         ease: "none",
+        lazy: false,
         scrollTrigger: {
           trigger: container,
           start: "top top",
-          end: () => `+=${videoDuration * SCROLL_PIXELS_PER_SECOND}`,
-          scrub: 1.15,
+          end: () =>
+            `+=${Math.max(videoDuration * SCROLL_PIXELS_PER_SECOND, MIN_SCROLL_DISTANCE)}`,
+          scrub: 0.45,
           pin: true,
           anticipatePin: 1.4,
           fastScrollEnd: true,
