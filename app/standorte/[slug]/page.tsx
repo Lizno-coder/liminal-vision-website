@@ -3,11 +3,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { FeaturedLocationPage } from "@/components/featured-location-page";
 import { getIndustryPageBySlug } from "@/content/industry-pages";
-import {
-  getLocationPageBySlug,
-  locationPages,
-} from "@/content/locations";
+import { getLocationPageBySlug, locationPages } from "@/content/locations";
 import {
   JsonLd,
   createBreadcrumbSchema,
@@ -39,6 +37,22 @@ export function generateMetadata({ params }: Props): Metadata {
     });
   }
 
+  if (location.slug === "berlin") {
+    return createPageMetadata({
+      title: "Webdesign in Berlin mit SEO, Design und Launch",
+      description:
+        "Liminalo entwickelt für Unternehmen in Berlin komplette Websites inklusive Business-Analyse, SEO, Texten, Hosting, Domain und Launch.",
+      path: location.path,
+      keywords: [
+        "webdesign berlin",
+        "website erstellen lassen berlin",
+        "seo berlin",
+        "landingpage berlin agentur",
+        "webagentur berlin",
+      ],
+    });
+  }
+
   return createPageMetadata({
     title: `Webdesign in ${location.city} für Unternehmen`,
     description: `Liminalo entwickelt moderne Websites für Unternehmen in ${location.city}, ${location.nearby[0]} und ganz ${location.state}. Schnell, klar und auf Anfragen optimiert.`,
@@ -63,31 +77,49 @@ export default function LocationDetailPage({ params }: Props) {
   const relatedIndustries = location.focusIndustries
     .map((slug) => getIndustryPageBySlug(slug))
     .filter((page): page is NonNullable<typeof page> => Boolean(page));
+
   const siblingLocations = locationPages
     .filter((candidate) => candidate.state === location.state && candidate.slug !== location.slug)
     .slice(0, 3);
 
+  const serviceSchema = createServiceSchema({
+    name: `Webdesign in ${location.city}`,
+    description:
+      location.slug === "berlin"
+        ? `Komplette Websites für Unternehmen in ${location.city} mit Business-Analyse, SEO, Texten, Hosting und Launch.`
+        : `Moderne Websites für Unternehmen in ${location.city}, ${location.nearby[0]} und der Region ${location.state}.`,
+    path: location.path,
+    keywords: [
+      `webdesign ${location.city.toLowerCase()}`,
+      `website ${location.city.toLowerCase()}`,
+      `seo ${location.city.toLowerCase()}`,
+    ],
+  });
+
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: "Startseite", path: "/" },
+    { name: "Standorte", path: "/standorte" },
+    { name: location.city, path: location.path },
+  ]);
+
+  if (location.slug === "berlin") {
+    return (
+      <>
+        <JsonLd data={serviceSchema} />
+        <JsonLd data={breadcrumbSchema} />
+        <FeaturedLocationPage
+          location={location}
+          relatedIndustries={relatedIndustries}
+          siblingLocations={siblingLocations}
+        />
+      </>
+    );
+  }
+
   return (
     <>
-      <JsonLd
-        data={createServiceSchema({
-          name: `Webdesign in ${location.city}`,
-          description: `Moderne Websites für Unternehmen in ${location.city}, ${location.nearby[0]} und der Region ${location.state}.`,
-          path: location.path,
-          keywords: [
-            `webdesign ${location.city.toLowerCase()}`,
-            `website ${location.city.toLowerCase()}`,
-            `seo ${location.city.toLowerCase()}`,
-          ],
-        })}
-      />
-      <JsonLd
-        data={createBreadcrumbSchema([
-          { name: "Startseite", path: "/" },
-          { name: "Standorte", path: "/standorte" },
-          { name: location.city, path: location.path },
-        ])}
-      />
+      <JsonLd data={serviceSchema} />
+      <JsonLd data={breadcrumbSchema} />
 
       <div className="relative px-4 pb-24 pt-6 sm:pt-10">
         <div className="mx-auto max-w-6xl">
@@ -111,8 +143,8 @@ export default function LocationDetailPage({ params }: Props) {
               <p className="mt-5 max-w-2xl text-sm leading-7 text-white/62 sm:text-base">
                 Wir entwickeln moderne Websites für Unternehmen in {location.city},{" "}
                 {location.nearby[0]} und der gesamten Region {location.state}. Die Zusammenarbeit
-                läuft digital, klar strukturiert und mit Fokus auf lokale Sichtbarkeit,
-                mobile Nutzung und direkte Anfragen.
+                läuft digital, klar strukturiert und mit Fokus auf lokale Sichtbarkeit, mobile
+                Nutzung und direkte Anfragen.
               </p>
 
               <div className="mt-8 flex flex-col gap-4 sm:flex-row">
