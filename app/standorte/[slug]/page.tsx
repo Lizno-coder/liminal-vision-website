@@ -2,6 +2,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2, MapPin } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import dynamic from "next/dynamic";
 
 import { getIndustryPageBySlug } from "@/content/industry-pages";
 import {
@@ -14,6 +15,11 @@ import {
   createPageMetadata,
   createServiceSchema,
 } from "@/lib/seo";
+
+// Dynamically import Berlin content for code splitting
+const BerlinContent = dynamic(() => import("./berlin-content"), {
+  ssr: true,
+});
 
 type Props = {
   params: {
@@ -39,6 +45,26 @@ export function generateMetadata({ params }: Props): Metadata {
     });
   }
 
+  // Enhanced metadata for Berlin
+  if (location.slug === "berlin") {
+    return createPageMetadata({
+      title: "Webdesign Berlin | Individuelle Websites von Liminalo",
+      description: "Maßgeschneiderte Websites für Berliner Unternehmen. Keine Templates, keine Kompromisse. Full-Service: Design, Entwicklung, SEO, Rechtstexte, Hosting. Kostenlose Beratung!",
+      path: location.path,
+      keywords: [
+        "webdesign berlin",
+        "website erstellen lassen berlin",
+        "webagentur berlin",
+        "seo berlin",
+        "individuelle website berlin",
+        "next.js entwicklung berlin",
+        "website programmieren berlin",
+        "webdesign brandenburg",
+        "webdesign potsdam",
+      ],
+    });
+  }
+
   return createPageMetadata({
     title: `Webdesign in ${location.city} für Unternehmen`,
     description: `Liminalo entwickelt moderne Websites für Unternehmen in ${location.city}, ${location.nearby[0]} und ganz ${location.state}. Schnell, klar und auf Anfragen optimiert.`,
@@ -60,6 +86,46 @@ export default function LocationDetailPage({ params }: Props) {
     notFound();
   }
 
+  // Render new Berlin design
+  if (location.slug === "berlin") {
+    return (
+      <>
+        <JsonLd
+          data={createServiceSchema({
+            name: "Webdesign Berlin - Liminalo",
+            description: "Maßgeschneiderte Websites für Unternehmen in Berlin, Potsdam und Brandenburg. Individuelle Entwicklung mit Next.js, React und modernsten Technologien. Full-Service inklusive Design, SEO, Rechtstexte und Hosting.",
+            path: location.path,
+            keywords: [
+              "webdesign berlin",
+              "website erstellen lassen berlin",
+              "webagentur berlin",
+              "seo berlin",
+              "nextjs berlin",
+            ],
+          })}
+        />
+        <JsonLd
+          data={createBreadcrumbSchema([
+            { name: "Startseite", path: "/" },
+            { name: "Standorte", path: "/standorte" },
+            { name: "Berlin", path: "/standorte/berlin" },
+          ])}
+        />
+        <div className="relative">
+          <Link
+            href="/standorte"
+            className="absolute top-6 left-4 sm:left-8 z-20 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/85 backdrop-blur-sm transition-all hover:border-white/20 hover:bg-white/10"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Alle Standorte
+          </Link>
+          <BerlinContent />
+        </div>
+      </>
+    );
+  }
+
+  // Default template for other cities
   const relatedIndustries = location.focusIndustries
     .map((slug) => getIndustryPageBySlug(slug))
     .filter((page): page is NonNullable<typeof page> => Boolean(page));
