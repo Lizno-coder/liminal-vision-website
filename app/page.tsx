@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import Blog from "@/components/blog";
+import CloseupShowcase from "@/components/closeup-showcase";
 import Contact from "@/components/contact";
 import FAQ from "@/components/faq";
 import Hero from "@/components/hero";
@@ -55,6 +56,7 @@ export default function Home() {
       <Hero />
       <WorkScrollSection />
       <Services />
+      <CloseupShowcase />
       <Process />
       <Pricing />
       <FAQ />
