@@ -16,7 +16,7 @@ export default function CloseupShowcase() {
           width={3840}
           height={2160}
           sizes="100vw"
-          className="ml-auto block h-auto w-[165%] max-w-none translate-x-[10%] sm:w-[145%] sm:translate-x-[6%] md:w-[130%] md:translate-x-[3%] lg:w-[118%] lg:translate-x-[2%] xl:w-[108%] xl:translate-x-0"
+          className="ml-auto block h-auto w-[182%] max-w-none translate-x-[2%] sm:w-[145%] sm:translate-x-[6%] md:w-[130%] md:translate-x-[3%] lg:w-[118%] lg:translate-x-[2%] xl:w-[108%] xl:translate-x-0"
         />
       </div>
     </section>
