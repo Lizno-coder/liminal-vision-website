@@ -15,6 +15,9 @@ import {
   Sparkle
 } from "@phosphor-icons/react";
 
+import { industryPages } from "@/content/industry-pages";
+import { JsonLd, createBreadcrumbSchema, createCollectionPageSchema } from "@/lib/seo";
+
 // Branchen-Daten mit kundenorientierten Texten
 const industries = [
   {
@@ -95,9 +98,28 @@ export default function IndustriesPage() {
   const [selectedIndustry, setSelectedIndustry] = useState<typeof industries[0] | null>(null);
 
   return (
-    <div className="min-h-screen bg-[#08090d] text-white">
-      {/* Background Grid */}
-      <div className="fixed inset-0 bg-[linear-gradient(rgba(41,151,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(41,151,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
+    <>
+      <JsonLd
+        data={createCollectionPageSchema({
+          title: "Portfolio und Branchenbeispiele für Websites | Liminalo",
+          description:
+            "Entdecken Sie Branchenbeispiele und Website-Konzepte von Liminalo. Moderne Auftritte für Restaurants, Handwerk, Studios, Dienstleister und lokale Unternehmen.",
+          path: "/portfolio",
+          items: industryPages.slice(0, 8).map((page) => ({
+            name: page.serviceName,
+            path: page.path,
+          })),
+        })}
+      />
+      <JsonLd
+        data={createBreadcrumbSchema([
+          { name: "Startseite", path: "/" },
+          { name: "Portfolio", path: "/portfolio" },
+        ])}
+      />
+      <div className="min-h-screen bg-[#08090d] text-white">
+        {/* Background Grid */}
+        <div className="fixed inset-0 bg-[linear-gradient(rgba(41,151,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(41,151,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
       
       {/* Hero Section */}
       <section className="relative px-4 pt-20 pb-16 sm:pt-28 sm:pb-20 md:pt-32 md:pb-24">
@@ -387,7 +409,8 @@ export default function IndustriesPage() {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
-    </div>
+        </AnimatePresence>
+      </div>
+    </>
   );
 }

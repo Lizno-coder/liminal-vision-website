@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import type { FAQItem } from "@/content/faqs";
+import { getIndustryPageBySlug } from "@/content/industry-pages";
 
 const defaultImagePath = "/Liminalo.png";
 
@@ -78,7 +79,47 @@ type ContactPageSchemaInput = {
   description: string;
 };
 
+type RouteSeoConfig = {
+  metadata: Metadata;
+  schemas: Record<string, unknown>[];
+};
+
+type CreateRouteSeoConfigInput = CreatePageMetadataInput & {
+  schemas?: Record<string, unknown>[];
+};
+
+function normalizeMetadataTitle(title: string): string {
+  const trimmedTitle = title.trim();
+  const siteSuffixes = [
+    ` | ${siteConfig.name}`,
+    ` - ${siteConfig.name}`,
+    ` · ${siteConfig.name}`,
+  ];
+
+  const matchedSuffix = siteSuffixes.find((suffix) => trimmedTitle.endsWith(suffix));
+
+  if (!matchedSuffix) {
+    return trimmedTitle;
+  }
+
+  return trimmedTitle.slice(0, -matchedSuffix.length).trim();
+}
+
+function createSocialTitle(title: string): string {
+  const normalizedTitle = normalizeMetadataTitle(title);
+
+  if (!normalizedTitle || normalizedTitle === siteConfig.name) {
+    return siteConfig.name;
+  }
+
+  return `${normalizedTitle} | ${siteConfig.name}`;
+}
+
 export function absoluteUrl(path = "/"): string {
+  if (!path || path === "/") {
+    return siteConfig.url;
+  }
+
   return new URL(path, siteConfig.url).toString();
 }
 
@@ -93,16 +134,18 @@ export function createPageMetadata({
   const mergedKeywords = [...new Set([...defaultKeywords, ...keywords])];
   const imageUrl = absoluteUrl(siteConfig.image);
   const canonical = absoluteUrl(path);
+  const pageTitle = normalizeMetadataTitle(title);
+  const socialTitle = createSocialTitle(title);
 
   return {
-    title,
+    title: pageTitle,
     description,
     keywords: mergedKeywords,
     alternates: {
       canonical,
     },
     openGraph: {
-      title,
+      title: socialTitle,
       description,
       url: canonical,
       siteName: siteConfig.name,
@@ -119,7 +162,7 @@ export function createPageMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: socialTitle,
       description,
       images: [imageUrl],
     },
@@ -159,25 +202,30 @@ export function SEOHead({
 }: CreatePageMetadataInput & { schemas?: Record<string, unknown>[] }): JSX.Element {
   const canonical = absoluteUrl(path);
   const imageUrl = absoluteUrl(siteConfig.image);
+  const pageTitle = normalizeMetadataTitle(title);
+  const socialTitle = createSocialTitle(title);
   const robots = noIndex
     ? "noindex, nofollow, noarchive"
     : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
 
   return (
     <>
-      <title>{title}</title>
+      <title>{pageTitle}</title>
       <meta name="description" content={description} />
-      <meta name="keywords" content={[...new Set([...defaultKeywords, ...keywords])].join(", ")} />
+      <meta
+        name="keywords"
+        content={[...new Set([...defaultKeywords, ...keywords])].join(", ")}
+      />
       <meta name="robots" content={robots} />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content={siteConfig.name} />
-      <meta property="og:title" content={title} />
+      <meta property="og:title" content={socialTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={canonical} />
       <meta property="og:locale" content="de_DE" />
       <meta property="og:image" content={imageUrl} />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
+      <meta name="twitter:title" content={socialTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={imageUrl} />
       <link rel="canonical" href={canonical} />
@@ -190,6 +238,59 @@ export function SEOHead({
       ))}
     </>
   );
+}
+
+export function SeoSchemaGroup({
+  schemas,
+  children,
+}: {
+  schemas?: Record<string, unknown>[];
+  children: React.ReactNode;
+}): JSX.Element {
+  return (
+    <>
+      {schemas?.map((schema, index) => <JsonLd key={`schema-${index}`} data={schema} />)}
+      {children}
+    </>
+  );
+}
+
+export function createRouteSeoConfig({
+  schemas = [],
+  ...pageMetadata
+}: CreateRouteSeoConfigInput): RouteSeoConfig {
+  return {
+    metadata: createPageMetadata(pageMetadata),
+    schemas,
+  };
+}
+
+export function getIndustrySeoConfig(slug: string): RouteSeoConfig {
+  const page = getIndustryPageBySlug(slug);
+
+  if (!page) {
+    throw new Error(`Unknown industry slug: ${slug}`);
+  }
+
+  return createRouteSeoConfig({
+    title: page.title,
+    description: page.description,
+    path: page.path,
+    keywords: page.keywords,
+    schemas: [
+      createServiceSchema({
+        name: page.serviceName,
+        description: page.description,
+        path: page.path,
+        keywords: page.keywords,
+      }),
+      createBreadcrumbSchema([
+        { name: "Startseite", path: "/" },
+        { name: "Branchen", path: "/branchen" },
+        { name: page.serviceName, path: page.path },
+      ]),
+    ],
+  });
 }
 
 export function createOrganizationSchema(): Record<string, unknown> {

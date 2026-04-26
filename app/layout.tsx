@@ -29,13 +29,7 @@ export const metadata: Metadata = {
   authors: [{ name: siteConfig.founder }],
   creator: siteConfig.founder,
   publisher: siteConfig.name,
-  alternates: {
-    canonical: siteConfig.url,
-  },
   openGraph: {
-    title: siteConfig.title,
-    description: siteConfig.description,
-    url: siteConfig.url,
     siteName: siteConfig.name,
     locale: "de_DE",
     type: "website",
@@ -50,8 +44,6 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.title,
-    description: siteConfig.description,
     images: [siteConfig.image],
   },
   robots: {
@@ -88,7 +80,7 @@ export default function RootLayout({
 
         <Header />
 
-        <main className="relative z-10 overflow-x-hidden pt-24">{children}</main>
+        <main className="relative z-10 overflow-x-hidden pt-16 sm:pt-20 md:pt-24">{children}</main>
 
         <Footer />
       </body>

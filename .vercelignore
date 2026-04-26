@@ -1,0 +1,10 @@
+.git
+.next
+dist
+node_modules
+output
+.playwright-cli
+taste-skill
+Home Page Video.mp4
+*.log
+.env*

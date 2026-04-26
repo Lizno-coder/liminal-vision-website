@@ -6,6 +6,9 @@ import Link from "next/link";
 import { ArrowRight, ArrowLeft, Sparkles, TrendingUp, Zap, Globe } from "lucide-react";
 import { Coffee, Hammer, Barbell, Scissors, Storefront, Buildings, Bed, Sparkle, Stethoscope, GraduationCap, Car, PaintBrush, Briefcase, Wrench, ChartLineUp } from "@phosphor-icons/react";
 
+import { industryPages } from "@/content/industry-pages";
+import { JsonLd, createBreadcrumbSchema, createCollectionPageSchema } from "@/lib/seo";
+
 const industries = [
   { id: "cafe", icon: Coffee, title: "Cafés & Restaurants", shortDesc: "Mehr Gäste durch klare Präsentation", benefits: ["Online-Reservierung", "Digitale Speisekarte"], color: "#f59e0b", stat: "+47%", href: "/branchen/cafes-restaurants" },
   { id: "handwerk", icon: Hammer, title: "Handwerk & Gewerbe", shortDesc: "Vertrauen durch Professionalität", benefits: ["Leistungsübersicht", "Referenzen"], color: "#8b5cf6", stat: "24/7", href: "/branchen/handwerk-gewerbe" },
@@ -32,8 +35,27 @@ export default function IndustriesPage() {
   const [selectedIndustry, setSelectedIndustry] = useState<typeof industries[0] | null>(null);
 
   return (
-    <div className="min-h-screen text-white overflow-x-hidden">
-      <section className="relative px-4 pt-24 pb-16 sm:pt-32 sm:pb-20">
+    <>
+      <JsonLd
+        data={createCollectionPageSchema({
+          title: "Webdesign für Branchen und lokale Betriebe | Liminalo",
+          description:
+            "Branchenspezifische Websites für Restaurants, Handwerk, Fitness, Beauty, Einzelhandel, Praxen und weitere lokale Unternehmen.",
+          path: "/branchen",
+          items: industryPages.map((page) => ({
+            name: page.serviceName,
+            path: page.path,
+          })),
+        })}
+      />
+      <JsonLd
+        data={createBreadcrumbSchema([
+          { name: "Startseite", path: "/" },
+          { name: "Branchen", path: "/branchen" },
+        ])}
+      />
+      <div className="min-h-screen text-white overflow-x-hidden">
+        <section className="relative px-4 pt-24 pb-16 sm:pt-32 sm:pb-20">
         <div className="mx-auto max-w-5xl text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <Link href="/" className="inline-flex items-center gap-2 mb-8 text-sm text-white/50 hover:text-white transition-colors">
@@ -271,7 +293,8 @@ export default function IndustriesPage() {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
-    </div>
+        </AnimatePresence>
+      </div>
+    </>
   );
 }

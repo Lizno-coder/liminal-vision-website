@@ -19,6 +19,7 @@
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
@@ -30,7 +31,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 .playwright-cli/
-output/playwright/
+/output/
+/taste-skill/
+Home Page Video.mp4
 
 # env files (can opt-in for committing if needed)
 .env*

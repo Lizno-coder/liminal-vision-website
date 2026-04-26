@@ -1,7 +1,4 @@
-export const metadata = {
-  title: "Datenschutz | Liminalo",
-  description: "Datenschutzerklärung von Liminalo.",
-};
+import { JsonLd, createBreadcrumbSchema } from "@/lib/seo";
 
 const sections = [
   {
@@ -56,46 +53,55 @@ const sections = [
 
 export default function DatenschutzPage() {
   return (
-    <section className="min-h-screen px-4 pb-20 pt-6 sm:px-6 lg:px-8 lg:pt-10">
-      <div className="mx-auto max-w-5xl">
-        <div className="mb-10 max-w-2xl">
-          <span className="mb-4 inline-block rounded-full border border-[#2997ff]/30 bg-[#2997ff]/10 px-4 py-1.5 text-sm text-[#2997ff]">
-            Datenschutz
-          </span>
-          <h1 className="text-4xl font-semibold tracking-[-0.04em] text-white md:text-5xl">
-            <span className="text-[#2997ff]">Informationen</span> zum Umgang mit Ihren Daten.
-          </h1>
-          <p className="mt-4 text-sm leading-6 text-white/55 sm:text-base">
-            Transparent, verständlich und auf das Wesentliche reduziert.
-          </p>
-        </div>
+    <>
+      <JsonLd
+        data={createBreadcrumbSchema([
+          { name: "Startseite", path: "/" },
+          { name: "Datenschutz", path: "/datenschutz" },
+        ])}
+      />
 
-        <div className="grid gap-4 sm:gap-5">
-          {sections.map((section, index) => (
-            <div
-              key={section.title}
-              className="rounded-[1.8rem] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl sm:p-7"
-              style={{ animationDelay: `${index * 70}ms` }}
-            >
-              <h2 className="text-lg font-semibold text-white sm:text-xl">{section.title}</h2>
-              <div className="mt-4 space-y-3 text-sm leading-6 text-white/65 sm:text-base">
-                {section.paragraphs.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
+      <section className="min-h-screen px-4 pb-20 pt-6 sm:px-6 lg:px-8 lg:pt-10">
+        <div className="mx-auto max-w-5xl">
+          <div className="mb-10 max-w-2xl">
+            <span className="mb-4 inline-block rounded-full border border-[#2997ff]/30 bg-[#2997ff]/10 px-4 py-1.5 text-sm text-[#2997ff]">
+              Datenschutz
+            </span>
+            <h1 className="text-4xl font-semibold tracking-[-0.04em] text-white md:text-5xl">
+              <span className="text-[#2997ff]">Informationen</span> zum Umgang mit Ihren Daten.
+            </h1>
+            <p className="mt-4 text-sm leading-6 text-white/55 sm:text-base">
+              Transparent, verständlich und auf das Wesentliche reduziert.
+            </p>
+          </div>
+
+          <div className="grid gap-4 sm:gap-5">
+            {sections.map((section, index) => (
+              <div
+                key={section.title}
+                className="rounded-[1.8rem] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl sm:p-7"
+                style={{ animationDelay: `${index * 70}ms` }}
+              >
+                <h2 className="text-lg font-semibold text-white sm:text-xl">{section.title}</h2>
+                <div className="mt-4 space-y-3 text-sm leading-6 text-white/65 sm:text-base">
+                  {section.paragraphs.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        <div className="mt-6 rounded-[1.8rem] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl sm:p-7">
-          <h2 className="text-lg font-semibold text-white sm:text-xl">Fragen zum Datenschutz?</h2>
-          <p className="mt-3 text-sm leading-6 text-white/60 sm:text-base">
-            Wenn Sie Fragen zur Verarbeitung Ihrer Daten haben, können Sie sich jederzeit per E-Mail an business@liminalo.com wenden.
-          </p>
-        </div>
+          <div className="mt-6 rounded-[1.8rem] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl sm:p-7">
+            <h2 className="text-lg font-semibold text-white sm:text-xl">Fragen zum Datenschutz?</h2>
+            <p className="mt-3 text-sm leading-6 text-white/60 sm:text-base">
+              Wenn Sie Fragen zur Verarbeitung Ihrer Daten haben, können Sie sich jederzeit per E-Mail an business@liminalo.com wenden.
+            </p>
+          </div>
 
-        <p className="mt-8 text-sm text-white/38">Stand: März 2026</p>
-      </div>
-    </section>
+          <p className="mt-8 text-sm text-white/38">Stand: März 2026</p>
+        </div>
+      </section>
+    </>
   );
 }
