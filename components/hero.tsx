@@ -55,9 +55,9 @@ function SequentialHeroWords() {
   }, [deleting, rotatingWords, text, wordIdx]);
 
   return (
-    <span className="block whitespace-nowrap text-[#2997ff]">
+    <span className="block whitespace-nowrap text-[clamp(1.85rem,8.4vw,4.8rem)] text-[#2997ff] sm:text-[inherit]">
       <span>Einfach.</span>{" "}
-      <span className="inline-flex min-h-[1.1em] min-w-[5.7ch] items-baseline">
+      <span className="inline-flex min-h-[1.1em] min-w-[5.1ch] items-baseline sm:min-w-[5.7ch]">
         {text}
         <span
           className={`ml-[3px] inline-block h-[0.82em] w-[3px] translate-y-[0.06em] bg-[#2997ff] ${
