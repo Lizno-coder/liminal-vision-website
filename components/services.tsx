@@ -2,11 +2,24 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { SpecialText } from "@/components/ui/special-text";
 
 export default function Services() {
+  const [isDesktopImage, setIsDesktopImage] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const updateImageMode = () => setIsDesktopImage(mediaQuery.matches);
+
+    updateImageMode();
+    mediaQuery.addEventListener("change", updateImageMode);
+
+    return () => mediaQuery.removeEventListener("change", updateImageMode);
+  }, []);
+
   return (
     <section id="anwendungsbereiche" className="relative px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -39,26 +52,29 @@ export default function Services() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mx-auto max-w-6xl px-2 sm:px-4"
         >
-          {/* Desktop/Tablet: Original horizontal image */}
-          <Image
-            src="/showcase-websites.png"
-            width={1920}
-            height={626}
-            quality={74}
-            sizes="(min-width: 1280px) 1152px, (min-width: 768px) 92vw, 0px"
-            alt="Liminalo Website Beispiele - Fitness, Café, Handwerk"
-            className="hidden w-full object-contain md:block"
-          />
-          {/* Mobile: Optimized vertical image */}
-          <Image
-            src="/images/IMG_0303.png"
-            width={536}
-            height={1536}
-            quality={72}
-            sizes="(max-width: 420px) calc(100vw - 32px), 384px"
-            alt="Liminalo Website Beispiele - Mobile optimiert"
-            className="mx-auto block w-full max-w-sm object-contain md:hidden"
-          />
+          {isDesktopImage === null ? (
+            <div className="mx-auto aspect-[536/1536] w-full max-w-sm md:aspect-[1920/626] md:max-w-none" />
+          ) : isDesktopImage ? (
+            <Image
+              src="/showcase-websites.png"
+              width={1920}
+              height={626}
+              quality={74}
+              sizes="(min-width: 1280px) 1152px, (min-width: 768px) 92vw, 100vw"
+              alt="Liminalo Website Beispiele - Fitness, Café, Handwerk"
+              className="w-full object-contain"
+            />
+          ) : (
+            <Image
+              src="/images/IMG_0303.png"
+              width={536}
+              height={1536}
+              quality={72}
+              sizes="(max-width: 420px) calc(100vw - 32px), 384px"
+              alt="Liminalo Website Beispiele - Mobile optimiert"
+              className="mx-auto block w-full max-w-sm object-contain"
+            />
+          )}
         </motion.div>
 
         {/* Centered Button */}
