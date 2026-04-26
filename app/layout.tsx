@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 
 import Footer from "@/components/footer";
@@ -64,6 +64,13 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#0a0a0a",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -71,7 +78,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de" className="scroll-smooth">
-      <body className={`${inter.variable} font-sans min-h-screen bg-[#0a0a0a] text-white antialiased`}>
+      <body className={`${inter.variable} font-sans min-h-[100dvh] bg-[#0a0a0a] text-white antialiased`}>
         <JsonLd data={createOrganizationSchema()} />
         <JsonLd data={createWebsiteSchema()} />
 

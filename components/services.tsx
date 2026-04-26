@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { SpecialText } from "@/components/ui/special-text";
@@ -39,14 +40,22 @@ export default function Services() {
           className="mx-auto max-w-6xl px-2 sm:px-4"
         >
           {/* Desktop/Tablet: Original horizontal image */}
-          <img
+          <Image
             src="/showcase-websites.png"
+            width={1920}
+            height={626}
+            quality={74}
+            sizes="(min-width: 1280px) 1152px, (min-width: 768px) 92vw, 0px"
             alt="Liminalo Website Beispiele - Fitness, Café, Handwerk"
             className="hidden w-full object-contain md:block"
           />
           {/* Mobile: Optimized vertical image */}
-          <img
+          <Image
             src="/images/IMG_0303.png"
+            width={536}
+            height={1536}
+            quality={72}
+            sizes="(max-width: 420px) calc(100vw - 32px), 384px"
             alt="Liminalo Website Beispiele - Mobile optimiert"
             className="mx-auto block w-full max-w-sm object-contain md:hidden"
           />

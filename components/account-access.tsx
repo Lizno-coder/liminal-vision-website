@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowLeft,
@@ -82,9 +83,12 @@ function NoticeBanner({ notice }: { notice: Notice | null }) {
 function LogoMark() {
   return (
     <div className="mx-auto flex h-14 items-center justify-center overflow-hidden">
-      <img
-        src="/Liminalo.png?v=2"
+      <Image
+        src="/Liminalo.png"
         alt="Liminalo"
+        width={112}
+        height={112}
+        sizes="56px"
         className="h-full w-auto object-contain"
       />
     </div>

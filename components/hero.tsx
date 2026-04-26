@@ -88,7 +88,7 @@ export default function Hero(): JSX.Element {
   );
 
   return (
-    <section className="relative flex min-h-[calc(100svh-4rem)] items-center overflow-visible md:min-h-[90vh]">
+    <section className="relative -mt-16 flex min-h-[100dvh] items-center overflow-visible pb-[calc(env(safe-area-inset-bottom)+1.25rem)] pt-[calc(env(safe-area-inset-top)+5rem)] sm:-mt-20 md:-mt-24 md:min-h-[100dvh] md:pt-[calc(env(safe-area-inset-top)+6rem)]">
       <div className="relative z-10 mx-auto w-full max-w-6xl px-5 md:px-10">
         <div className="grid items-start gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-14">
           <motion.div
@@ -96,7 +96,7 @@ export default function Hero(): JSX.Element {
             initial="hidden"
             animate="visible"
             variants={textVariants}
-            className="mx-auto flex min-h-[calc(100svh-8rem)] w-full max-w-xl flex-col items-center justify-center text-center sm:min-h-[calc(100svh-9rem)] lg:mx-0 lg:min-h-0 lg:items-start lg:text-left"
+            className="mx-auto flex w-full max-w-xl flex-col items-center justify-center text-center lg:mx-0 lg:items-start lg:text-left"
           >
             <span className="mb-5 inline-block rounded-full border border-[#2997ff]/30 bg-[#2997ff]/10 px-4 py-1.5 text-sm text-[#2997ff]">
               Websites ab 50 EUR

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
 
@@ -21,9 +22,13 @@ function BrandLockup({ compact = false }: { compact?: boolean }) {
         compact ? "h-10" : "h-11 sm:h-12"
       }`}
     >
-      <img
-        src="/Liminalo.png?v=2"
+      <Image
+        src="/Liminalo.png"
         alt="Liminalo"
+        width={96}
+        height={96}
+        sizes={compact ? "40px" : "(min-width: 640px) 48px, 44px"}
+        priority
         className="h-full w-auto object-contain"
       />
     </div>
@@ -109,7 +114,7 @@ export default function Header() {
   }, [isOpen]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
+    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-[calc(env(safe-area-inset-top)+1rem)] sm:px-6 lg:px-8">
       <motion.div
         ref={headerRef}
         style={{ y: springY }}

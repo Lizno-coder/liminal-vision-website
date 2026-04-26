@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
@@ -41,7 +42,7 @@ export default function Footer() {
   const [industriesOpen, setIndustriesOpen] = useState(false);
 
   return (
-    <footer className="relative mt-24 px-4 pb-6 sm:px-6 lg:px-8">
+    <footer className="relative mt-24 px-4 pb-[calc(env(safe-area-inset-bottom)+1.5rem)] sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl overflow-hidden rounded-3xl border border-white/10 bg-white/10 backdrop-blur-xl">
         <div className="grid gap-10 px-6 py-12 sm:px-8 lg:grid-cols-[1.2fr_0.8fr_0.8fr_0.8fr] lg:px-10">
           {/* Logo & Description */}
@@ -52,9 +53,12 @@ export default function Footer() {
               className="mb-6 flex cursor-pointer items-center"
             >
               <div className="flex h-16 items-center overflow-hidden sm:h-20">
-                <img 
-                  src="/Liminalo.png?v=2" 
-                  alt="Liminalo" 
+                <Image
+                  src="/Liminalo.png"
+                  alt="Liminalo"
+                  width={128}
+                  height={128}
+                  sizes="(min-width: 640px) 80px, 64px"
                   className="h-full w-auto object-contain"
                 />
               </div>
