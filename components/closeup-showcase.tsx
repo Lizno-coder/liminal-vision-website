@@ -15,7 +15,8 @@ export default function CloseupShowcase() {
           alt="Nahaufnahme einer mobilen Liminalo Website auf einem Smartphone"
           width={3840}
           height={2160}
-          sizes="100vw"
+          quality={86}
+          sizes="(max-width: 639px) 182vw, (max-width: 767px) 145vw, (max-width: 1023px) 130vw, (max-width: 1279px) 118vw, (max-width: 1800px) 108vw, 1944px"
           className="relative left-1/2 block h-auto w-[182%] max-w-none -translate-x-[50.7%] sm:left-auto sm:ml-auto sm:w-[145%] sm:translate-x-[6%] md:w-[130%] md:translate-x-[3%] lg:w-[118%] lg:translate-x-[2%] xl:w-[108%] xl:translate-x-0"
         />
       </div>

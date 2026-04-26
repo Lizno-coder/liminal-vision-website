@@ -88,6 +88,7 @@ function LogoMark() {
         alt="Liminalo"
         width={112}
         height={112}
+        quality={90}
         sizes="56px"
         className="h-full w-auto object-contain"
       />

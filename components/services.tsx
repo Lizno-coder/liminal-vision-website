@@ -57,9 +57,9 @@ export default function Services() {
           ) : isDesktopImage ? (
             <Image
               src="/showcase-websites.png"
-              width={1920}
-              height={626}
-              quality={74}
+              width={3840}
+              height={1252}
+              quality={86}
               sizes="(min-width: 1280px) 1152px, (min-width: 768px) 92vw, 100vw"
               alt="Liminalo Website Beispiele - Fitness, Café, Handwerk"
               className="w-full object-contain"
@@ -67,9 +67,9 @@ export default function Services() {
           ) : (
             <Image
               src="/images/IMG_0303.png"
-              width={536}
-              height={1536}
-              quality={72}
+              width={1341}
+              height={3840}
+              quality={84}
               sizes="(max-width: 420px) calc(100vw - 32px), 384px"
               alt="Liminalo Website Beispiele - Mobile optimiert"
               className="mx-auto block w-full max-w-sm object-contain"

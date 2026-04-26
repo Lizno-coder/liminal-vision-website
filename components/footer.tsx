@@ -58,6 +58,7 @@ export default function Footer() {
                   alt="Liminalo"
                   width={128}
                   height={128}
+                  quality={90}
                   sizes="(min-width: 640px) 80px, 64px"
                   className="h-full w-auto object-contain"
                 />

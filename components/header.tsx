@@ -27,6 +27,7 @@ function BrandLockup({ compact = false }: { compact?: boolean }) {
         alt="Liminalo"
         width={96}
         height={96}
+        quality={90}
         sizes={compact ? "40px" : "(min-width: 640px) 48px, 44px"}
         priority
         className="h-full w-auto object-contain"
