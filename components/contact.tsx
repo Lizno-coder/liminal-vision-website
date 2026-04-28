@@ -165,6 +165,7 @@ export default function Contact() {
             <div className="relative">
               <Globe className="pointer-events-none absolute left-4 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-white/40" />
               <select
+                aria-label="Website-Art"
                 value={form.websiteType}
                 onChange={(event) =>
                   setForm((current) => ({ ...current, websiteType: event.target.value }))

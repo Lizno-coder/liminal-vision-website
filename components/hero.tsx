@@ -1,11 +1,52 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
-import Hero3D from "./hero-3d";
 import { LiquidButton } from "@/components/ui/liquid-glass-button";
+
+const Hero3D = dynamic(() => import("./hero-3d"), {
+  ssr: false,
+  loading: () => <Hero3DPlaceholder />,
+});
+
+function Hero3DPlaceholder() {
+  return (
+    <div
+      className="relative w-full"
+      style={{ height: "clamp(350px, 50vw, 550px)" }}
+      aria-hidden="true"
+    >
+      <div className="absolute inset-x-[6%] top-[12%] h-[76%] rounded-[2rem] border border-white/10 bg-[#1a1d29]/70 shadow-[0_30px_120px_rgba(41,151,255,0.16)]" />
+    </div>
+  );
+}
+
+function DeferredHero3D() {
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    let cleanup: () => void;
+
+    if (typeof window.requestIdleCallback === "function") {
+      const idleCallback = window.requestIdleCallback(() => setIsReady(true), {
+        timeout: 1600,
+      });
+      cleanup = () => window.cancelIdleCallback?.(idleCallback);
+    } else {
+      const timeout = window.setTimeout(() => setIsReady(true), 900);
+      cleanup = () => window.clearTimeout(timeout);
+    }
+
+    return () => {
+      cleanup();
+    };
+  }, []);
+
+  return isReady ? <Hero3D /> : <Hero3DPlaceholder />;
+}
 
 function SequentialHeroWords() {
   const rotatingWords = useMemo(() => ["Nice.", "Schnell.", "Sichtbar.", "Safe."], []);
@@ -134,7 +175,7 @@ export default function Hero(): JSX.Element {
             variants={textVariants}
             className="relative overflow-visible py-2 md:py-8"
           >
-            <Hero3D />
+            <DeferredHero3D />
           </motion.div>
         </div>
       </div>
