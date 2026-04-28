@@ -2,16 +2,18 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
+  Camera,
   Check,
   Loader2,
   LockKeyhole,
   LogOut,
-  Mail,
-  ShieldCheck,
+  Save,
+  Upload,
   UserRound,
 } from "lucide-react";
 
@@ -26,6 +28,11 @@ type AuthUser = {
   email: string;
   fullName: string;
   company: string | null;
+  phone: string | null;
+  role: string | null;
+  website: string | null;
+  bio: string | null;
+  avatarDataUrl: string | null;
   emailVerifiedAt: string | null;
   createdAt: string;
   lastLoginAt: string | null;
@@ -42,6 +49,16 @@ type ApiResponse = {
   previewCode?: string | null;
 };
 
+type ProfileForm = {
+  fullName: string;
+  company: string;
+  phone: string;
+  role: string;
+  website: string;
+  bio: string;
+  avatarDataUrl: string;
+};
+
 type Notice = {
   tone: "success" | "error" | "info";
   text: string;
@@ -49,6 +66,9 @@ type Notice = {
 
 const inputClassName =
   "w-full rounded-full border border-white/10 bg-black/20 px-5 py-3 text-center text-white outline-none backdrop-blur-sm transition placeholder:text-white/34 focus:border-[#2997ff]/55 focus:bg-black/30";
+
+const profileInputClassName =
+  "w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none backdrop-blur-sm transition placeholder:text-white/34 focus:border-[#2997ff]/55 focus:bg-black/30";
 
 const panelMotion = {
   initial: { opacity: 0, x: 34 },
@@ -82,7 +102,11 @@ function NoticeBanner({ notice }: { notice: Notice | null }) {
 
 function LogoMark() {
   return (
-    <div className="mx-auto flex h-14 items-center justify-center overflow-hidden">
+    <Link
+      href="/"
+      className="mx-auto flex h-14 items-center justify-center overflow-hidden"
+      aria-label="Zur Startseite"
+    >
       <Image
         src="/Liminalo.png"
         alt="Liminalo"
@@ -92,7 +116,7 @@ function LogoMark() {
         sizes="56px"
         className="h-full w-auto object-contain"
       />
-    </div>
+    </Link>
   );
 }
 
@@ -159,12 +183,49 @@ function GoogleButton({ label }: { label: string }) {
   );
 }
 
+function getInitials(name: string) {
+  return name
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
+
+async function cropAvatarToDataUrl(source: string, zoom: number) {
+  const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+    const element = new window.Image();
+    element.onload = () => resolve(element);
+    element.onerror = reject;
+    element.src = source;
+  });
+  const canvas = document.createElement("canvas");
+  const size = 320;
+  const context = canvas.getContext("2d");
+
+  if (!context) {
+    throw new Error("CANVAS_UNAVAILABLE");
+  }
+
+  canvas.width = size;
+  canvas.height = size;
+  const minScale = Math.max(size / image.width, size / image.height);
+  const scale = minScale * zoom;
+  const width = image.width * scale;
+  const height = image.height * scale;
+
+  context.clearRect(0, 0, size, size);
+  context.drawImage(image, (size - width) / 2, (size - height) / 2, width, height);
+
+  return canvas.toDataURL("image/jpeg", 0.86);
+}
+
 export default function AccountAccess() {
   const [activeTab, setActiveTab] = useState<"register" | "login">("register");
   const [view, setView] = useState<"auth" | "verify" | "account">("auth");
   const [notice, setNotice] = useState<Notice | null>(null);
   const [sessionUser, setSessionUser] = useState<AuthUser | null>(null);
-  const [storageMode, setStorageMode] = useState<AuthStorageMode>("memory");
+  const [, setStorageMode] = useState<AuthStorageMode>("memory");
   const [isCheckingSession, setIsCheckingSession] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [registerCaptchaSeed, setRegisterCaptchaSeed] = useState(0);
@@ -185,8 +246,36 @@ export default function AccountAccess() {
     email: "",
     password: "",
   });
+  const [profileForm, setProfileForm] = useState<ProfileForm>({
+    fullName: "",
+    company: "",
+    phone: "",
+    role: "",
+    website: "",
+    bio: "",
+    avatarDataUrl: "",
+  });
+  const [avatarSource, setAvatarSource] = useState("");
+  const [avatarZoom, setAvatarZoom] = useState(1);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const isCodeComplete = codeDigits.every((digit) => digit.length === 1);
+
+  useEffect(() => {
+    if (!sessionUser) {
+      return;
+    }
+
+    setProfileForm({
+      fullName: sessionUser.fullName,
+      company: sessionUser.company || "",
+      phone: sessionUser.phone || "",
+      role: sessionUser.role || "",
+      website: sessionUser.website || "",
+      bio: sessionUser.bio || "",
+      avatarDataUrl: sessionUser.avatarDataUrl || "",
+    });
+  }, [sessionUser]);
 
   useEffect(() => {
     let active = true;
@@ -444,6 +533,84 @@ export default function AccountAccess() {
     }
   }
 
+  async function handleProfileSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setNotice(null);
+
+    try {
+      const response = await fetch("/api/auth/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(profileForm),
+      });
+      const data = (await response.json()) as ApiResponse;
+
+      if (!response.ok || !data.user) {
+        throw new Error(data.error || "Das Profil konnte nicht gespeichert werden.");
+      }
+
+      setSessionUser(data.user);
+      setNotice({
+        tone: "success",
+        text: "Profil gespeichert.",
+      });
+    } catch (error) {
+      setNotice({
+        tone: "error",
+        text:
+          error instanceof Error
+            ? error.message
+            : "Das Profil konnte gerade nicht gespeichert werden.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  function handleAvatarFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      setNotice({
+        tone: "error",
+        text: "Bitte laden Sie ein Bild hoch.",
+      });
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setAvatarSource(String(reader.result || ""));
+      setAvatarZoom(1);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  async function applyAvatarCrop() {
+    if (!avatarSource) {
+      return;
+    }
+
+    try {
+      const dataUrl = await cropAvatarToDataUrl(avatarSource, avatarZoom);
+      setProfileForm((current) => ({ ...current, avatarDataUrl: dataUrl }));
+      setAvatarSource("");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    } catch {
+      setNotice({
+        tone: "error",
+        text: "Das Profilbild konnte nicht verarbeitet werden.",
+      });
+    }
+  }
+
   function handleCodeChange(index: number, rawValue: string) {
     const digits = rawValue.replace(/\D/g, "");
 
@@ -481,7 +648,7 @@ export default function AccountAccess() {
   }
 
   return (
-    <div className="relative -mt-16 min-h-screen overflow-hidden bg-[#05070b] sm:-mt-20 md:-mt-24">
+    <div className="fixed inset-0 z-[70] overflow-y-auto bg-[#05070b]">
       <div className="absolute inset-0">
         <CanvasRevealEffect
           animationSpeed={3}
@@ -495,7 +662,7 @@ export default function AccountAccess() {
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(10,10,10,0.78),rgba(10,10,10,0.26)_42%,rgba(10,10,10,0.92))]" />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-md flex-col justify-center px-5 py-24 md:py-28">
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-2xl flex-col justify-center px-5 py-[calc(env(safe-area-inset-top)+5rem)] md:py-28">
         <div className="space-y-7 text-center">
           <LogoMark />
 
@@ -512,26 +679,193 @@ export default function AccountAccess() {
               <motion.div key="account" {...panelMotion} className="space-y-6">
                 <div className="space-y-1">
                   <h1 className="text-4xl font-semibold leading-tight text-white">
-                    Sie sind drin.
+                    Profileinstellungen
                   </h1>
                   <p className="text-lg text-white/54">{sessionUser.email}</p>
                 </div>
 
                 <NoticeBanner notice={notice} />
 
-                <div className="rounded-[2rem] border border-white/10 bg-black/22 p-5 text-left backdrop-blur-md">
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-black">
-                      <UserRound className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <div className="font-medium text-white">{sessionUser.fullName}</div>
-                      <div className="text-sm text-white/50">
-                        {sessionUser.company || "Liminalo Account"}
+                <form
+                  onSubmit={handleProfileSubmit}
+                  className="rounded-[2rem] border border-white/10 bg-black/22 p-5 text-left backdrop-blur-md sm:p-6"
+                >
+                  <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:text-left">
+                    <div className="relative">
+                      <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border border-white/12 bg-gradient-to-br from-[#2997ff] to-[#5856d6] text-2xl font-semibold text-white shadow-[0_20px_60px_rgba(41,151,255,0.22)]">
+                        {profileForm.avatarDataUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={profileForm.avatarDataUrl}
+                            alt=""
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          getInitials(profileForm.fullName) || <UserRound className="h-7 w-7" />
+                        )}
                       </div>
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="absolute -bottom-1 -right-1 flex h-9 w-9 items-center justify-center rounded-full bg-white text-black shadow-lg transition hover:scale-105"
+                        aria-label="Profilbild hochladen"
+                      >
+                        <Camera className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-lg font-semibold text-white">
+                        {profileForm.fullName || sessionUser.fullName}
+                      </div>
+                      <div className="text-sm text-white/52">
+                        {profileForm.company || "Liminalo Account"}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2 text-xs font-medium text-white/78 transition hover:bg-white/10 hover:text-white"
+                      >
+                        <Upload className="h-3.5 w-3.5" />
+                        Bild hochladen
+                      </button>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleAvatarFileChange}
+                      />
                     </div>
                   </div>
-                </div>
+
+                  {avatarSource ? (
+                    <div className="mt-5 rounded-[1.5rem] border border-[#2997ff]/20 bg-[#2997ff]/10 p-4">
+                      <div className="mx-auto h-36 w-36 overflow-hidden rounded-full border border-white/14 bg-black/30">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={avatarSource}
+                          alt=""
+                          className="h-full w-full object-cover"
+                          style={{ transform: `scale(${avatarZoom})` }}
+                        />
+                      </div>
+                      <label className="mt-4 block text-xs font-medium uppercase tracking-[0.18em] text-white/46">
+                        Zoom
+                      </label>
+                      <input
+                        type="range"
+                        min="1"
+                        max="3"
+                        step="0.05"
+                        value={avatarZoom}
+                        onChange={(event) => setAvatarZoom(Number(event.target.value))}
+                        className="mt-2 w-full accent-[#2997ff]"
+                      />
+                      <div className="mt-4 flex gap-3">
+                        <button
+                          type="button"
+                          onClick={() => setAvatarSource("")}
+                          className="flex-1 rounded-full border border-white/12 px-4 py-2.5 text-sm font-medium text-white/72 transition hover:bg-white/10"
+                        >
+                          Abbrechen
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => void applyAvatarCrop()}
+                          className="flex-1 rounded-full bg-white px-4 py-2.5 text-sm font-medium text-black transition hover:bg-white/90"
+                        >
+                          Uebernehmen
+                        </button>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                    <input
+                      value={profileForm.fullName}
+                      onChange={(event) =>
+                        setProfileForm((current) => ({
+                          ...current,
+                          fullName: event.target.value,
+                        }))
+                      }
+                      placeholder="Name"
+                      className={profileInputClassName}
+                      autoComplete="name"
+                    />
+                    <input
+                      value={profileForm.company}
+                      onChange={(event) =>
+                        setProfileForm((current) => ({
+                          ...current,
+                          company: event.target.value,
+                        }))
+                      }
+                      placeholder="Unternehmen"
+                      className={profileInputClassName}
+                      autoComplete="organization"
+                    />
+                    <input
+                      value={profileForm.role}
+                      onChange={(event) =>
+                        setProfileForm((current) => ({
+                          ...current,
+                          role: event.target.value,
+                        }))
+                      }
+                      placeholder="Position / Rolle"
+                      className={profileInputClassName}
+                    />
+                    <input
+                      value={profileForm.phone}
+                      onChange={(event) =>
+                        setProfileForm((current) => ({
+                          ...current,
+                          phone: event.target.value,
+                        }))
+                      }
+                      placeholder="Telefon"
+                      className={profileInputClassName}
+                      autoComplete="tel"
+                    />
+                    <input
+                      value={profileForm.website}
+                      onChange={(event) =>
+                        setProfileForm((current) => ({
+                          ...current,
+                          website: event.target.value,
+                        }))
+                      }
+                      placeholder="Website"
+                      className={`${profileInputClassName} sm:col-span-2`}
+                      autoComplete="url"
+                    />
+                    <textarea
+                      value={profileForm.bio}
+                      onChange={(event) =>
+                        setProfileForm((current) => ({
+                          ...current,
+                          bio: event.target.value,
+                        }))
+                      }
+                      placeholder="Kurzbeschreibung"
+                      className={`${profileInputClassName} min-h-28 resize-none rounded-[1.4rem] sm:col-span-2`}
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium text-black transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-70"
+                  >
+                    {isSubmitting ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Save className="h-4 w-4" />
+                    )}
+                    Profil speichern
+                  </button>
+                </form>
 
                 <button
                   type="button"
@@ -539,11 +873,7 @@ export default function AccountAccess() {
                   disabled={isSubmitting}
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/12 bg-white/6 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  {isSubmitting ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <LogOut className="h-4 w-4" />
-                  )}
+                  <LogOut className="h-4 w-4" />
                   Abmelden
                 </button>
               </motion.div>
@@ -672,7 +1002,7 @@ export default function AccountAccess() {
                           email: event.target.value,
                         }))
                       }
-                      placeholder="name@firma.de"
+                      placeholder="E-Mail"
                       className={inputClassName}
                       autoComplete="email"
                     />
@@ -739,7 +1069,7 @@ export default function AccountAccess() {
                           email: event.target.value,
                         }))
                       }
-                      placeholder="name@firma.de"
+                      placeholder="E-Mail"
                       className={inputClassName}
                       autoComplete="email"
                     />
@@ -781,15 +1111,6 @@ export default function AccountAccess() {
                 <p className="text-xs leading-5 text-white/38">
                   Mit der Registrierung akzeptieren Sie AGB und Datenschutz.
                 </p>
-
-                <div className="flex items-center justify-center gap-2 text-xs text-white/34">
-                  {storageMode === "d1" ? (
-                    <ShieldCheck className="h-3.5 w-3.5" />
-                  ) : (
-                    <Mail className="h-3.5 w-3.5" />
-                  )}
-                  {storageMode === "d1" ? "Cloudflare D1 aktiv" : "Preview-Speicher aktiv"}
-                </div>
               </motion.div>
             )}
           </AnimatePresence>

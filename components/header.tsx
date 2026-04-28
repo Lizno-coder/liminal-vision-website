@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
+import { LogOut, Settings, UserRound } from "lucide-react";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -11,9 +12,19 @@ const navLinks = [
   { name: "Standorte", href: "/standorte" },
   { name: "Ablauf", href: "/#process" },
   { name: "Preise", href: "/#pricing" },
-  { name: "Konto", href: "/konto" },
   { name: "Kontakt", href: "/kontakt" },
 ];
+
+type HeaderUser = {
+  email: string;
+  fullName: string;
+  company: string | null;
+  avatarDataUrl: string | null;
+};
+
+type SessionResponse = {
+  user?: HeaderUser | null;
+};
 
 function BrandLockup({ compact = false }: { compact?: boolean }) {
   return (
@@ -36,15 +47,175 @@ function BrandLockup({ compact = false }: { compact?: boolean }) {
   );
 }
 
+function UserAvatar({ user, size = "md" }: { user: HeaderUser; size?: "sm" | "md" }) {
+  const initials = user.fullName
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+  const sizeClass = size === "sm" ? "h-9 w-9 text-xs" : "h-10 w-10 text-sm";
+
+  return (
+    <div
+      className={`${sizeClass} flex shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/15 bg-gradient-to-br from-[#2997ff] to-[#5856d6] font-semibold text-white shadow-lg shadow-[#2997ff]/20`}
+    >
+      {user.avatarDataUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={user.avatarDataUrl} alt="" className="h-full w-full object-cover" />
+      ) : (
+        initials || <UserRound className="h-4 w-4" />
+      )}
+    </div>
+  );
+}
+
+function AccountMenu({
+  user,
+  onLogout,
+}: {
+  user: HeaderUser | null;
+  onLogout: () => Promise<void>;
+}) {
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const profileRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!isProfileOpen) {
+      return;
+    }
+
+    const closeOnOutsidePointer = (event: PointerEvent) => {
+      if (
+        profileRef.current &&
+        event.target instanceof Node &&
+        !profileRef.current.contains(event.target)
+      ) {
+        setIsProfileOpen(false);
+      }
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsProfileOpen(false);
+      }
+    };
+
+    document.addEventListener("pointerdown", closeOnOutsidePointer);
+    document.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutsidePointer);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [isProfileOpen]);
+
+  if (!user) {
+    return (
+      <Link
+        href="/konto"
+        className="inline-flex items-center rounded-full border border-white/20 bg-white px-5 py-2.5 text-sm font-semibold text-black shadow-lg shadow-white/10 transition hover:scale-[1.02] hover:bg-white/90"
+      >
+        Anmelden
+      </Link>
+    );
+  }
+
+  return (
+    <div ref={profileRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setIsProfileOpen((current) => !current)}
+        className="rounded-full outline-none transition hover:scale-[1.03] focus-visible:ring-2 focus-visible:ring-[#2997ff]"
+        aria-label="Profilmenue oeffnen"
+        aria-expanded={isProfileOpen}
+      >
+        <UserAvatar user={user} />
+      </button>
+
+      <AnimatePresence>
+        {isProfileOpen ? (
+          <motion.div
+            initial={{ opacity: 0, y: 8, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.96 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="absolute right-0 top-12 w-72 overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#07111e]/92 p-3 shadow-[0_25px_80px_rgba(0,0,0,0.42)] backdrop-blur-2xl"
+          >
+            <div className="flex items-center gap-3 rounded-[1.15rem] bg-white/[0.06] p-3">
+              <UserAvatar user={user} size="sm" />
+              <div className="min-w-0">
+                <div className="truncate text-sm font-semibold text-white">{user.fullName}</div>
+                <div className="truncate text-xs text-white/52">{user.email}</div>
+              </div>
+            </div>
+
+            <Link
+              href="/konto"
+              onClick={() => setIsProfileOpen(false)}
+              className="mt-2 flex items-center gap-3 rounded-2xl px-3 py-3 text-sm text-white/78 transition hover:bg-white/10 hover:text-white"
+            >
+              <Settings className="h-4 w-4" />
+              Profileinstellungen
+            </Link>
+            <button
+              type="button"
+              onClick={() => {
+                setIsProfileOpen(false);
+                void onLogout();
+              }}
+              className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm text-white/78 transition hover:bg-white/10 hover:text-white"
+            >
+              <LogOut className="h-4 w-4" />
+              Abmelden
+            </button>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [sessionUser, setSessionUser] = useState<HeaderUser | null>(null);
   const lastScrollY = useRef(0);
   const ticking = useRef(false);
   const headerRef = useRef<HTMLDivElement | null>(null);
 
   const headerY = useMotionValue(0);
   const springY = useSpring(headerY, { stiffness: 400, damping: 30 });
+
+  useEffect(() => {
+    let active = true;
+
+    const loadSession = async () => {
+      try {
+        const response = await fetch("/api/auth/session", { cache: "no-store" });
+        const data = (await response.json()) as SessionResponse;
+
+        if (active) {
+          setSessionUser(data.user || null);
+        }
+      } catch {
+        if (active) {
+          setSessionUser(null);
+        }
+      }
+    };
+
+    void loadSession();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  async function handleLogout() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    setSessionUser(null);
+    setIsOpen(false);
+  }
 
   useEffect(() => {
     const onScroll = () => {
@@ -158,13 +329,8 @@ export default function Header() {
               ))}
             </nav>
 
-            <div className="hidden md:block">
-              <Link
-                href="/kontakt"
-                className="inline-flex items-center rounded-full border border-white/20 bg-gradient-to-r from-[#2997ff] to-[#5856d6] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#2997ff]/20 transition hover:scale-[1.02] hover:shadow-[#5856d6]/30"
-              >
-                Kontakt
-              </Link>
+            <div className="hidden items-center gap-3 md:flex">
+              <AccountMenu user={sessionUser} onLogout={handleLogout} />
             </div>
 
             <button
@@ -231,6 +397,44 @@ export default function Header() {
                 >
                   Kontakt anfragen
                 </Link>
+
+                {sessionUser ? (
+                  <div className="mt-3 rounded-2xl border border-white/10 bg-white/[0.05] p-3">
+                    <div className="flex items-center gap-3">
+                      <UserAvatar user={sessionUser} size="sm" />
+                      <div className="min-w-0">
+                        <div className="truncate text-sm font-semibold text-white">
+                          {sessionUser.fullName}
+                        </div>
+                        <div className="truncate text-xs text-white/52">
+                          {sessionUser.email}
+                        </div>
+                      </div>
+                    </div>
+                    <Link
+                      href="/konto"
+                      onClick={() => setIsOpen(false)}
+                      className="mt-3 flex items-center justify-center rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-black"
+                    >
+                      Profileinstellungen
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => void handleLogout()}
+                      className="mt-2 flex w-full items-center justify-center rounded-xl border border-white/10 px-4 py-2.5 text-sm font-semibold text-white/80"
+                    >
+                      Abmelden
+                    </button>
+                  </div>
+                ) : (
+                  <Link
+                    href="/konto"
+                    onClick={() => setIsOpen(false)}
+                    className="mt-3 inline-flex w-full items-center justify-center rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-black"
+                  >
+                    Anmelden / Registrieren
+                  </Link>
+                )}
               </div>
             </motion.div>
           )}

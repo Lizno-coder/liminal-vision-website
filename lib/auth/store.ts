@@ -17,6 +17,16 @@ type UpsertOAuthUserInput = {
   fullName: string;
 };
 
+export type UpdateUserProfileInput = {
+  fullName: string;
+  company: string | null;
+  phone: string | null;
+  role: string | null;
+  website: string | null;
+  bio: string | null;
+  avatarDataUrl: string | null;
+};
+
 type AuthStore = {
   mode: AuthStorageMode;
   findUserByEmail(email: string): Promise<AuthUserRecord | null>;
@@ -26,6 +36,10 @@ type AuthStore = {
   markUserVerified(userId: string): Promise<AuthUserRecord | null>;
   incrementVerificationAttempts(userId: string): Promise<AuthUserRecord | null>;
   touchLogin(userId: string): Promise<AuthUserRecord | null>;
+  updateUserProfile(
+    userId: string,
+    input: UpdateUserProfileInput
+  ): Promise<AuthUserRecord | null>;
 };
 
 type DbValue = string | number | null;
@@ -35,6 +49,11 @@ type DbUserRow = {
   email: string;
   full_name: string;
   company: string | null;
+  phone: string | null;
+  role: string | null;
+  website: string | null;
+  bio: string | null;
+  avatar_data_url: string | null;
   password_hash: string | null;
   email_verified_at: string | null;
   verification_code_hash: string | null;
@@ -56,12 +75,21 @@ type D1ApiResponse<T> = {
   errors?: Array<{ code?: number; message?: string }>;
 };
 
+type D1ColumnRow = {
+  name: string;
+};
+
 function mapDbUser(row: DbUserRow): AuthUserRecord {
   return {
     id: row.id,
     email: row.email,
     fullName: row.full_name,
     company: row.company,
+    phone: row.phone || null,
+    role: row.role || null,
+    website: row.website || null,
+    bio: row.bio || null,
+    avatarDataUrl: row.avatar_data_url || null,
     passwordHash: row.password_hash,
     emailVerifiedAt: row.email_verified_at,
     verificationCodeHash: row.verification_code_hash,
@@ -96,6 +124,11 @@ class MemoryAuthStore implements AuthStore {
       email: normalizedEmail,
       fullName: input.fullName,
       company: input.company,
+      phone: current?.phone || null,
+      role: current?.role || null,
+      website: current?.website || null,
+      bio: current?.bio || null,
+      avatarDataUrl: current?.avatarDataUrl || null,
       passwordHash: input.passwordHash,
       emailVerifiedAt: current?.emailVerifiedAt || null,
       verificationCodeHash: input.verificationCodeHash,
@@ -122,6 +155,11 @@ class MemoryAuthStore implements AuthStore {
       email: normalizedEmail,
       fullName: input.fullName,
       company: current?.company || null,
+      phone: current?.phone || null,
+      role: current?.role || null,
+      website: current?.website || null,
+      bio: current?.bio || null,
+      avatarDataUrl: current?.avatarDataUrl || null,
       passwordHash: current?.passwordHash || null,
       emailVerifiedAt: current?.emailVerifiedAt || now,
       verificationCodeHash: null,
@@ -199,6 +237,28 @@ class MemoryAuthStore implements AuthStore {
 
     return nextUser;
   }
+
+  async updateUserProfile(
+    userId: string,
+    input: UpdateUserProfileInput
+  ): Promise<AuthUserRecord | null> {
+    const current = this.usersById.get(userId);
+
+    if (!current) {
+      return null;
+    }
+
+    const nextUser: AuthUserRecord = {
+      ...current,
+      ...input,
+      updatedAt: new Date().toISOString(),
+    };
+
+    this.usersById.set(userId, nextUser);
+    this.usersByEmail.set(nextUser.email, nextUser);
+
+    return nextUser;
+  }
 }
 
 let d1ReadyPromise: Promise<void> | null = null;
@@ -249,6 +309,11 @@ class D1AuthStore implements AuthStore {
           email text not null unique,
           full_name text not null,
           company text,
+          phone text,
+          role text,
+          website text,
+          bio text,
+          avatar_data_url text,
           password_hash text,
           email_verified_at text,
           verification_code_hash text,
@@ -264,10 +329,29 @@ class D1AuthStore implements AuthStore {
             create index if not exists auth_users_email_idx on auth_users(email)
           `)
         )
+        .then(() => this.ensureProfileColumns())
         .then(() => undefined);
     }
 
     return d1ReadyPromise;
+  }
+
+  private async ensureProfileColumns() {
+    const columns = await this.query<D1ColumnRow>(`pragma table_info(auth_users)`);
+    const columnNames = new Set(columns.map((column) => column.name));
+    const profileColumns = [
+      ["phone", "phone text"],
+      ["role", "role text"],
+      ["website", "website text"],
+      ["bio", "bio text"],
+      ["avatar_data_url", "avatar_data_url text"],
+    ] as const;
+
+    for (const [columnName, columnSql] of profileColumns) {
+      if (!columnNames.has(columnName)) {
+        await this.query(`alter table auth_users add column ${columnSql}`);
+      }
+    }
   }
 
   async findUserByEmail(email: string): Promise<AuthUserRecord | null> {
@@ -452,6 +536,41 @@ class D1AuthStore implements AuthStore {
         returning *
       `,
       [userId]
+    );
+
+    return rows[0] ? mapDbUser(rows[0]) : null;
+  }
+
+  async updateUserProfile(
+    userId: string,
+    input: UpdateUserProfileInput
+  ): Promise<AuthUserRecord | null> {
+    await this.ensureReady();
+    const rows = await this.query<DbUserRow>(
+      `
+        update auth_users
+        set
+          full_name = ?,
+          company = ?,
+          phone = ?,
+          role = ?,
+          website = ?,
+          bio = ?,
+          avatar_data_url = ?,
+          updated_at = datetime('now')
+        where id = ?
+        returning *
+      `,
+      [
+        input.fullName,
+        input.company,
+        input.phone,
+        input.role,
+        input.website,
+        input.bio,
+        input.avatarDataUrl,
+        userId,
+      ]
     );
 
     return rows[0] ? mapDbUser(rows[0]) : null;

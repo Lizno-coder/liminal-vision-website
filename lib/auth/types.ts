@@ -5,6 +5,11 @@ export type AuthUserRecord = {
   email: string;
   fullName: string;
   company: string | null;
+  phone: string | null;
+  role: string | null;
+  website: string | null;
+  bio: string | null;
+  avatarDataUrl: string | null;
   passwordHash: string | null;
   emailVerifiedAt: string | null;
   verificationCodeHash: string | null;
@@ -20,6 +25,11 @@ export type AuthPublicUser = {
   email: string;
   fullName: string;
   company: string | null;
+  phone: string | null;
+  role: string | null;
+  website: string | null;
+  bio: string | null;
+  avatarDataUrl: string | null;
   emailVerifiedAt: string | null;
   createdAt: string;
   lastLoginAt: string | null;
@@ -31,6 +41,11 @@ export function toPublicUser(user: AuthUserRecord): AuthPublicUser {
     email: user.email,
     fullName: user.fullName,
     company: user.company,
+    phone: user.phone,
+    role: user.role,
+    website: user.website,
+    bio: user.bio,
+    avatarDataUrl: user.avatarDataUrl,
     emailVerifiedAt: user.emailVerifiedAt,
     createdAt: user.createdAt,
     lastLoginAt: user.lastLoginAt,
