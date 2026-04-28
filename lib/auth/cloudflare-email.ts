@@ -9,6 +9,22 @@ type VerificationEmailInput = {
   allowPreviewFallback?: boolean;
 };
 
+type CloudflareEmailAddress =
+  | string
+  | {
+      address: string;
+      name?: string;
+    };
+
+type CloudflareEmailInput = {
+  to: string | string[];
+  from?: string;
+  replyTo?: string;
+  subject: string;
+  text: string;
+  html: string;
+};
+
 type VerificationEmailResult = {
   mode: "cloudflare" | "dev-log";
   previewCode?: string;
@@ -16,8 +32,80 @@ type VerificationEmailResult = {
 
 type CloudflareEmailResponse = {
   success?: boolean;
+  result?: {
+    delivered?: string[];
+    permanent_bounces?: string[];
+    queued?: string[];
+  };
   errors?: Array<{ code?: number; message?: string }>;
 };
+
+function parseEmailAddress(value: string): CloudflareEmailAddress {
+  const trimmed = value.trim();
+  const match = trimmed.match(/^(.+?)\s*<([^<>]+)>$/);
+
+  if (!match) {
+    return trimmed;
+  }
+
+  return {
+    address: match[2].trim(),
+    name: match[1].trim().replace(/^["']|["']$/g, ""),
+  };
+}
+
+function getCloudflareEmailConfig() {
+  const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
+  const apiToken =
+    process.env.CLOUDFLARE_EMAIL_API_TOKEN || process.env.CLOUDFLARE_API_TOKEN;
+  const fromAddress =
+    process.env.CLOUDFLARE_EMAIL_FROM || "Liminalo <noreply@liminalo.com>";
+
+  return {
+    accountId,
+    apiToken,
+    fromAddress,
+  };
+}
+
+export async function sendCloudflareEmail(input: CloudflareEmailInput) {
+  const { accountId, apiToken, fromAddress } = getCloudflareEmailConfig();
+
+  if (!accountId || !apiToken || !fromAddress) {
+    throw new Error("CLOUDFLARE_EMAIL_CONFIG_MISSING");
+  }
+
+  const response = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${accountId}/email/sending/send`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: parseEmailAddress(input.from || fromAddress),
+        to: input.to,
+        reply_to: input.replyTo,
+        subject: input.subject,
+        text: input.text,
+        html: input.html,
+      }),
+      cache: "no-store",
+    }
+  );
+
+  const data = (await response.json()) as CloudflareEmailResponse;
+
+  if (!response.ok || !data.success) {
+    const message =
+      data.errors?.map((error) => error.message).join("; ") ||
+      "Cloudflare Email send failed.";
+    throw new Error(`CLOUDFLARE_EMAIL_SEND_FAILED:${message}`);
+  }
+
+  return data.result;
+}
 
 function getEmailHtml(input: VerificationEmailInput): string {
   const minutes = Math.round(AUTH_CODE_TTL_MS / 60000);
@@ -44,14 +132,34 @@ function getEmailHtml(input: VerificationEmailInput): string {
 export async function sendVerificationCodeEmail(
   input: VerificationEmailInput
 ): Promise<VerificationEmailResult> {
-  const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
-  const apiToken =
-    process.env.CLOUDFLARE_EMAIL_API_TOKEN || process.env.CLOUDFLARE_API_TOKEN;
-  const fromAddress =
-    process.env.CLOUDFLARE_EMAIL_FROM || "Liminalo <noreply@liminalo.com>";
   const replyTo = process.env.CLOUDFLARE_EMAIL_REPLY_TO;
+  const text = [
+    `Hallo ${input.fullName},`,
+    "",
+    `Ihr Bestaetigungscode lautet: ${input.code}`,
+    "",
+    `Der Code ist ${Math.round(AUTH_CODE_TTL_MS / 60000)} Minuten gueltig.`,
+    "",
+    "Falls Sie sich nicht selbst registriert haben, ignorieren Sie diese E-Mail.",
+  ].join("\n");
 
-  if (!accountId || !apiToken || !fromAddress) {
+  try {
+    await sendCloudflareEmail({
+      to: input.to,
+      replyTo,
+      subject: "Ihr Liminalo Bestaetigungscode",
+      text,
+      html: getEmailHtml(input),
+    });
+
+    return { mode: "cloudflare" };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "UNKNOWN_ERROR";
+
+    if (message !== "CLOUDFLARE_EMAIL_CONFIG_MISSING") {
+      throw error;
+    }
+
     if (!isProduction() || input.allowPreviewFallback) {
       console.info(
         `[Auth] Cloudflare Email preview code for ${input.to}: ${input.code}`
@@ -65,44 +173,4 @@ export async function sendVerificationCodeEmail(
 
     throw new Error("CLOUDFLARE_EMAIL_CONFIG_MISSING");
   }
-
-  const minutes = Math.round(AUTH_CODE_TTL_MS / 60000);
-  const response = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${accountId}/email/sending/send`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: fromAddress,
-        to: input.to,
-        reply_to: replyTo,
-        subject: "Ihr Liminalo Bestaetigungscode",
-        text: [
-          `Hallo ${input.fullName},`,
-          "",
-          `Ihr Bestaetigungscode lautet: ${input.code}`,
-          "",
-          `Der Code ist ${minutes} Minuten gueltig.`,
-          "",
-          "Falls Sie sich nicht selbst registriert haben, ignorieren Sie diese E-Mail.",
-        ].join("\n"),
-        html: getEmailHtml(input),
-      }),
-      cache: "no-store",
-    }
-  );
-
-  const data = (await response.json()) as CloudflareEmailResponse;
-
-  if (!response.ok || !data.success) {
-    const message =
-      data.errors?.map((error) => error.message).join("; ") ||
-      "Cloudflare Email send failed.";
-    throw new Error(`CLOUDFLARE_EMAIL_SEND_FAILED:${message}`);
-  }
-
-  return { mode: "cloudflare" };
 }

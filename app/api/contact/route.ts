@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
 
+import { sendCloudflareEmail } from "@/lib/auth/cloudflare-email";
 import { getClientIp } from "@/lib/request";
 import { takeRateLimit } from "@/lib/rate-limit";
 
@@ -17,20 +17,6 @@ type ContactBody = {
   agbAccepted?: unknown;
   source?: unknown;
 };
-
-let resend: Resend | null = null;
-
-function getResendClient() {
-  if (!process.env.RESEND_API_KEY) {
-    return null;
-  }
-
-  if (!resend) {
-    resend = new Resend(process.env.RESEND_API_KEY);
-  }
-
-  return resend;
-}
 
 function normalizeString(value: unknown, maxLength: number): string {
   return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
@@ -49,22 +35,18 @@ function isValidEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-function formatResendError(errorMessage: string): string {
-  const normalized = errorMessage.toLowerCase();
+function formatCloudflareEmailError(error: unknown): string {
+  const message = error instanceof Error ? error.message : "UNKNOWN_ERROR";
 
-  if (normalized.includes("testing emails")) {
-    return "Resend ist noch im Testmodus. Bitte pruefen Sie Absender- und Empfaenger-Adresse.";
+  if (message === "CLOUDFLARE_EMAIL_CONFIG_MISSING") {
+    return "Cloudflare Email ist noch nicht konfiguriert.";
   }
 
-  if (normalized.includes("from") && normalized.includes("verified")) {
-    return "Die konfigurierte Absenderadresse ist bei Resend noch nicht verifiziert.";
+  if (message.startsWith("CLOUDFLARE_EMAIL_SEND_FAILED:")) {
+    return "Die Kontaktanfrage konnte per E-Mail nicht zugestellt werden.";
   }
 
-  if (normalized.includes("api key")) {
-    return "Der Resend API-Key ist ungueltig oder fehlt.";
-  }
-
-  return "Die Kontaktanfrage konnte per E-Mail nicht zugestellt werden.";
+  return "Serverfehler beim Kontaktversand.";
 }
 
 export async function POST(request: NextRequest) {
@@ -117,66 +99,56 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const resendClient = getResendClient();
-
-    if (!resendClient) {
-      return NextResponse.json(
-        { error: "RESEND_API_KEY fehlt in den Environment Variables." },
-        { status: 500 }
-      );
-    }
-
     const inquiryId = `inq-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-    const fromAddress =
-      process.env.RESEND_FROM_EMAIL || "Liminalo <onboarding@resend.dev>";
     const toAddress =
       process.env.CONTACT_RECEIVER_EMAIL ||
       process.env.BUSINESS_CONTACT_EMAIL ||
       "business@liminalo.com";
 
     const safeMessage = escapeHtml(message).replaceAll("\n", "<br />");
-    const { data, error } = await resendClient.emails.send({
-      from: fromAddress,
-      to: [toAddress],
-      replyTo: email,
-      subject: `Neue Anfrage von ${name}`,
-      text: [
-        "Neue Kontaktanfrage",
-        `ID: ${inquiryId}`,
-        `Name: ${name}`,
-        `E-Mail: ${email}`,
-        `Telefon: ${phone || "Nicht angegeben"}`,
-        `Unternehmen: ${company || "Nicht angegeben"}`,
-        `Website-Art: ${websiteType || "Nicht angegeben"}`,
-        `Budget: ${budget ? `${budget} EUR` : "Nicht angegeben"}`,
-        `Quelle: ${source}`,
-        "",
-        "Nachricht:",
-        message,
-      ].join("\n"),
-      html: `
-        <div style="font-family: Inter, Arial, sans-serif; color: #08111c;">
-          <h2>Neue Kontaktanfrage</h2>
-          <p><strong>ID:</strong> ${escapeHtml(inquiryId)}</p>
-          <hr />
-          <p><strong>Name:</strong> ${escapeHtml(name)}</p>
-          <p><strong>E-Mail:</strong> ${escapeHtml(email)}</p>
-          <p><strong>Telefon:</strong> ${escapeHtml(phone || "Nicht angegeben")}</p>
-          <p><strong>Unternehmen:</strong> ${escapeHtml(company || "Nicht angegeben")}</p>
-          <p><strong>Website-Art:</strong> ${escapeHtml(websiteType || "Nicht angegeben")}</p>
-          <p><strong>Budget:</strong> ${budget ? `${budget} EUR` : "Nicht angegeben"}</p>
-          <p><strong>Quelle:</strong> ${escapeHtml(source)}</p>
-          <hr />
-          <p><strong>Nachricht:</strong></p>
-          <p>${safeMessage}</p>
-        </div>
-      `.trim(),
-    });
+    const text = [
+      "Neue Kontaktanfrage",
+      `ID: ${inquiryId}`,
+      `Name: ${name}`,
+      `E-Mail: ${email}`,
+      `Telefon: ${phone || "Nicht angegeben"}`,
+      `Unternehmen: ${company || "Nicht angegeben"}`,
+      `Website-Art: ${websiteType || "Nicht angegeben"}`,
+      `Budget: ${budget ? `${budget} EUR` : "Nicht angegeben"}`,
+      `Quelle: ${source}`,
+      "",
+      "Nachricht:",
+      message,
+    ].join("\n");
+    const html = `
+      <div style="font-family: Inter, Arial, sans-serif; color: #08111c;">
+        <h2>Neue Kontaktanfrage</h2>
+        <p><strong>ID:</strong> ${escapeHtml(inquiryId)}</p>
+        <hr />
+        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+        <p><strong>E-Mail:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Telefon:</strong> ${escapeHtml(phone || "Nicht angegeben")}</p>
+        <p><strong>Unternehmen:</strong> ${escapeHtml(company || "Nicht angegeben")}</p>
+        <p><strong>Website-Art:</strong> ${escapeHtml(websiteType || "Nicht angegeben")}</p>
+        <p><strong>Budget:</strong> ${budget ? `${budget} EUR` : "Nicht angegeben"}</p>
+        <p><strong>Quelle:</strong> ${escapeHtml(source)}</p>
+        <hr />
+        <p><strong>Nachricht:</strong></p>
+        <p>${safeMessage}</p>
+      </div>
+    `.trim();
 
-    if (error || !data) {
-      const resendMessage = error?.message || "Unbekannter Resend-Fehler";
+    try {
+      await sendCloudflareEmail({
+        to: [toAddress],
+        replyTo: email,
+        subject: `Neue Anfrage von ${name}`,
+        text,
+        html,
+      });
+    } catch (error) {
       return NextResponse.json(
-        { error: formatResendError(resendMessage) },
+        { error: formatCloudflareEmailError(error) },
         { status: 502 }
       );
     }
@@ -202,8 +174,11 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   return NextResponse.json({
     status: "ok",
-    hasResendKey: Boolean(process.env.RESEND_API_KEY),
-    hasFromAddress: Boolean(process.env.RESEND_FROM_EMAIL),
+    mailProvider: "cloudflare",
+    hasCloudflareEmailToken: Boolean(
+      process.env.CLOUDFLARE_EMAIL_API_TOKEN || process.env.CLOUDFLARE_API_TOKEN
+    ),
+    hasFromAddress: Boolean(process.env.CLOUDFLARE_EMAIL_FROM),
     hasRecipient: Boolean(
       process.env.CONTACT_RECEIVER_EMAIL || process.env.BUSINESS_CONTACT_EMAIL
     ),
