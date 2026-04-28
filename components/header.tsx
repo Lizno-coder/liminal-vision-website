@@ -30,7 +30,7 @@ function BrandLockup({ compact = false }: { compact?: boolean }) {
   return (
     <div
       className={`relative flex items-center overflow-hidden transition group-hover:drop-shadow-[0_0_20px_rgba(41,151,255,0.22)] ${
-        compact ? "h-10" : "h-11 sm:h-12"
+        compact ? "h-10 md:h-12" : "h-11 sm:h-12"
       }`}
     >
       <Image
@@ -39,7 +39,7 @@ function BrandLockup({ compact = false }: { compact?: boolean }) {
         width={96}
         height={96}
         quality={90}
-        sizes={compact ? "40px" : "(min-width: 640px) 48px, 44px"}
+        sizes={compact ? "(min-width: 768px) 48px, 40px" : "(min-width: 640px) 48px, 44px"}
         priority
         className="h-full w-auto object-contain"
       />
@@ -247,15 +247,6 @@ export default function Header() {
   }, [headerY]);
 
   useEffect(() => {
-    const closeOnResize = () => {
-      if (window.innerWidth >= 768) setIsOpen(false);
-    };
-
-    window.addEventListener("resize", closeOnResize);
-    return () => window.removeEventListener("resize", closeOnResize);
-  }, []);
-
-  useEffect(() => {
     if (!isOpen) {
       return;
     }
@@ -293,66 +284,39 @@ export default function Header() {
         initial={{ y: -24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className={`mx-auto max-w-7xl transition-shadow ${
-          scrolled ? "md:shadow-[0_8px_30px_rgba(0,0,0,0.18)]" : ""
-        }`}
+        className={`mx-auto max-w-7xl transition-shadow ${scrolled ? "" : ""}`}
       >
-        <div className="flex items-center justify-between md:rounded-[1.75rem] md:border md:border-white/10 md:bg-white/10 md:backdrop-blur-xl">
-          <div className="flex h-12 w-full items-center justify-between px-1 md:h-16 md:px-6">
+        <div className="flex items-center justify-between">
+          <div className="flex h-12 w-full items-center justify-between px-1 md:h-14">
             <Link
               href="/"
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="group flex cursor-pointer items-center gap-1 md:hidden"
+              className="group flex cursor-pointer items-center gap-1"
               aria-label="Zur Startseite"
             >
               <BrandLockup compact />
             </Link>
-
-            <Link
-              href="/"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="group hidden cursor-pointer items-center gap-1 md:flex"
-              aria-label="Zur Startseite"
-            >
-              <BrandLockup />
-            </Link>
-
-            <nav className="hidden items-center gap-8 md:flex">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className="text-sm font-medium text-white/75 transition hover:text-white"
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </nav>
-
-            <div className="hidden items-center gap-3 md:flex">
-              <AccountMenu user={sessionUser} onLogout={handleLogout} />
-            </div>
 
             <button
               type="button"
               aria-label="Toggle menu"
               aria-expanded={isOpen}
               onClick={() => setIsOpen((prev) => !prev)}
-              className="inline-flex h-10 w-10 items-center justify-center text-white md:hidden"
+              className="inline-flex h-10 w-10 items-center justify-center text-white md:h-12 md:w-12"
             >
-              <div className="relative h-4 w-5">
+              <div className="relative h-4 w-5 md:h-5 md:w-6">
                 <span
-                  className={`absolute left-0 top-0 h-0.5 w-5 rounded-full bg-white transition-all duration-300 ${
+                  className={`absolute left-0 top-0 h-0.5 w-5 rounded-full bg-white transition-all duration-300 md:w-6 ${
                     isOpen ? "top-1.5 rotate-45" : ""
                   }`}
                 />
                 <span
-                  className={`absolute left-0 top-1.5 h-0.5 w-5 rounded-full bg-white transition-all duration-300 ${
+                  className={`absolute left-0 top-1.5 h-0.5 w-5 rounded-full bg-white transition-all duration-300 md:top-2 md:w-6 ${
                     isOpen ? "opacity-0" : "opacity-100"
                   }`}
                 />
                 <span
-                  className={`absolute left-0 top-3 h-0.5 w-5 rounded-full bg-white transition-all duration-300 ${
+                  className={`absolute left-0 top-3 h-0.5 w-5 rounded-full bg-white transition-all duration-300 md:top-4 md:w-6 ${
                     isOpen ? "top-1.5 -rotate-45" : ""
                   }`}
                 />
@@ -368,9 +332,9 @@ export default function Header() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.22, ease: "easeOut" }}
-              className="mt-3 flex justify-end md:hidden"
+              className="mt-3 flex justify-end"
             >
-              <div className="w-full max-w-xs overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#07111e]/88 p-3 shadow-[0_25px_80px_rgba(0,0,0,0.38)] backdrop-blur-2xl">
+              <div className="w-full max-w-xs overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#07111e]/88 p-3 shadow-[0_25px_80px_rgba(0,0,0,0.38)] backdrop-blur-2xl md:max-w-sm md:p-4">
                 <div className="space-y-1">
                   {navLinks.map((link, index) => (
                     <motion.div
