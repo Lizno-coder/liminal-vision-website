@@ -65,7 +65,7 @@ type Notice = {
 };
 
 const inputClassName =
-  "w-full rounded-full border border-white/10 bg-black/20 px-5 py-3 text-center text-white outline-none backdrop-blur-sm transition placeholder:text-white/34 focus:border-[#2997ff]/55 focus:bg-black/30";
+  "w-full rounded-full border border-white/10 bg-black/20 px-5 py-2.5 text-center text-sm text-white outline-none backdrop-blur-sm transition placeholder:text-white/34 focus:border-[#2997ff]/55 focus:bg-black/30 sm:py-3 sm:text-base";
 
 const profileInputClassName =
   "w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none backdrop-blur-sm transition placeholder:text-white/34 focus:border-[#2997ff]/55 focus:bg-black/30";
@@ -104,7 +104,7 @@ function LogoMark() {
   return (
     <Link
       href="/"
-      className="mx-auto flex h-14 items-center justify-center overflow-hidden"
+      className="mx-auto flex h-10 items-center justify-center overflow-hidden sm:h-14"
       aria-label="Zur Startseite"
     >
       <Image
@@ -260,6 +260,24 @@ export default function AccountAccess() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const isCodeComplete = codeDigits.every((digit) => digit.length === 1);
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    const footers = Array.from(document.querySelectorAll("footer"));
+    const previousFooterDisplays = footers.map((footer) => footer.style.display);
+
+    document.body.style.overflow = "hidden";
+    footers.forEach((footer) => {
+      footer.style.display = "none";
+    });
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      footers.forEach((footer, index) => {
+        footer.style.display = previousFooterDisplays[index] || "";
+      });
+    };
+  }, []);
 
   useEffect(() => {
     if (!sessionUser) {
@@ -648,8 +666,20 @@ export default function AccountAccess() {
   }
 
   return (
-    <div className="fixed inset-0 z-[70] overflow-y-auto bg-[#05070b]">
-      <div className="absolute inset-0">
+    <div
+      data-account-access
+      className="fixed inset-0 z-[70] overflow-hidden bg-[#05070b]"
+    >
+      <style>{`
+        body:has([data-account-access]) {
+          overflow: hidden;
+        }
+
+        body:has([data-account-access]) footer {
+          display: none;
+        }
+      `}</style>
+      <div className="fixed inset-0">
         <CanvasRevealEffect
           animationSpeed={3}
           containerClassName="bg-[#05070b]"
@@ -662,8 +692,13 @@ export default function AccountAccess() {
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(10,10,10,0.78),rgba(10,10,10,0.26)_42%,rgba(10,10,10,0.92))]" />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-2xl flex-col justify-center px-5 py-[calc(env(safe-area-inset-top)+5rem)] md:py-28">
-        <div className="space-y-7 text-center">
+      <div
+        className={cn(
+          "relative z-10 mx-auto flex h-screen w-full flex-col justify-center overflow-y-auto px-5 py-[calc(env(safe-area-inset-top)+1rem)] pb-[calc(env(safe-area-inset-bottom)+1rem)] md:py-28",
+          view === "account" && sessionUser ? "max-w-2xl" : "max-w-md"
+        )}
+      >
+        <div className="space-y-4 text-center sm:space-y-7">
           <LogoMark />
 
           <AnimatePresence mode="wait">
@@ -678,10 +713,10 @@ export default function AccountAccess() {
             ) : view === "account" && sessionUser ? (
               <motion.div key="account" {...panelMotion} className="space-y-6">
                 <div className="space-y-1">
-                  <h1 className="text-4xl font-semibold leading-tight text-white">
+                  <h1 className="text-3xl font-semibold leading-tight text-white sm:text-4xl">
                     Profileinstellungen
                   </h1>
-                  <p className="text-lg text-white/54">{sessionUser.email}</p>
+                  <p className="text-sm text-white/54 sm:text-lg">{sessionUser.email}</p>
                 </div>
 
                 <NoticeBanner notice={notice} />
@@ -885,10 +920,10 @@ export default function AccountAccess() {
                 className="space-y-6"
               >
                 <div className="space-y-1">
-                  <h1 className="text-4xl font-semibold leading-tight text-white">
+                  <h1 className="text-3xl font-semibold leading-tight text-white sm:text-4xl">
                     Code gesendet
                   </h1>
-                  <p className="text-lg text-white/54">{verifyEmail}</p>
+                  <p className="text-sm text-white/54 sm:text-lg">{verifyEmail}</p>
                 </div>
 
                 <NoticeBanner notice={notice} />
@@ -957,12 +992,12 @@ export default function AccountAccess() {
                 </div>
               </motion.form>
             ) : (
-              <motion.div key="auth" {...panelMotion} className="space-y-6">
-                <div className="space-y-1">
-                  <h1 className="text-4xl font-semibold leading-tight text-white">
+              <motion.div key="auth" {...panelMotion} className="space-y-3 sm:space-y-6">
+                <div className="space-y-0.5 sm:space-y-1">
+                  <h1 className="text-3xl font-semibold leading-tight text-white sm:text-4xl">
                     {activeTab === "register" ? "Konto erstellen" : "Einloggen"}
                   </h1>
-                  <p className="text-lg text-white/54">
+                  <p className="text-sm text-white/54 sm:text-lg">
                     {activeTab === "register"
                       ? "Sichern Sie Ihren Liminalo Zugang."
                       : "Willkommen zurueck."}
@@ -973,7 +1008,7 @@ export default function AccountAccess() {
                 <NoticeBanner notice={notice} />
 
                 {activeTab === "register" ? (
-                  <form onSubmit={handleRegisterSubmit} className="space-y-4">
+                  <form onSubmit={handleRegisterSubmit} className="space-y-2.5 sm:space-y-4">
                     <GoogleButton label="Mit Google registrieren" />
                     <div className="flex items-center gap-4">
                       <div className="h-px flex-1 bg-white/10" />
@@ -1032,7 +1067,7 @@ export default function AccountAccess() {
                       className={inputClassName}
                       autoComplete="new-password"
                     />
-                    <div className="rounded-[1.35rem] border border-white/10 bg-black/20 p-3 backdrop-blur-sm">
+                    <div className="rounded-[1.2rem] border border-white/10 bg-black/20 p-2 backdrop-blur-sm sm:rounded-[1.35rem] sm:p-3">
                       <TurnstileWidget
                         action="register"
                         resetKey={registerCaptchaSeed}
@@ -1042,7 +1077,7 @@ export default function AccountAccess() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium text-black transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-70"
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-black transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-70 sm:py-3"
                     >
                       {isSubmitting ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -1053,7 +1088,7 @@ export default function AccountAccess() {
                     </button>
                   </form>
                 ) : (
-                  <form onSubmit={handleLoginSubmit} className="space-y-4">
+                  <form onSubmit={handleLoginSubmit} className="space-y-3 sm:space-y-4">
                     <GoogleButton label="Mit Google anmelden" />
                     <div className="flex items-center gap-4">
                       <div className="h-px flex-1 bg-white/10" />
@@ -1086,7 +1121,7 @@ export default function AccountAccess() {
                       className={inputClassName}
                       autoComplete="current-password"
                     />
-                    <div className="rounded-[1.35rem] border border-white/10 bg-black/20 p-3 backdrop-blur-sm">
+                    <div className="rounded-[1.2rem] border border-white/10 bg-black/20 p-2 backdrop-blur-sm sm:rounded-[1.35rem] sm:p-3">
                       <TurnstileWidget
                         action="login"
                         resetKey={loginCaptchaSeed}
@@ -1096,7 +1131,7 @@ export default function AccountAccess() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium text-black transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-70"
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-black transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-70 sm:py-3"
                     >
                       {isSubmitting ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -1108,7 +1143,7 @@ export default function AccountAccess() {
                   </form>
                 )}
 
-                <p className="text-xs leading-5 text-white/38">
+                <p className="text-[11px] leading-4 text-white/38 sm:text-xs sm:leading-5">
                   Mit der Registrierung akzeptieren Sie AGB und Datenschutz.
                 </p>
               </motion.div>
