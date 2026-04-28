@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
-import { LogOut, Settings, UserRound } from "lucide-react";
+import { LogIn, LogOut, Settings, UserRound } from "lucide-react";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -47,20 +47,28 @@ function BrandLockup({ compact = false }: { compact?: boolean }) {
   );
 }
 
-function UserAvatar({ user, size = "md" }: { user: HeaderUser; size?: "sm" | "md" }) {
-  const initials = user.fullName
-    .split(" ")
-    .map((part) => part[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
+function UserAvatar({
+  user,
+  size = "md",
+}: {
+  user: HeaderUser | null;
+  size?: "sm" | "md";
+}) {
+  const initials = user
+    ? user.fullName
+        .split(" ")
+        .map((part) => part[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase()
+    : "";
   const sizeClass = size === "sm" ? "h-9 w-9 text-xs" : "h-10 w-10 text-sm";
 
   return (
     <div
       className={`${sizeClass} flex shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/15 bg-gradient-to-br from-[#2997ff] to-[#5856d6] font-semibold text-white shadow-lg shadow-[#2997ff]/20`}
     >
-      {user.avatarDataUrl ? (
+      {user?.avatarDataUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={user.avatarDataUrl} alt="" className="h-full w-full object-cover" />
       ) : (
@@ -109,17 +117,6 @@ function AccountMenu({
     };
   }, [isProfileOpen]);
 
-  if (!user) {
-    return (
-      <Link
-        href="/konto"
-        className="inline-flex items-center rounded-full border border-white/20 bg-white px-5 py-2.5 text-sm font-semibold text-black shadow-lg shadow-white/10 transition hover:scale-[1.02] hover:bg-white/90"
-      >
-        Anmelden
-      </Link>
-    );
-  }
-
   return (
     <div ref={profileRef} className="relative">
       <button
@@ -141,33 +138,59 @@ function AccountMenu({
             transition={{ duration: 0.18, ease: "easeOut" }}
             className="absolute right-0 top-12 w-72 overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#07111e]/92 p-3 shadow-[0_25px_80px_rgba(0,0,0,0.42)] backdrop-blur-2xl"
           >
-            <div className="flex items-center gap-3 rounded-[1.15rem] bg-white/[0.06] p-3">
-              <UserAvatar user={user} size="sm" />
-              <div className="min-w-0">
-                <div className="truncate text-sm font-semibold text-white">{user.fullName}</div>
-                <div className="truncate text-xs text-white/52">{user.email}</div>
-              </div>
-            </div>
+            {user ? (
+              <>
+                <div className="flex items-center gap-3 rounded-[1.15rem] bg-white/[0.06] p-3">
+                  <UserAvatar user={user} size="sm" />
+                  <div className="min-w-0">
+                    <div className="truncate text-sm font-semibold text-white">
+                      {user.fullName}
+                    </div>
+                    <div className="truncate text-xs text-white/52">{user.email}</div>
+                  </div>
+                </div>
 
-            <Link
-              href="/konto"
-              onClick={() => setIsProfileOpen(false)}
-              className="mt-2 flex items-center gap-3 rounded-2xl px-3 py-3 text-sm text-white/78 transition hover:bg-white/10 hover:text-white"
-            >
-              <Settings className="h-4 w-4" />
-              Profileinstellungen
-            </Link>
-            <button
-              type="button"
-              onClick={() => {
-                setIsProfileOpen(false);
-                void onLogout();
-              }}
-              className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm text-white/78 transition hover:bg-white/10 hover:text-white"
-            >
-              <LogOut className="h-4 w-4" />
-              Abmelden
-            </button>
+                <Link
+                  href="/konto"
+                  onClick={() => setIsProfileOpen(false)}
+                  className="mt-2 flex items-center gap-3 rounded-2xl px-3 py-3 text-sm text-white/78 transition hover:bg-white/10 hover:text-white"
+                >
+                  <Settings className="h-4 w-4" />
+                  Profileinstellungen
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsProfileOpen(false);
+                    void onLogout();
+                  }}
+                  className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm text-white/78 transition hover:bg-white/10 hover:text-white"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Abmelden
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="rounded-[1.15rem] bg-white/[0.06] p-3 text-center">
+                  <div className="mx-auto mb-3">
+                    <UserAvatar user={null} size="sm" />
+                  </div>
+                  <div className="text-sm font-semibold text-white">Liminalo Account</div>
+                  <div className="mt-1 text-xs leading-5 text-white/52">
+                    Anmelden oder kostenlos registrieren.
+                  </div>
+                </div>
+                <Link
+                  href="/konto"
+                  onClick={() => setIsProfileOpen(false)}
+                  className="mt-3 flex items-center justify-center gap-2 rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-black transition hover:bg-white/90"
+                >
+                  <LogIn className="h-4 w-4" />
+                  Anmelden / Registrieren
+                </Link>
+              </>
+            )}
           </motion.div>
         ) : null}
       </AnimatePresence>
@@ -205,9 +228,15 @@ export default function Header() {
     };
 
     void loadSession();
+    window.addEventListener("focus", loadSession);
+    window.addEventListener("pageshow", loadSession);
+    window.addEventListener("liminalo-auth-change", loadSession);
 
     return () => {
       active = false;
+      window.removeEventListener("focus", loadSession);
+      window.removeEventListener("pageshow", loadSession);
+      window.removeEventListener("liminalo-auth-change", loadSession);
     };
   }, []);
 
@@ -215,6 +244,7 @@ export default function Header() {
     await fetch("/api/auth/logout", { method: "POST" });
     setSessionUser(null);
     setIsOpen(false);
+    window.dispatchEvent(new Event("liminalo-auth-change"));
   }
 
   useEffect(() => {
@@ -297,31 +327,34 @@ export default function Header() {
               <BrandLockup compact />
             </Link>
 
-            <button
-              type="button"
-              aria-label="Toggle menu"
-              aria-expanded={isOpen}
-              onClick={() => setIsOpen((prev) => !prev)}
-              className="inline-flex h-10 w-10 items-center justify-center text-white md:h-12 md:w-12"
-            >
-              <div className="relative h-4 w-5 md:h-5 md:w-6">
-                <span
-                  className={`absolute left-0 top-0 h-0.5 w-5 rounded-full bg-white transition-all duration-300 md:w-6 ${
-                    isOpen ? "top-1.5 rotate-45" : ""
-                  }`}
-                />
-                <span
-                  className={`absolute left-0 top-1.5 h-0.5 w-5 rounded-full bg-white transition-all duration-300 md:top-2 md:w-6 ${
-                    isOpen ? "opacity-0" : "opacity-100"
-                  }`}
-                />
-                <span
-                  className={`absolute left-0 top-3 h-0.5 w-5 rounded-full bg-white transition-all duration-300 md:top-4 md:w-6 ${
-                    isOpen ? "top-1.5 -rotate-45" : ""
-                  }`}
-                />
-              </div>
-            </button>
+            <div className="flex items-center gap-1.5 md:gap-2">
+              <AccountMenu user={sessionUser} onLogout={handleLogout} />
+              <button
+                type="button"
+                aria-label="Toggle menu"
+                aria-expanded={isOpen}
+                onClick={() => setIsOpen((prev) => !prev)}
+                className="inline-flex h-10 w-10 items-center justify-center text-white md:h-12 md:w-12"
+              >
+                <div className="relative h-4 w-5 md:h-5 md:w-6">
+                  <span
+                    className={`absolute left-0 top-0 h-0.5 w-5 rounded-full bg-white transition-all duration-300 md:w-6 ${
+                      isOpen ? "top-1.5 rotate-45" : ""
+                    }`}
+                  />
+                  <span
+                    className={`absolute left-0 top-1.5 h-0.5 w-5 rounded-full bg-white transition-all duration-300 md:top-2 md:w-6 ${
+                      isOpen ? "opacity-0" : "opacity-100"
+                    }`}
+                  />
+                  <span
+                    className={`absolute left-0 top-3 h-0.5 w-5 rounded-full bg-white transition-all duration-300 md:top-4 md:w-6 ${
+                      isOpen ? "top-1.5 -rotate-45" : ""
+                    }`}
+                  />
+                </div>
+              </button>
+            </div>
           </div>
         </div>
 

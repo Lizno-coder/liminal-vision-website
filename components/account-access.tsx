@@ -9,9 +9,12 @@ import {
   ArrowRight,
   Camera,
   Check,
+  Maximize2,
   Loader2,
   LockKeyhole,
   LogOut,
+  Move,
+  RotateCcw,
   Save,
   Upload,
   UserRound,
@@ -68,7 +71,7 @@ const inputClassName =
   "w-full rounded-full border border-white/10 bg-black/20 px-5 py-2.5 text-center text-sm text-white outline-none backdrop-blur-sm transition placeholder:text-white/34 focus:border-[#2997ff]/55 focus:bg-black/30 sm:py-3 sm:text-base";
 
 const profileInputClassName =
-  "w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none backdrop-blur-sm transition placeholder:text-white/34 focus:border-[#2997ff]/55 focus:bg-black/30";
+  "w-full rounded-[1.35rem] border border-white/10 bg-white/[0.045] px-4 py-3 text-sm text-white outline-none backdrop-blur-xl transition placeholder:text-white/34 focus:border-[#2997ff]/55 focus:bg-white/[0.075] sm:text-base";
 
 const panelMotion = {
   initial: { opacity: 0, x: 34 },
@@ -192,7 +195,16 @@ function getInitials(name: string) {
     .toUpperCase();
 }
 
-async function cropAvatarToDataUrl(source: string, zoom: number) {
+type AvatarOffset = {
+  x: number;
+  y: number;
+};
+
+async function cropAvatarToDataUrl(
+  source: string,
+  zoom: number,
+  offset: AvatarOffset
+) {
   const image = await new Promise<HTMLImageElement>((resolve, reject) => {
     const element = new window.Image();
     element.onload = () => resolve(element);
@@ -215,7 +227,13 @@ async function cropAvatarToDataUrl(source: string, zoom: number) {
   const height = image.height * scale;
 
   context.clearRect(0, 0, size, size);
-  context.drawImage(image, (size - width) / 2, (size - height) / 2, width, height);
+  context.drawImage(
+    image,
+    (size - width) / 2 + offset.x,
+    (size - height) / 2 + offset.y,
+    width,
+    height
+  );
 
   return canvas.toDataURL("image/jpeg", 0.86);
 }
@@ -257,6 +275,14 @@ export default function AccountAccess() {
   });
   const [avatarSource, setAvatarSource] = useState("");
   const [avatarZoom, setAvatarZoom] = useState(1);
+  const [avatarOffset, setAvatarOffset] = useState<AvatarOffset>({ x: 0, y: 0 });
+  const [avatarDragStart, setAvatarDragStart] = useState<{
+    pointerId: number;
+    clientX: number;
+    clientY: number;
+    originX: number;
+    originY: number;
+  } | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const isCodeComplete = codeDigits.every((digit) => digit.length === 1);
@@ -329,7 +355,7 @@ export default function AccountAccess() {
           setStorageMode(data.storageMode);
         }
 
-        if (data.user) {
+      if (data.user) {
           setSessionUser(data.user);
           setView("account");
         }
@@ -460,6 +486,7 @@ export default function AccountAccess() {
 
       setSessionUser(data.user);
       setView("account");
+      window.dispatchEvent(new Event("liminalo-auth-change"));
       setNotice({
         tone: "success",
         text: "Sie sind jetzt angemeldet.",
@@ -511,6 +538,7 @@ export default function AccountAccess() {
       setSessionUser(data.user);
       setPreviewCode(null);
       setView("account");
+      window.dispatchEvent(new Event("liminalo-auth-change"));
       setNotice({
         tone: "success",
         text: "Ihr Konto ist bestaetigt.",
@@ -537,6 +565,7 @@ export default function AccountAccess() {
       setSessionUser(null);
       setView("auth");
       setActiveTab("login");
+      window.dispatchEvent(new Event("liminalo-auth-change"));
       setNotice({
         tone: "info",
         text: "Sie wurden abgemeldet.",
@@ -569,6 +598,7 @@ export default function AccountAccess() {
       }
 
       setSessionUser(data.user);
+      window.dispatchEvent(new Event("liminalo-auth-change"));
       setNotice({
         tone: "success",
         text: "Profil gespeichert.",
@@ -605,6 +635,7 @@ export default function AccountAccess() {
     reader.onload = () => {
       setAvatarSource(String(reader.result || ""));
       setAvatarZoom(1);
+      setAvatarOffset({ x: 0, y: 0 });
     };
     reader.readAsDataURL(file);
   }
@@ -615,9 +646,14 @@ export default function AccountAccess() {
     }
 
     try {
-      const dataUrl = await cropAvatarToDataUrl(avatarSource, avatarZoom);
+      const dataUrl = await cropAvatarToDataUrl(
+        avatarSource,
+        avatarZoom,
+        avatarOffset
+      );
       setProfileForm((current) => ({ ...current, avatarDataUrl: dataUrl }));
       setAvatarSource("");
+      setAvatarOffset({ x: 0, y: 0 });
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
@@ -656,6 +692,41 @@ export default function AccountAccess() {
     }
   }
 
+  function fillCodeFromText(rawValue: string, startIndex = 0) {
+    const digits = rawValue.replace(/\D/g, "").slice(0, 6);
+
+    if (!digits) {
+      return false;
+    }
+
+    const nextDigits = [...codeDigits];
+    const targetStartIndex = digits.length >= 6 ? 0 : startIndex;
+
+    digits.split("").forEach((digit, offset) => {
+      const targetIndex = targetStartIndex + offset;
+
+      if (targetIndex < nextDigits.length) {
+        nextDigits[targetIndex] = digit;
+      }
+    });
+
+    setCodeDigits(nextDigits);
+    codeInputRefs.current[
+      Math.min(targetStartIndex + digits.length, nextDigits.length - 1)
+    ]?.focus();
+
+    return true;
+  }
+
+  function handleCodePaste(
+    index: number,
+    event: React.ClipboardEvent<HTMLInputElement>
+  ) {
+    if (fillCodeFromText(event.clipboardData.getData("text"), index)) {
+      event.preventDefault();
+    }
+  }
+
   function handleCodeKeyDown(
     index: number,
     event: React.KeyboardEvent<HTMLInputElement>
@@ -663,6 +734,14 @@ export default function AccountAccess() {
     if (event.key === "Backspace" && !codeDigits[index] && index > 0) {
       codeInputRefs.current[index - 1]?.focus();
     }
+  }
+
+  function handleAvatarWheel(event: React.WheelEvent<HTMLDivElement>) {
+    event.preventDefault();
+    const direction = event.deltaY > 0 ? -0.08 : 0.08;
+    setAvatarZoom((current) =>
+      Math.min(3.5, Math.max(1, Number((current + direction).toFixed(2))))
+    );
   }
 
   return (
@@ -733,11 +812,12 @@ export default function AccountAccess() {
 
                 <form
                   onSubmit={handleProfileSubmit}
-                  className="rounded-[2rem] border border-white/10 bg-black/22 p-5 text-left backdrop-blur-md sm:p-6"
+                  className="overflow-hidden rounded-[2.2rem] border border-white/10 bg-[#07111e]/58 text-left shadow-[0_26px_90px_rgba(0,0,0,0.34)] backdrop-blur-2xl"
                 >
-                  <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:text-left">
+                  <div className="border-b border-white/10 bg-[radial-gradient(circle_at_50%_0%,rgba(41,151,255,0.22),transparent_55%)] p-5 sm:p-6">
+                    <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:text-left">
                     <div className="relative">
-                      <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border border-white/12 bg-gradient-to-br from-[#2997ff] to-[#5856d6] text-2xl font-semibold text-white shadow-[0_20px_60px_rgba(41,151,255,0.22)]">
+                      <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border border-white/16 bg-gradient-to-br from-[#2997ff] to-[#5856d6] text-2xl font-semibold text-white shadow-[0_20px_60px_rgba(41,151,255,0.28)] ring-4 ring-white/[0.04]">
                         {profileForm.avatarDataUrl ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
@@ -765,10 +845,13 @@ export default function AccountAccess() {
                       <div className="text-sm text-white/52">
                         {profileForm.company || "Liminalo Account"}
                       </div>
+                      <div className="mt-2 text-xs leading-5 text-white/42">
+                        Profilbild und Angaben werden fuer Ihren Account gespeichert.
+                      </div>
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2 text-xs font-medium text-white/78 transition hover:bg-white/10 hover:text-white"
+                        className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 py-2 text-xs font-medium text-white/82 transition hover:bg-white/12 hover:text-white"
                       >
                         <Upload className="h-3.5 w-3.5" />
                         Bild hochladen
@@ -781,26 +864,88 @@ export default function AccountAccess() {
                         onChange={handleAvatarFileChange}
                       />
                     </div>
+                    </div>
                   </div>
 
                   {avatarSource ? (
-                    <div className="mt-5 rounded-[1.5rem] border border-[#2997ff]/20 bg-[#2997ff]/10 p-4">
-                      <div className="mx-auto h-36 w-36 overflow-hidden rounded-full border border-white/14 bg-black/30">
+                    <div className="m-4 rounded-[1.8rem] border border-[#2997ff]/20 bg-[#06192b]/78 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:m-5">
+                      <div className="mb-3 flex items-start justify-between gap-3">
+                        <div>
+                          <div className="text-sm font-semibold text-white">
+                            Profilbild anpassen
+                          </div>
+                          <div className="mt-1 flex items-center gap-1.5 text-xs text-white/48">
+                            <Move className="h-3.5 w-3.5" />
+                            Ziehen zum Verschieben, Mausrad oder Regler zum Zoomen.
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setAvatarZoom(1);
+                            setAvatarOffset({ x: 0, y: 0 });
+                          }}
+                          className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-white/70 transition hover:bg-white/10 hover:text-white"
+                          aria-label="Ausschnitt zuruecksetzen"
+                        >
+                          <RotateCcw className="h-4 w-4" />
+                        </button>
+                      </div>
+                      <div
+                        role="application"
+                        aria-label="Profilbild Ausschnitt"
+                        className="relative mx-auto h-48 w-48 touch-none overflow-hidden rounded-full border border-white/16 bg-black/40 shadow-[0_22px_60px_rgba(0,0,0,0.35)] ring-8 ring-black/20 sm:h-56 sm:w-56"
+                        onWheel={handleAvatarWheel}
+                        onPointerDown={(event) => {
+                          event.currentTarget.setPointerCapture(event.pointerId);
+                          setAvatarDragStart({
+                            pointerId: event.pointerId,
+                            clientX: event.clientX,
+                            clientY: event.clientY,
+                            originX: avatarOffset.x,
+                            originY: avatarOffset.y,
+                          });
+                        }}
+                        onPointerMove={(event) => {
+                          if (!avatarDragStart) {
+                            return;
+                          }
+
+                          setAvatarOffset({
+                            x:
+                              avatarDragStart.originX +
+                              event.clientX -
+                              avatarDragStart.clientX,
+                            y:
+                              avatarDragStart.originY +
+                              event.clientY -
+                              avatarDragStart.clientY,
+                          });
+                        }}
+                        onPointerUp={() => setAvatarDragStart(null)}
+                        onPointerCancel={() => setAvatarDragStart(null)}
+                      >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={avatarSource}
                           alt=""
-                          className="h-full w-full object-cover"
-                          style={{ transform: `scale(${avatarZoom})` }}
+                          draggable={false}
+                          className="h-full w-full select-none object-cover"
+                          style={{
+                            transform: `translate(${avatarOffset.x}px, ${avatarOffset.y}px) scale(${avatarZoom})`,
+                            transformOrigin: "center",
+                          }}
                         />
+                        <div className="pointer-events-none absolute inset-0 rounded-full border border-white/30 shadow-[inset_0_0_0_999px_rgba(0,0,0,0.03)]" />
                       </div>
-                      <label className="mt-4 block text-xs font-medium uppercase tracking-[0.18em] text-white/46">
+                      <label className="mt-5 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-white/48">
+                        <Maximize2 className="h-3.5 w-3.5" />
                         Zoom
                       </label>
                       <input
                         type="range"
                         min="1"
-                        max="3"
+                        max="3.5"
                         step="0.05"
                         value={avatarZoom}
                         onChange={(event) => setAvatarZoom(Number(event.target.value))}
@@ -809,7 +954,10 @@ export default function AccountAccess() {
                       <div className="mt-4 flex gap-3">
                         <button
                           type="button"
-                          onClick={() => setAvatarSource("")}
+                          onClick={() => {
+                            setAvatarSource("");
+                            setAvatarOffset({ x: 0, y: 0 });
+                          }}
                           className="flex-1 rounded-full border border-white/12 px-4 py-2.5 text-sm font-medium text-white/72 transition hover:bg-white/10"
                         >
                           Abbrechen
@@ -825,7 +973,7 @@ export default function AccountAccess() {
                     </div>
                   ) : null}
 
-                  <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                  <div className="grid gap-3 p-4 sm:grid-cols-2 sm:p-5">
                     <input
                       value={profileForm.fullName}
                       onChange={(event) =>
@@ -894,22 +1042,24 @@ export default function AccountAccess() {
                         }))
                       }
                       placeholder="Kurzbeschreibung"
-                      className={`${profileInputClassName} min-h-28 resize-none rounded-[1.4rem] sm:col-span-2`}
+                      className={`${profileInputClassName} min-h-28 resize-none rounded-[1.55rem] sm:col-span-2`}
                     />
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium text-black transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-70"
-                  >
-                    {isSubmitting ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                      <Save className="h-4 w-4" />
-                    )}
-                    Profil speichern
-                  </button>
+                  <div className="border-t border-white/10 p-4 pt-0 sm:p-5 sm:pt-0">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-black shadow-[0_18px_60px_rgba(255,255,255,0.11)] transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-70"
+                    >
+                      {isSubmitting ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <Save className="h-4 w-4" />
+                      )}
+                      Profil speichern
+                    </button>
+                  </div>
                 </form>
 
                 <button
@@ -955,9 +1105,11 @@ export default function AccountAccess() {
                           type="text"
                           inputMode="numeric"
                           pattern="[0-9]*"
-                          maxLength={1}
+                          maxLength={index === 0 ? 6 : 1}
+                          autoComplete={index === 0 ? "one-time-code" : "off"}
                           value={digit}
                           onChange={(event) => handleCodeChange(index, event.target.value)}
+                          onPaste={(event) => handleCodePaste(index, event)}
                           onKeyDown={(event) => handleCodeKeyDown(index, event)}
                           className="w-9 bg-transparent text-center text-xl text-white outline-none"
                           style={{ caretColor: "transparent" }}
