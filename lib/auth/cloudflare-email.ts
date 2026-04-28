@@ -54,6 +54,15 @@ function parseEmailAddress(value: string): CloudflareEmailAddress {
   };
 }
 
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function getCloudflareEmailConfig() {
   const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
   const apiToken =
@@ -109,23 +118,76 @@ export async function sendCloudflareEmail(input: CloudflareEmailInput) {
 
 function getEmailHtml(input: VerificationEmailInput): string {
   const minutes = Math.round(AUTH_CODE_TTL_MS / 60000);
+  const safeName = escapeHtml(input.fullName || "dort");
+  const safeCode = escapeHtml(input.code);
 
-  return `
-    <div style="margin:0;padding:36px;background:#05070b;color:#f5f7fb;font-family:Inter,Arial,sans-serif;">
-      <div style="max-width:560px;margin:0 auto;border:1px solid rgba(255,255,255,0.1);border-radius:30px;padding:34px;background:linear-gradient(145deg,rgba(41,151,255,0.15),rgba(255,255,255,0.04));">
-        <p style="margin:0 0 14px;color:#2997ff;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;">Liminalo Account</p>
-        <h1 style="margin:0 0 16px;font-size:32px;line-height:1.08;color:#ffffff;">Ihr Bestaetigungscode</h1>
-        <p style="margin:0 0 28px;color:rgba(245,247,251,0.72);line-height:1.7;">
-          Hallo ${input.fullName}, bitte geben Sie diesen Code auf der Website ein, um Ihre Registrierung abzuschliessen.
-        </p>
-        <div style="display:inline-block;padding:18px 24px;border-radius:22px;background:linear-gradient(135deg,#2997ff,#5856d6);color:white;font-size:34px;letter-spacing:0.3em;font-weight:700;">
-          ${input.code}
-        </div>
-        <p style="margin:28px 0 0;color:rgba(245,247,251,0.62);line-height:1.7;">
-          Der Code ist ${minutes} Minuten gueltig. Wenn Sie diese Anfrage nicht selbst gestartet haben, ignorieren Sie die E-Mail.
-        </p>
-      </div>
-    </div>
+  return `<!doctype html>
+<html lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="supported-color-schemes" content="dark light" />
+    <title>Ihr Liminalo Code</title>
+    <style>
+      @media only screen and (max-width: 520px) {
+        .outer-pad { padding: 22px 14px !important; }
+        .card-pad { padding: 28px 20px !important; border-radius: 26px !important; }
+        .headline { font-size: 28px !important; line-height: 34px !important; }
+        .code { font-size: 30px !important; line-height: 38px !important; letter-spacing: 7px !important; }
+      }
+    </style>
+  </head>
+  <body style="margin:0;padding:0;background-color:#05070b;color:#f5f7fb;-webkit-text-size-adjust:100%;text-size-adjust:100%;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;min-width:100%;background:#05070b;background-image:radial-gradient(circle at 50% 0%, rgba(41,151,255,0.24), transparent 42%);">
+      <tr>
+        <td align="center" class="outer-pad" style="padding:42px 18px;font-family:Arial,Helvetica,sans-serif;">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;max-width:600px;border-collapse:separate;border-spacing:0;">
+            <tr>
+              <td class="card-pad" style="padding:38px 34px;border:1px solid rgba(255,255,255,0.12);border-radius:34px;background:#08101c;background-image:linear-gradient(145deg, rgba(41,151,255,0.20), rgba(255,255,255,0.035));box-shadow:0 24px 80px rgba(0,0,0,0.35);">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                  <tr>
+                    <td align="left" style="padding:0 0 18px;">
+                      <div style="display:inline-block;width:42px;height:42px;border-radius:14px;background:#07111f;border:1px solid rgba(41,151,255,0.45);text-align:center;line-height:42px;color:#2997ff;font-size:22px;font-weight:700;font-family:Arial,Helvetica,sans-serif;">L</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:0;">
+                      <p style="margin:0 0 12px;color:#54adff;font-size:12px;line-height:18px;letter-spacing:2.4px;text-transform:uppercase;font-weight:700;">Liminalo Account</p>
+                      <h1 class="headline" style="margin:0 0 16px;color:#ffffff;font-size:34px;line-height:40px;font-weight:800;letter-spacing:-0.8px;font-family:Arial,Helvetica,sans-serif;">Ihr Bestaetigungscode</h1>
+                      <p style="margin:0 0 28px;color:#c9d5e6;font-size:16px;line-height:26px;font-weight:400;">Hallo ${safeName}, geben Sie diesen Code auf der Liminalo Website ein, um Ihre Registrierung abzuschliessen.</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center" style="padding:0 0 28px;">
+                      <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="border-collapse:separate;border-spacing:0;width:100%;max-width:360px;">
+                        <tr>
+                          <td align="center" class="code" style="padding:20px 18px;border-radius:24px;background:#2997ff;background-image:linear-gradient(135deg,#2997ff,#2563eb 58%,#5b5cf6);color:#ffffff;font-size:36px;line-height:44px;letter-spacing:10px;font-weight:800;font-family:Arial,Helvetica,sans-serif;mso-line-height-rule:exactly;">
+                            ${safeCode}
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:0;">
+                      <p style="margin:0;color:#92a2b8;font-size:14px;line-height:23px;">Der Code ist ${minutes} Minuten gueltig. Falls Sie diese Anfrage nicht selbst gestartet haben, koennen Sie diese E-Mail ignorieren.</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:30px 0 0;">
+                      <p style="margin:0;color:#5e718c;font-size:12px;line-height:19px;">Diese Nachricht wurde automatisch von Liminalo gesendet. Bitte antworten Sie nicht direkt auf diese E-Mail.</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
   `.trim();
 }
 
