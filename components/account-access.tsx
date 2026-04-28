@@ -668,15 +668,23 @@ export default function AccountAccess() {
   return (
     <div
       data-account-access
-      className="fixed inset-0 z-[70] overflow-hidden bg-[#05070b]"
+      className="fixed inset-0 z-40 overflow-hidden bg-[#05070b]"
     >
       <style>{`
         body:has([data-account-access]) {
           overflow: hidden;
         }
 
-        body:has([data-account-access]) header,
         body:has([data-account-access]) footer {
+          display: none;
+        }
+
+        [data-account-scroll] {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+
+        [data-account-scroll]::-webkit-scrollbar {
           display: none;
         }
       `}</style>
@@ -695,9 +703,10 @@ export default function AccountAccess() {
 
       <div
         className={cn(
-          "relative z-10 mx-auto flex h-screen w-full flex-col justify-center overflow-y-auto px-5 py-[calc(env(safe-area-inset-top)+1rem)] pb-[calc(env(safe-area-inset-bottom)+1rem)] md:py-28",
+          "relative z-10 mx-auto flex h-screen w-full flex-col justify-center overflow-y-auto px-5 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-[calc(env(safe-area-inset-top)+5rem)] md:pt-32 md:pb-10",
           view === "account" && sessionUser ? "max-w-2xl" : "max-w-md"
         )}
+        data-account-scroll
       >
         <div className="space-y-4 text-center sm:space-y-7">
           <LogoMark />
