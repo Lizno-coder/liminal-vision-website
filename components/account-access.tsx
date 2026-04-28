@@ -675,6 +675,7 @@ export default function AccountAccess() {
           overflow: hidden;
         }
 
+        body:has([data-account-access]) header,
         body:has([data-account-access]) footer {
           display: none;
         }
