@@ -258,7 +258,13 @@ class D1AuthStore implements AuthStore {
           updated_at text not null default (datetime('now')),
           last_login_at text
         )
-      `).then(() => undefined);
+      `)
+        .then(() =>
+          this.query(`
+            create index if not exists auth_users_email_idx on auth_users(email)
+          `)
+        )
+        .then(() => undefined);
     }
 
     return d1ReadyPromise;
