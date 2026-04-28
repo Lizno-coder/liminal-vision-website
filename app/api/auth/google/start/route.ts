@@ -4,6 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 const GOOGLE_STATE_COOKIE = "liminalo_google_oauth_state";
 
+export const dynamic = "force-dynamic";
+
 function getBaseUrl(request: NextRequest): string {
   return (
     process.env.NEXT_PUBLIC_SITE_URL ||
