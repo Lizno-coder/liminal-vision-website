@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
-import { LogIn, LogOut, Settings, UserRound } from "lucide-react";
+import { LogOut, Settings, UserRound } from "lucide-react";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -117,6 +117,18 @@ function AccountMenu({
     };
   }, [isProfileOpen]);
 
+  if (!user) {
+    return (
+      <Link
+        href="/konto"
+        className="gradient-login-button"
+        aria-label="Zur Anmeldeseite"
+      >
+        <span className="gradient-login-text">Anmelden</span>
+      </Link>
+    );
+  }
+
   return (
     <div ref={profileRef} className="relative">
       <button
@@ -138,59 +150,35 @@ function AccountMenu({
             transition={{ duration: 0.18, ease: "easeOut" }}
             className="absolute right-0 top-12 w-72 overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#07111e]/92 p-3 shadow-[0_25px_80px_rgba(0,0,0,0.42)] backdrop-blur-2xl"
           >
-            {user ? (
-              <>
-                <div className="flex items-center gap-3 rounded-[1.15rem] bg-white/[0.06] p-3">
-                  <UserAvatar user={user} size="sm" />
-                  <div className="min-w-0">
-                    <div className="truncate text-sm font-semibold text-white">
-                      {user.fullName}
-                    </div>
-                    <div className="truncate text-xs text-white/52">{user.email}</div>
-                  </div>
+            <div className="flex items-center gap-3 rounded-[1.15rem] bg-white/[0.06] p-3">
+              <UserAvatar user={user} size="sm" />
+              <div className="min-w-0">
+                <div className="truncate text-sm font-semibold text-white">
+                  {user.fullName}
                 </div>
+                <div className="truncate text-xs text-white/52">{user.email}</div>
+              </div>
+            </div>
 
-                <Link
-                  href="/konto"
-                  onClick={() => setIsProfileOpen(false)}
-                  className="mt-2 flex items-center gap-3 rounded-2xl px-3 py-3 text-sm text-white/78 transition hover:bg-white/10 hover:text-white"
-                >
-                  <Settings className="h-4 w-4" />
-                  Profileinstellungen
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsProfileOpen(false);
-                    void onLogout();
-                  }}
-                  className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm text-white/78 transition hover:bg-white/10 hover:text-white"
-                >
-                  <LogOut className="h-4 w-4" />
-                  Abmelden
-                </button>
-              </>
-            ) : (
-              <>
-                <div className="rounded-[1.15rem] bg-white/[0.06] p-3 text-center">
-                  <div className="mx-auto mb-3">
-                    <UserAvatar user={null} size="sm" />
-                  </div>
-                  <div className="text-sm font-semibold text-white">Liminalo Account</div>
-                  <div className="mt-1 text-xs leading-5 text-white/52">
-                    Anmelden oder kostenlos registrieren.
-                  </div>
-                </div>
-                <Link
-                  href="/konto"
-                  onClick={() => setIsProfileOpen(false)}
-                  className="mt-3 flex items-center justify-center gap-2 rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-black transition hover:bg-white/90"
-                >
-                  <LogIn className="h-4 w-4" />
-                  Anmelden / Registrieren
-                </Link>
-              </>
-            )}
+            <Link
+              href="/konto"
+              onClick={() => setIsProfileOpen(false)}
+              className="mt-2 flex items-center gap-3 rounded-2xl px-3 py-3 text-sm text-white/78 transition hover:bg-white/10 hover:text-white"
+            >
+              <Settings className="h-4 w-4" />
+              Profileinstellungen
+            </Link>
+            <button
+              type="button"
+              onClick={() => {
+                setIsProfileOpen(false);
+                void onLogout();
+              }}
+              className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm text-white/78 transition hover:bg-white/10 hover:text-white"
+            >
+              <LogOut className="h-4 w-4" />
+              Abmelden
+            </button>
           </motion.div>
         ) : null}
       </AnimatePresence>
@@ -308,6 +296,106 @@ export default function Header() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-[calc(env(safe-area-inset-top)+1rem)] sm:px-6 lg:px-8">
+      <style>{`
+        .gradient-login-button {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 40px;
+          padding: 0 18px;
+          border: 0;
+          border-radius: 999px;
+          overflow: hidden;
+          isolation: isolate;
+          color: white;
+          background: transparent;
+          font-size: 13px;
+          font-weight: 800;
+          line-height: 1;
+          transition: transform 0.2s ease;
+        }
+
+        .gradient-login-button:hover {
+          transform: scale(1.03);
+        }
+
+        .gradient-login-button:active {
+          transform: scale(0.99);
+        }
+
+        .gradient-login-button::before {
+          content: "";
+          position: absolute;
+          top: -55%;
+          left: -55%;
+          width: 210%;
+          height: 210%;
+          background: conic-gradient(
+            from 0deg,
+            #ff6b6b,
+            #4ecdc4,
+            #45b7d1,
+            #96ceb4,
+            #feca57,
+            #ff9ff3,
+            #ff6b6b
+          );
+          z-index: -2;
+          filter: blur(10px);
+          transform: rotate(0deg);
+          transition: transform 1.5s ease-in-out;
+        }
+
+        .gradient-login-button:hover::before {
+          transform: rotate(180deg);
+        }
+
+        .gradient-login-button::after {
+          content: "";
+          position: absolute;
+          inset: 3px;
+          border-radius: 999px;
+          background: #05070b;
+          z-index: -1;
+          filter: blur(5px);
+        }
+
+        .gradient-login-text {
+          color: transparent;
+          background: conic-gradient(
+            from 0deg,
+            #ff6b6b,
+            #4ecdc4,
+            #45b7d1,
+            #96ceb4,
+            #feca57,
+            #ff9ff3,
+            #ff6b6b
+          );
+          background-clip: text;
+          -webkit-background-clip: text;
+          filter: hue-rotate(0deg);
+        }
+
+        .gradient-login-button:hover .gradient-login-text {
+          animation: hue-rotating 2s linear infinite;
+        }
+
+        @media (min-width: 768px) {
+          .gradient-login-button {
+            min-height: 44px;
+            padding: 0 24px;
+            font-size: 15px;
+          }
+        }
+
+        @keyframes hue-rotating {
+          to {
+            filter: hue-rotate(360deg);
+          }
+        }
+      `}</style>
       <motion.div
         ref={headerRef}
         style={{ y: springY }}
