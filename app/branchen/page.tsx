@@ -21,7 +21,7 @@ import {
   Wrench,
   Barbell,
 } from "@phosphor-icons/react";
-import { Globe2, ShieldCheck, Sparkles, TrendingUp, Zap } from "lucide-react";
+import { Globe2, Search, ShieldCheck, SlidersHorizontal, Sparkles, TrendingUp, Zap } from "lucide-react";
 
 import { industryPages } from "@/content/industry-pages";
 import { JsonLd, createBreadcrumbSchema, createCollectionPageSchema } from "@/lib/seo";
@@ -30,8 +30,8 @@ const industries = [
   {
     id: "cafe",
     icon: Coffee,
-    title: "Cafes & Restaurants",
-    shortDesc: "Mehr Gaeste durch klare Praesentation.",
+    title: "Cafés & Restaurants",
+    shortDesc: "Mehr Gäste durch klare Präsentation.",
     benefits: ["Online-Reservierung", "Digitale Speisekarte"],
     color: "#f59e0b",
     stat: "+47%",
@@ -42,7 +42,7 @@ const industries = [
     icon: Hammer,
     title: "Handwerk & Gewerbe",
     shortDesc: "Vertrauen durch professionelle Referenzen.",
-    benefits: ["Leistungsuebersicht", "Referenzen"],
+    benefits: ["Leistungsübersicht", "Referenzen"],
     color: "#2997ff",
     stat: "24/7",
     href: "/branchen/handwerk-gewerbe",
@@ -51,7 +51,7 @@ const industries = [
     id: "fitness",
     icon: Barbell,
     title: "Fitness & Wellness",
-    shortDesc: "Mehr Mitglieder durch starke Praesenz.",
+    shortDesc: "Mehr Mitglieder durch starke Präsenz.",
     benefits: ["Kursplan", "Online-Anmeldung"],
     color: "#10b981",
     stat: "+62%",
@@ -71,7 +71,7 @@ const industries = [
     id: "retail",
     icon: Storefront,
     title: "Einzelhandel",
-    shortDesc: "Ihr Geschaeft digital erlebbar.",
+    shortDesc: "Ihr Geschäft digital erlebbar.",
     benefits: ["Produkt-Showcase", "Standorte"],
     color: "#3b82f6",
     stat: "+85%",
@@ -82,7 +82,7 @@ const industries = [
     icon: Buildings,
     title: "Dienstleister",
     shortDesc: "Kompetenz, die sichtbar Vertrauen schafft.",
-    benefits: ["Service-Uebersicht", "Case Studies"],
+    benefits: ["Service-Übersicht", "Case Studies"],
     color: "#06b6d4",
     stat: "3x",
     href: "/branchen/dienstleister",
@@ -90,9 +90,9 @@ const industries = [
   {
     id: "hotel",
     icon: Bed,
-    title: "Hotels & Unterkuenfte",
+    title: "Hotels & Unterkünfte",
     shortDesc: "Buchungsanfragen rund um die Uhr.",
-    benefits: ["Zimmer-Uebersicht", "Buchungsanfrage"],
+    benefits: ["Zimmer-Übersicht", "Buchungsanfrage"],
     color: "#ec4899",
     stat: "+120%",
     href: "/branchen/hotels-unterkuenfte",
@@ -101,7 +101,7 @@ const industries = [
     id: "health",
     icon: Stethoscope,
     title: "Gesundheit & Praxen",
-    shortDesc: "Serioes, klar und einfach erreichbar.",
+    shortDesc: "Seriös, klar und einfach erreichbar.",
     benefits: ["Online-Terminbuchung", "Leistungskatalog"],
     color: "#ef4444",
     stat: "-55%",
@@ -130,7 +130,7 @@ const industries = [
   {
     id: "creative",
     icon: PaintBrush,
-    title: "Kreative & Kuenstler",
+    title: "Kreative & Künstler",
     shortDesc: "Portfolio, Stil und Buchungsanfragen vereint.",
     benefits: ["Portfolio", "Buchungsanfragen"],
     color: "#a855f7",
@@ -141,7 +141,7 @@ const industries = [
     id: "other",
     icon: Sparkle,
     title: "Weitere Branchen",
-    shortDesc: "Massgeschneidert fuer Ihr Business.",
+    shortDesc: "Maßgeschneidert für Ihr Business.",
     benefits: ["Individuell", "Flexibel"],
     color: "#2997ff",
     stat: "100%",
@@ -154,34 +154,34 @@ const processSteps = [
     step: "01",
     title: "Analyse",
     subtitle: "Branche, Zielgruppe, Angebot",
-    desc: "Wir klaeren, was Kunden auf Ihrer Website sofort verstehen muessen.",
+    desc: "Was muss sofort klar sein?",
     icon: ChartLineUp,
   },
   {
     step: "02",
     title: "Konzept",
     subtitle: "Struktur vor Design",
-    desc: "Wir bauen eine klare Seitenlogik fuer Vertrauen, SEO und Anfragen.",
+    desc: "Struktur für Vertrauen und Anfragen.",
     icon: Briefcase,
   },
   {
     step: "03",
     title: "Design",
     subtitle: "Modern und markengerecht",
-    desc: "Ihre Branche bekommt einen Look, der nicht nach Vorlage aussieht.",
+    desc: "Ein Look, der nach Marke wirkt.",
     icon: PaintBrush,
   },
   {
     step: "04",
     title: "Launch",
     subtitle: "Schnell, sicher, sichtbar",
-    desc: "Wir bringen die Seite live und optimieren sie fuer echte Besucher.",
+    desc: "Live, schnell und sauber messbar.",
     icon: Wrench,
   },
 ];
 
 const marqueeItems = [
-  "Cafes",
+  "Cafés",
   "Handwerk",
   "Fitness",
   "Beauty",
@@ -194,10 +194,10 @@ const marqueeItems = [
 ];
 
 const conversionStack = [
-  { icon: Zap, title: "Schnelle Ladezeit", desc: "Saubere Assets, klare Struktur und mobile Prioritaet." },
-  { icon: Globe2, title: "Lokale Sichtbarkeit", desc: "SEO-Aufbau fuer Stadt, Branche und konkrete Leistungen." },
+  { icon: Zap, title: "Schnelle Ladezeit", desc: "Saubere Assets, klare Struktur und mobile Priorität." },
+  { icon: Globe2, title: "Lokale Sichtbarkeit", desc: "SEO-Aufbau für Stadt, Branche und konkrete Leistungen." },
   { icon: ShieldCheck, title: "Vertrauen sofort", desc: "Referenzen, Leistungen und Kontaktwege sichtbar sortiert." },
-  { icon: TrendingUp, title: "Anfragen statt Klicks", desc: "CTA-Fuehrung, Angebotslogik und Formularwege ohne Reibung." },
+  { icon: TrendingUp, title: "Anfragen statt Klicks", desc: "CTA-Führung, Angebotslogik und Formularwege ohne Reibung." },
 ];
 
 export default function IndustriesPage() {
@@ -205,9 +205,9 @@ export default function IndustriesPage() {
     <>
       <JsonLd
         data={createCollectionPageSchema({
-          title: "Webdesign fuer Branchen und lokale Betriebe | Liminalo",
+          title: "Webdesign für Branchen und lokale Betriebe | Liminalo",
           description:
-            "Branchenspezifische Websites fuer Restaurants, Handwerk, Fitness, Beauty, Einzelhandel, Praxen und weitere lokale Unternehmen.",
+            "Branchenspezifische Websites für Restaurants, Handwerk, Fitness, Beauty, Einzelhandel, Praxen und weitere lokale Unternehmen.",
           path: "/branchen",
           items: industryPages.map((page) => ({
             name: page.serviceName,
@@ -242,6 +242,10 @@ export default function IndustriesPage() {
 
         body:has(.industries-page) > canvas {
           display: none !important;
+        }
+
+        body:has(.industries-page) main {
+          padding-top: 0 !important;
         }
 
         body:has(.industries-page) footer {
@@ -297,6 +301,79 @@ export default function IndustriesPage() {
           opacity: 0.9;
         }
 
+        .neo-process-card {
+          border: 3px solid #05060f;
+          box-shadow: 0.45rem 0.45rem #05060f;
+        }
+
+        .glow-process-card::before,
+        .glow-process-card::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 21%;
+          width: 54%;
+          height: 100%;
+          border-radius: 24px;
+          background: linear-gradient(315deg, rgba(41, 151, 255, 0.9), rgba(88, 166, 255, 0.22));
+          transform: skewX(13deg);
+          transition: transform 0.45s ease, opacity 0.45s ease;
+          opacity: 0.72;
+        }
+
+        .glow-process-card::after {
+          filter: blur(34px);
+          opacity: 0.46;
+        }
+
+        .glow-process-card:hover::before,
+        .glow-process-card:hover::after {
+          transform: skewX(0deg) scaleX(1.25);
+        }
+
+        .industry-search-shell::before,
+        .industry-search-shell::after {
+          content: "";
+          position: absolute;
+          inset: -3px;
+          border-radius: 18px;
+          background: conic-gradient(from 80deg, transparent, #2997ff, transparent 28%, transparent 56%, rgba(255,255,255,0.5), transparent);
+          filter: blur(2px);
+          opacity: 0.75;
+          transition: transform 1.5s ease;
+        }
+
+        .industry-search-shell::after {
+          inset: -18px;
+          filter: blur(28px);
+          opacity: 0.28;
+        }
+
+        .industry-search-shell:hover::before,
+        .industry-search-shell:hover::after {
+          transform: rotate(180deg);
+        }
+
+        .typing-text {
+          display: inline-block;
+          max-width: 26ch;
+          overflow: hidden;
+          white-space: nowrap;
+          vertical-align: bottom;
+          border-right: 2px solid #8ecbff;
+          animation: typing-industry 4.8s steps(26, end) infinite, caret-blink 0.9s step-end infinite;
+        }
+
+        @keyframes typing-industry {
+          0%, 12% { width: 0; }
+          52%, 78% { width: 26ch; }
+          100% { width: 0; }
+        }
+
+        @keyframes caret-blink {
+          50% { border-color: transparent; }
+        }
+
         @keyframes industry-marquee {
           from { transform: translateX(0); }
           to { transform: translateX(-50%); }
@@ -318,7 +395,8 @@ export default function IndustriesPage() {
 
         @media (prefers-reduced-motion: reduce) {
           .industry-marquee-track,
-          .pulse-line {
+          .pulse-line,
+          .typing-text {
             animation: none;
           }
         }
@@ -355,10 +433,10 @@ export default function IndustriesPage() {
 
                 <div>
                   <h1 className="industries-gradient-text mx-auto max-w-[680px] text-[36px] font-medium leading-[1.18] tracking-[-0.05em] md:text-[56px] md:leading-[1.28]">
-                    Websites fuer jede Branche. Schnell sichtbar. Direkt anfragbar.
+                    Websites für jede Branche. Schnell sichtbar. Direkt anfragbar.
                   </h1>
                   <p className="mx-auto mt-6 max-w-[680px] text-[15px] font-normal leading-7 text-white/70">
-                    Liminalo entwickelt Websites fuer Cafes, Handwerk, Fitness, Praxen, Hotels,
+                    Liminalo entwickelt Websites für Cafés, Handwerk, Fitness, Praxen, Hotels,
                     Dienstleister und lokale Betriebe. Klar im Aufbau, stark im Design und auf
                     echte Anfragen optimiert.
                   </p>
@@ -379,7 +457,7 @@ export default function IndustriesPage() {
         <section className="border-y border-white/10 bg-black px-5 py-8 md:px-[120px]" id="seo">
           <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 md:grid-cols-4">
             {[
-              { value: "500+", label: "moegliche Branchen-Setups" },
+              { value: "500+", label: "mögliche Branchen-Setups" },
               { value: "98%", label: "klarer Fokus auf Anfragen" },
               { value: "<2s", label: "Performance-Ziel" },
               { value: "24/7", label: "online erreichbar" },
@@ -404,10 +482,10 @@ export default function IndustriesPage() {
           <div className="relative mx-auto max-w-7xl">
             <div className="mx-auto mb-14 max-w-3xl text-center">
               <span className="text-xs font-semibold uppercase tracking-[0.24em] text-[#2997ff]">
-                Branchenloesungen
+                Branchenlösungen
               </span>
               <h2 className="mt-4 text-3xl font-medium tracking-[-0.04em] text-white md:text-5xl">
-                Fuer jedes Geschaeft der passende digitale Auftritt.
+                Für jedes Geschäft der passende digitale Auftritt.
               </h2>
               <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/58">
                 Jede Branche braucht andere Inhalte, Funktionen und Vertrauenssignale. Genau
@@ -484,91 +562,102 @@ export default function IndustriesPage() {
           </div>
         </section>
 
-        <section id="prozess" className="relative overflow-hidden bg-[#02050a] px-5 py-28 md:px-[120px]">
-          <div className="industries-texture absolute inset-0 opacity-55" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_14%,rgba(41,151,255,0.28),transparent_30%),radial-gradient(circle_at_88%_74%,rgba(41,151,255,0.16),transparent_32%),linear-gradient(to_bottom,#02050a_0%,rgba(2,5,10,0.72)_52%,#000_100%)]" />
+        <section id="prozess" className="relative overflow-hidden bg-black px-5 py-28 md:px-[120px]">
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,#050a12_0%,#02050a_42%,#000_100%)]" />
+          <div className="industries-texture absolute inset-0 opacity-35" />
+          <div className="absolute left-1/2 top-16 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-[#2997ff]/16 blur-[120px]" />
           <div className="relative mx-auto max-w-7xl">
-            <div className="grid gap-12 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
-              <motion.div
-                initial={{ opacity: 0, x: -24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.35 }}
-                transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-                className="lg:sticky lg:top-28"
-              >
-                <span className="text-xs font-semibold uppercase tracking-[0.24em] text-[#2997ff]">
-                  Unser Prozess
-                </span>
-                <h2 className="mt-4 max-w-xl text-3xl font-medium tracking-[-0.045em] text-white md:text-5xl md:leading-[1.05]">
-                  Von der Branchenlogik zur Website, die{" "}
-                  <span className="rounded-2xl border border-[#2997ff]/30 bg-[#2997ff]/15 px-2 text-[#8ecbff]">
-                    verkauft.
+            <div className="mx-auto max-w-3xl text-center">
+              <span className="text-xs font-semibold uppercase tracking-[0.24em] text-[#2997ff]">
+                Unser Prozess
+              </span>
+              <h2 className="mt-4 text-3xl font-medium tracking-[-0.045em] text-white md:text-5xl md:leading-[1.08]">
+                Aus Branchenlogik wird ein Auftritt, der{" "}
+                <span className="text-[#8ecbff]">direkt verstanden wird.</span>
+              </h2>
+              <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-white/58">
+                Weniger Bla-bla, mehr Klarheit: Wir sortieren Angebot, Vertrauen und Kontaktweg so,
+                dass Besucher schneller handeln.
+              </p>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.6 }}
+              className="mx-auto mt-12 max-w-xl"
+            >
+              <div className="industry-search-shell relative mx-auto flex h-16 max-w-[430px] items-center justify-center">
+                <div className="relative z-10 flex h-14 w-full items-center rounded-2xl border border-white/10 bg-[#01050b] px-5 text-left shadow-[0_22px_80px_rgba(41,151,255,0.18)]">
+                  <Search className="mr-3 h-5 w-5 shrink-0 text-[#8ecbff]" />
+                  <span className="min-w-0 flex-1 text-sm font-medium text-white/78 md:text-base">
+                    <span className="typing-text">Website für Handwerk in München</span>
                   </span>
-                </h2>
-                <p className="mt-6 max-w-lg text-base leading-7 text-white/60">
-                  Jede Seite wird wie ein kleines Verkaufssystem geplant: erst verstehen,
-                  dann strukturieren, dann gestalten und messbar live bringen.
-                </p>
-
-                <div className="mt-10 overflow-hidden rounded-[32px] border border-white/10 bg-black/45 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl">
-                  <div className="mb-5 flex items-center justify-between">
-                    <span className="text-sm font-semibold text-white">Launch Blueprint</span>
-                    <span className="rounded-full border border-[#2997ff]/30 bg-[#2997ff]/12 px-3 py-1 text-xs text-[#8ecbff]">
-                      live-ready
-                    </span>
-                  </div>
-                  {["Angebot sofort klar", "SEO-Struktur pro Leistung", "Kontaktweg ohne Reibung"].map(
-                    (item, index) => (
-                      <div key={item} className="group flex items-center gap-4 border-t border-white/8 py-4">
-                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#2997ff]/30 bg-[#2997ff]/12 text-xs font-semibold text-[#8ecbff]">
-                          0{index + 1}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <div className="text-sm font-medium text-white">{item}</div>
-                          <div className="mt-2 h-px overflow-hidden rounded-full bg-white/10">
-                            <div className="pulse-line h-full rounded-full bg-gradient-to-r from-[#2997ff] via-white to-[#2997ff]" />
-                          </div>
-                        </div>
-                      </div>
-                    ),
-                  )}
+                  <span className="ml-3 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-[#07111e]">
+                    <SlidersHorizontal className="h-4 w-4 text-[#8ecbff]" />
+                  </span>
                 </div>
-              </motion.div>
-
-              <div className="grid gap-4">
-                {processSteps.map((step, index) => {
-                  const Icon = step.icon;
-                  return (
-                    <motion.div
-                      key={step.step}
-                      initial={{ opacity: 0, y: 28, scale: 0.98 }}
-                      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                      whileHover={{ y: -4 }}
-                      viewport={{ once: true, amount: 0.25 }}
-                      transition={{ delay: index * 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                      className="process-card group relative overflow-hidden rounded-[34px] bg-white/[0.035] p-5 backdrop-blur-xl md:p-6"
-                    >
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_0%,rgba(41,151,255,0.18),transparent_32%)] opacity-0 transition duration-500 group-hover:opacity-100" />
-                      <div className="relative z-10 flex flex-col gap-5 md:flex-row md:items-center">
-                        <div className="flex items-center gap-4 md:w-56">
-                          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#2997ff]/35 bg-[#2997ff]/12">
-                            <Icon className="h-7 w-7" weight="duotone" color="#2997ff" />
-                          </div>
-                          <div>
-                            <div className="text-sm font-semibold text-[#8ecbff]">{step.step}</div>
-                            <h3 className="mt-1 text-xl font-semibold text-white">{step.title}</h3>
-                          </div>
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-sm font-medium text-white/82">{step.subtitle}</p>
-                          <p className="mt-2 text-sm leading-6 text-white/52">{step.desc}</p>
-                        </div>
-                        <ArrowRight className="hidden h-5 w-5 text-white/28 transition group-hover:translate-x-1 group-hover:text-[#2997ff] md:block" />
-                      </div>
-                    </motion.div>
-                  );
-                })}
               </div>
+            </motion.div>
+
+            <div className="mt-16 grid gap-5 md:grid-cols-4">
+              {processSteps.map((step, index) => {
+                const Icon = step.icon;
+                const isAccent = index === 1;
+                const isGlow = index === 2;
+                return (
+                  <motion.div
+                    key={step.step}
+                    initial={{ opacity: 0, y: 28 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    whileHover={{ y: -8 }}
+                    viewport={{ once: true, amount: 0.25 }}
+                    transition={{ delay: index * 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                    className={`relative min-h-[230px] overflow-hidden rounded-[28px] ${
+                      isAccent
+                        ? "neo-process-card bg-[#2997ff] p-5 text-[#05060f]"
+                        : isGlow
+                          ? "glow-process-card p-3"
+                          : "border border-white/10 bg-white/[0.045] p-5 text-white backdrop-blur-xl"
+                    }`}
+                  >
+                    {isGlow ? (
+                      <span className="absolute inset-0 z-10 pointer-events-none">
+                        <span className="absolute left-8 top-0 h-12 w-12 rounded-2xl bg-white/12 shadow-[0_14px_40px_rgba(41,151,255,0.25)] backdrop-blur-xl" />
+                        <span className="absolute bottom-0 right-8 h-12 w-12 rounded-2xl bg-white/10 shadow-[0_14px_40px_rgba(41,151,255,0.2)] backdrop-blur-xl" />
+                      </span>
+                    ) : null}
+                    <div
+                      className={`relative z-20 flex h-full flex-col justify-between rounded-[22px] ${
+                        isGlow ? "min-h-[206px] border border-white/12 bg-black/45 p-5 text-white backdrop-blur-xl" : ""
+                      }`}
+                    >
+                      <div>
+                        <div className="mb-6 flex items-center justify-between">
+                          <div
+                            className={`flex h-12 w-12 items-center justify-center rounded-2xl ${
+                              isAccent ? "bg-[#05060f] text-white" : "border border-[#2997ff]/30 bg-[#2997ff]/12 text-[#2997ff]"
+                            }`}
+                          >
+                            <Icon className="h-6 w-6" weight="duotone" />
+                          </div>
+                          <span className={`text-sm font-bold ${isAccent ? "text-[#05060f]/70" : "text-[#8ecbff]"}`}>
+                            {step.step}
+                          </span>
+                        </div>
+                        <h3 className="text-2xl font-semibold tracking-[-0.04em]">{step.title}</h3>
+                        <p className={`mt-2 text-sm font-medium ${isAccent ? "text-[#05060f]/78" : "text-white/58"}`}>
+                          {step.subtitle}
+                        </p>
+                      </div>
+                      <p className={`mt-8 text-sm leading-6 ${isAccent ? "text-[#05060f]/76" : "text-white/62"}`}>
+                        {step.desc}
+                      </p>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -602,7 +691,7 @@ export default function IndustriesPage() {
                   Conversion-System
                 </span>
                 <h2 className="mt-4 text-3xl font-medium tracking-[-0.045em] text-white md:text-5xl md:leading-[1.06]">
-                  Nicht nur schoen. Auf echte Besucher optimiert.
+                  Nicht nur schön. Auf echte Besucher optimiert.
                 </h2>
                 <p className="mt-6 max-w-xl text-base leading-7 text-white/60">
                   Design, Ladezeit, lokale Suchintention und Kontaktwege greifen ineinander.
@@ -659,11 +748,11 @@ export default function IndustriesPage() {
             <div className="relative z-10">
               <Sparkles className="mx-auto mb-5 h-8 w-8 text-[#2997ff]" />
               <h2 className="text-3xl font-medium tracking-[-0.04em] text-white md:text-5xl">
-                Bereit fuer eine Website, die zu Ihrer Branche passt?
+                Bereit für eine Website, die zu Ihrer Branche passt?
               </h2>
               <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/60">
-                Lassen Sie uns in einem kostenlosen Gespraech klaeren, welche Inhalte,
-                Funktionen und Designrichtung fuer Ihr Business am meisten bringen.
+                Lassen Sie uns in einem kostenlosen Gespräch klären, welche Inhalte,
+                Funktionen und Designrichtung für Ihr Business am meisten bringen.
               </p>
               <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
                 <Link

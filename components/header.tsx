@@ -4,15 +4,25 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
-import { LogOut, Settings, UserRound } from "lucide-react";
+import {
+  BadgeEuro,
+  BriefcaseBusiness,
+  Home,
+  ListChecks,
+  LogOut,
+  Mail,
+  MapPin,
+  Settings,
+  UserRound,
+} from "lucide-react";
 
 const navLinks = [
-  { name: "Home", href: "/" },
-  { name: "Branchen", href: "/branchen" },
-  { name: "Standorte", href: "/standorte" },
-  { name: "Ablauf", href: "/#process" },
-  { name: "Preise", href: "/#pricing" },
-  { name: "Kontakt", href: "/kontakt" },
+  { name: "Home", href: "/", icon: Home },
+  { name: "Branchen", href: "/branchen", icon: BriefcaseBusiness },
+  { name: "Standorte", href: "/standorte", icon: MapPin },
+  { name: "Ablauf", href: "/#process", icon: ListChecks },
+  { name: "Preise", href: "/#pricing", icon: BadgeEuro },
+  { name: "Kontakt", href: "/kontakt", icon: Mail },
 ];
 
 type HeaderUser = {
@@ -135,7 +145,7 @@ function AccountMenu({
         type="button"
         onClick={() => setIsProfileOpen((current) => !current)}
         className="rounded-full outline-none transition hover:scale-[1.03] focus-visible:ring-2 focus-visible:ring-[#2997ff]"
-        aria-label="Profilmenue oeffnen"
+        aria-label="Profilmenü öffnen"
         aria-expanded={isProfileOpen}
       >
         <UserAvatar user={user} />
@@ -382,6 +392,61 @@ export default function Header() {
           animation: hue-rotating 2s linear infinite;
         }
 
+        .liminal-menu-card {
+          background-color: rgba(36, 40, 50, 0.92);
+          background-image:
+            radial-gradient(circle at 18% 0%, rgba(41, 151, 255, 0.2), transparent 30%),
+            linear-gradient(139deg, rgba(36, 40, 50, 0.94) 0%, rgba(36, 40, 50, 0.88) 42%, rgba(21, 28, 44, 0.96) 100%);
+          border-radius: 18px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 24px 80px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+
+        .liminal-menu-separator {
+          border-top: 1.5px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .liminal-menu-element {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: #9aa3b1;
+          border-radius: 10px;
+          padding: 10px 12px;
+          font-size: 14px;
+          font-weight: 650;
+          transition: transform 0.22s ease, background-color 0.22s ease, color 0.22s ease;
+        }
+
+        .liminal-menu-element svg {
+          width: 18px;
+          height: 18px;
+          transition: stroke 0.22s ease, transform 0.22s ease;
+        }
+
+        .liminal-menu-element:hover {
+          background-color: #2997ff;
+          color: #ffffff;
+          transform: translate(1px, -1px);
+        }
+
+        .liminal-menu-element:hover svg {
+          stroke: #ffffff;
+          transform: scale(1.04);
+        }
+
+        .liminal-menu-element:active {
+          transform: scale(0.99);
+        }
+
+        .liminal-menu-accent {
+          color: #8ecbff;
+        }
+
+        .liminal-menu-accent:hover {
+          background-color: rgba(41, 151, 255, 0.18);
+        }
+
         @media (min-width: 768px) {
           .gradient-login-button {
             min-height: 44px;
@@ -455,9 +520,11 @@ export default function Header() {
               transition={{ duration: 0.22, ease: "easeOut" }}
               className="mt-3 flex justify-end"
             >
-              <div className="w-full max-w-xs overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#07111e]/88 p-3 shadow-[0_25px_80px_rgba(0,0,0,0.38)] backdrop-blur-2xl md:max-w-sm md:p-4">
-                <div className="space-y-1">
-                  {navLinks.map((link, index) => (
+              <div className="liminal-menu-card w-full max-w-xs overflow-hidden p-3 backdrop-blur-2xl md:max-w-sm">
+                <ul className="flex list-none flex-col gap-2 p-0">
+                  {navLinks.map((link, index) => {
+                    const Icon = link.icon;
+                    return (
                     <motion.div
                       key={link.name}
                       initial={{ opacity: 0, y: 8 }}
@@ -467,24 +534,27 @@ export default function Header() {
                       <Link
                         href={link.href}
                         onClick={() => setIsOpen(false)}
-                        className="block rounded-2xl px-4 py-3 text-sm font-medium text-white/80 transition hover:bg-white/10 hover:text-white"
+                        className="liminal-menu-element"
                       >
+                        <Icon />
                         {link.name}
                       </Link>
                     </motion.div>
-                  ))}
-                </div>
+                    );
+                  })}
+                </ul>
 
                 <Link
                   href="/kontakt"
                   onClick={() => setIsOpen(false)}
-                  className="mt-3 inline-flex w-full items-center justify-center rounded-2xl bg-gradient-to-r from-[#2997ff] to-[#5856d6] px-4 py-3 text-sm font-semibold text-white"
+                  className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#2997ff] to-[#5eb9ff] px-4 py-3 text-sm font-bold text-white shadow-[0_14px_38px_rgba(41,151,255,0.24)] transition hover:-translate-y-0.5"
                 >
                   Kontakt anfragen
                 </Link>
 
                 {sessionUser ? (
-                  <div className="mt-3 rounded-2xl border border-white/10 bg-white/[0.05] p-3">
+                  <div className="liminal-menu-separator mt-3 pt-3">
+                    <div className="rounded-xl bg-black/20 p-3">
                     <div className="flex items-center gap-3">
                       <UserAvatar user={sessionUser} size="sm" />
                       <div className="min-w-0">
@@ -499,24 +569,28 @@ export default function Header() {
                     <Link
                       href="/konto"
                       onClick={() => setIsOpen(false)}
-                      className="mt-3 flex items-center justify-center rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-black"
+                      className="liminal-menu-element liminal-menu-accent mt-3 justify-center"
                     >
+                      <Settings className="h-4 w-4" />
                       Profileinstellungen
                     </Link>
                     <button
                       type="button"
                       onClick={() => void handleLogout()}
-                      className="mt-2 flex w-full items-center justify-center rounded-xl border border-white/10 px-4 py-2.5 text-sm font-semibold text-white/80"
+                      className="liminal-menu-element mt-1 w-full justify-center text-left hover:!bg-[#8e2a2a]"
                     >
+                      <LogOut className="h-4 w-4" />
                       Abmelden
                     </button>
+                    </div>
                   </div>
                 ) : (
                   <Link
                     href="/konto"
                     onClick={() => setIsOpen(false)}
-                    className="mt-3 inline-flex w-full items-center justify-center rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-black"
+                    className="liminal-menu-element liminal-menu-accent liminal-menu-separator mt-3 justify-center pt-3"
                   >
+                    <UserRound className="h-4 w-4" />
                     Anmelden / Registrieren
                   </Link>
                 )}
