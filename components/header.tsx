@@ -296,7 +296,7 @@ export default function Header() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-[calc(env(safe-area-inset-top)+1rem)] sm:px-6 lg:px-8">
-      <style>{`
+      <style suppressHydrationWarning>{`
         .gradient-login-button {
           position: relative;
           display: inline-flex;

@@ -21,7 +21,7 @@ import {
   Wrench,
   Barbell,
 } from "@phosphor-icons/react";
-import { ChevronDown, Globe2, ShieldCheck, Sparkles, TrendingUp, Zap } from "lucide-react";
+import { Globe2, ShieldCheck, Sparkles, TrendingUp, Zap } from "lucide-react";
 
 import { industryPages } from "@/content/industry-pages";
 import { JsonLd, createBreadcrumbSchema, createCollectionPageSchema } from "@/lib/seo";
@@ -180,7 +180,25 @@ const processSteps = [
   },
 ];
 
-const heroNav = ["Branchen", "Prozess", "SEO", "Kontakt"];
+const marqueeItems = [
+  "Cafes",
+  "Handwerk",
+  "Fitness",
+  "Beauty",
+  "Praxen",
+  "Hotels",
+  "Dienstleister",
+  "Einzelhandel",
+  "Coaching",
+  "Automobil",
+];
+
+const conversionStack = [
+  { icon: Zap, title: "Schnelle Ladezeit", desc: "Saubere Assets, klare Struktur und mobile Prioritaet." },
+  { icon: Globe2, title: "Lokale Sichtbarkeit", desc: "SEO-Aufbau fuer Stadt, Branche und konkrete Leistungen." },
+  { icon: ShieldCheck, title: "Vertrauen sofort", desc: "Referenzen, Leistungen und Kontaktwege sichtbar sortiert." },
+  { icon: TrendingUp, title: "Anfragen statt Klicks", desc: "CTA-Fuehrung, Angebotslogik und Formularwege ohne Reibung." },
+];
 
 export default function IndustriesPage() {
   return (
@@ -205,7 +223,7 @@ export default function IndustriesPage() {
       />
 
       <style>{`
-        @import url("https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap");
+        @import url(https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap);
 
         .industries-page {
           font-family: "General Sans", var(--font-inter), sans-serif;
@@ -217,12 +235,99 @@ export default function IndustriesPage() {
           -webkit-background-clip: text;
           background-clip: text;
         }
+
+        body:has(.industries-page) {
+          background: #000;
+        }
+
+        body:has(.industries-page) > canvas {
+          display: none !important;
+        }
+
+        body:has(.industries-page) footer {
+          margin-top: 0;
+          overflow: hidden;
+          background:
+            radial-gradient(circle at 18% 0%, rgba(41, 151, 255, 0.18), transparent 34%),
+            radial-gradient(circle at 82% 24%, rgba(88, 86, 214, 0.14), transparent 36%),
+            #02050a;
+        }
+
+        body:has(.industries-page) footer::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          z-index: 0;
+          pointer-events: none;
+          background-image:
+            linear-gradient(rgba(41, 151, 255, 0.08) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(41, 151, 255, 0.08) 1px, transparent 1px);
+          background-size: 42px 42px;
+          mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+          opacity: 0.45;
+        }
+
+        body:has(.industries-page) footer > * {
+          position: relative;
+          z-index: 1;
+        }
+
+        .industries-texture {
+          background-image:
+            radial-gradient(circle at 1px 1px, rgba(94, 185, 255, 0.26) 1px, transparent 0),
+            linear-gradient(135deg, rgba(41, 151, 255, 0.12), transparent 28%, rgba(88, 86, 214, 0.12) 62%, transparent);
+          background-size: 18px 18px, 100% 100%;
+        }
+
+        .process-card::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          padding: 1px;
+          background: linear-gradient(135deg, rgba(41, 151, 255, 0.75), rgba(255, 255, 255, 0.08), rgba(41, 151, 255, 0.16));
+          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          opacity: 0.32;
+          transition: opacity 0.35s ease;
+        }
+
+        .process-card:hover::before {
+          opacity: 0.9;
+        }
+
+        @keyframes industry-marquee {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+
+        @keyframes pulse-line {
+          0%, 100% { opacity: 0.28; transform: scaleX(0.72); }
+          50% { opacity: 1; transform: scaleX(1); }
+        }
+
+        .industry-marquee-track {
+          animation: industry-marquee 28s linear infinite;
+        }
+
+        .pulse-line {
+          animation: pulse-line 3.2s ease-in-out infinite;
+          transform-origin: left;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .industry-marquee-track,
+          .pulse-line {
+            animation: none;
+          }
+        }
       `}</style>
 
       <div className="industries-page min-h-screen overflow-x-hidden bg-black text-white">
-        <section className="relative min-h-[100svh] overflow-hidden bg-black">
+        <section className="relative isolate min-h-[100svh] overflow-hidden bg-black">
           <video
-            className="absolute inset-0 h-full w-full object-cover"
+            className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260217_030345_246c0224-10a4-422c-b324-070b7c0eceda.mp4"
             autoPlay
             muted
@@ -231,40 +336,11 @@ export default function IndustriesPage() {
             preload="metadata"
             aria-hidden="true"
           />
-          <div className="absolute inset-0 bg-black/50" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(41,151,255,0.28),transparent_36%),linear-gradient(to_bottom,rgba(0,0,0,0.12),#000_94%)]" />
+          <div className="absolute inset-0 z-10 bg-black/50" />
+          <div className="absolute inset-0 z-10 bg-[radial-gradient(circle_at_50%_18%,rgba(41,151,255,0.28),transparent_36%),linear-gradient(to_bottom,rgba(0,0,0,0.12),#000_94%)]" />
 
-          <div className="relative z-10 flex min-h-[100svh] flex-col px-5 pb-[102px] pt-[calc(env(safe-area-inset-top)+88px)] md:px-[120px] md:pt-[calc(env(safe-area-inset-top)+20px)]">
-            <nav className="flex items-center justify-between py-5">
-              <Link
-                href="/"
-                className="text-[18px] font-semibold tracking-[-0.04em] text-white md:w-[187px]"
-              >
-                LIMINALO
-              </Link>
-
-              <div className="hidden items-center gap-[30px] md:flex">
-                {heroNav.map((item) => (
-                  <a
-                    key={item}
-                    href={item === "Kontakt" ? "/kontakt" : `#${item.toLowerCase()}`}
-                    className="inline-flex items-center gap-[14px] text-sm font-medium text-white transition hover:text-[#8ecbff]"
-                  >
-                    {item}
-                    <ChevronDown className="h-[14px] w-[14px]" />
-                  </a>
-                ))}
-              </div>
-
-              <Link href="/kontakt" className="group relative rounded-full border border-white/60 p-[3px]">
-                <span className="absolute left-5 right-5 top-0 h-3 rounded-full bg-white/70 blur-md opacity-70" />
-                <span className="relative flex rounded-full bg-black px-[29px] py-[11px] text-sm font-medium text-white transition group-hover:bg-[#061423]">
-                  Projekt starten
-                </span>
-              </Link>
-            </nav>
-
-            <div className="flex flex-1 items-center justify-center pt-[112px] md:pt-[220px]">
+          <div className="relative z-20 flex min-h-[100svh] flex-col px-5 pb-[102px] pt-[calc(env(safe-area-inset-top)+7.5rem)] md:px-[120px] md:pt-[calc(env(safe-area-inset-top)+8rem)]">
+            <div className="flex flex-1 items-center justify-center">
               <motion.div
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -408,91 +484,184 @@ export default function IndustriesPage() {
           </div>
         </section>
 
-        <section id="prozess" className="bg-[#02050a] px-5 py-24 md:px-[120px]">
-          <div className="mx-auto max-w-7xl">
-            <div className="mb-14 max-w-2xl">
-              <span className="text-xs font-semibold uppercase tracking-[0.24em] text-[#2997ff]">
-                Unser Prozess
-              </span>
-              <h2 className="mt-4 text-3xl font-medium tracking-[-0.04em] text-white md:text-5xl">
-                Von der Branchenlogik zur Website, die verkauft.
-              </h2>
-            </div>
+        <section id="prozess" className="relative overflow-hidden bg-[#02050a] px-5 py-28 md:px-[120px]">
+          <div className="industries-texture absolute inset-0 opacity-55" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_14%,rgba(41,151,255,0.28),transparent_30%),radial-gradient(circle_at_88%_74%,rgba(41,151,255,0.16),transparent_32%),linear-gradient(to_bottom,#02050a_0%,rgba(2,5,10,0.72)_52%,#000_100%)]" />
+          <div className="relative mx-auto max-w-7xl">
+            <div className="grid gap-12 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
+              <motion.div
+                initial={{ opacity: 0, x: -24 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+                className="lg:sticky lg:top-28"
+              >
+                <span className="text-xs font-semibold uppercase tracking-[0.24em] text-[#2997ff]">
+                  Unser Prozess
+                </span>
+                <h2 className="mt-4 max-w-xl text-3xl font-medium tracking-[-0.045em] text-white md:text-5xl md:leading-[1.05]">
+                  Von der Branchenlogik zur Website, die{" "}
+                  <span className="rounded-2xl border border-[#2997ff]/30 bg-[#2997ff]/15 px-2 text-[#8ecbff]">
+                    verkauft.
+                  </span>
+                </h2>
+                <p className="mt-6 max-w-lg text-base leading-7 text-white/60">
+                  Jede Seite wird wie ein kleines Verkaufssystem geplant: erst verstehen,
+                  dann strukturieren, dann gestalten und messbar live bringen.
+                </p>
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {processSteps.map((step, index) => {
-                const Icon = step.icon;
-                return (
-                  <motion.div
-                    key={step.step}
-                    initial={{ opacity: 0, y: 22 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="relative overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.04] p-6"
-                  >
-                    <div className="absolute right-4 top-2 text-7xl font-semibold text-white/[0.035]">
-                      {step.step}
-                    </div>
-                    <div className="relative z-10">
-                      <div className="mb-7 flex h-12 w-12 items-center justify-center rounded-2xl border border-[#2997ff]/35 bg-[#2997ff]/12">
-                        <Icon className="h-6 w-6" weight="duotone" color="#2997ff" />
-                      </div>
-                      <div className="text-sm font-semibold text-[#2997ff]">{step.step}</div>
-                      <h3 className="mt-2 text-xl font-semibold text-white">{step.title}</h3>
-                      <p className="mt-1 text-sm text-white/72">{step.subtitle}</p>
-                      <p className="mt-4 text-sm leading-6 text-white/48">{step.desc}</p>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-black px-5 py-24 md:px-[120px]">
-          <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-4">
-            {[
-              { icon: Zap, title: "Blitzschnell", desc: "Performance fuer mobile Nutzer." },
-              { icon: Globe2, title: "SEO-Ready", desc: "Struktur fuer bessere Auffindbarkeit." },
-              { icon: ShieldCheck, title: "Vertrauen", desc: "Klare Inhalte, echte Signale." },
-              { icon: TrendingUp, title: "Conversion", desc: "Mehr Anfragen statt nur Klicks." },
-            ].map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 18 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.08 }}
-                  className="rounded-[28px] border border-white/10 bg-white/[0.035] p-6 text-center transition hover:border-[#2997ff]/35 hover:bg-white/[0.065]"
-                >
-                  <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-[#2997ff]/30 bg-[#2997ff]/12">
-                    <Icon className="h-7 w-7 text-[#2997ff]" />
+                <div className="mt-10 overflow-hidden rounded-[32px] border border-white/10 bg-black/45 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+                  <div className="mb-5 flex items-center justify-between">
+                    <span className="text-sm font-semibold text-white">Launch Blueprint</span>
+                    <span className="rounded-full border border-[#2997ff]/30 bg-[#2997ff]/12 px-3 py-1 text-xs text-[#8ecbff]">
+                      live-ready
+                    </span>
                   </div>
-                  <h3 className="text-lg font-semibold text-white">{feature.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-white/52">{feature.desc}</p>
-                </motion.div>
-              );
-            })}
+                  {["Angebot sofort klar", "SEO-Struktur pro Leistung", "Kontaktweg ohne Reibung"].map(
+                    (item, index) => (
+                      <div key={item} className="group flex items-center gap-4 border-t border-white/8 py-4">
+                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#2997ff]/30 bg-[#2997ff]/12 text-xs font-semibold text-[#8ecbff]">
+                          0{index + 1}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="text-sm font-medium text-white">{item}</div>
+                          <div className="mt-2 h-px overflow-hidden rounded-full bg-white/10">
+                            <div className="pulse-line h-full rounded-full bg-gradient-to-r from-[#2997ff] via-white to-[#2997ff]" />
+                          </div>
+                        </div>
+                      </div>
+                    ),
+                  )}
+                </div>
+              </motion.div>
+
+              <div className="grid gap-4">
+                {processSteps.map((step, index) => {
+                  const Icon = step.icon;
+                  return (
+                    <motion.div
+                      key={step.step}
+                      initial={{ opacity: 0, y: 28, scale: 0.98 }}
+                      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                      whileHover={{ y: -4 }}
+                      viewport={{ once: true, amount: 0.25 }}
+                      transition={{ delay: index * 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                      className="process-card group relative overflow-hidden rounded-[34px] bg-white/[0.035] p-5 backdrop-blur-xl md:p-6"
+                    >
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_0%,rgba(41,151,255,0.18),transparent_32%)] opacity-0 transition duration-500 group-hover:opacity-100" />
+                      <div className="relative z-10 flex flex-col gap-5 md:flex-row md:items-center">
+                        <div className="flex items-center gap-4 md:w-56">
+                          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#2997ff]/35 bg-[#2997ff]/12">
+                            <Icon className="h-7 w-7" weight="duotone" color="#2997ff" />
+                          </div>
+                          <div>
+                            <div className="text-sm font-semibold text-[#8ecbff]">{step.step}</div>
+                            <h3 className="mt-1 text-xl font-semibold text-white">{step.title}</h3>
+                          </div>
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm font-medium text-white/82">{step.subtitle}</p>
+                          <p className="mt-2 text-sm leading-6 text-white/52">{step.desc}</p>
+                        </div>
+                        <ArrowRight className="hidden h-5 w-5 text-white/28 transition group-hover:translate-x-1 group-hover:text-[#2997ff] md:block" />
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </section>
 
-        <section className="bg-[#02050a] px-5 py-24 md:px-[120px]">
+        <section className="relative overflow-hidden bg-black px-5 py-24 md:px-[120px]">
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,#000_0%,#02050a_48%,#000_100%)]" />
+          <div className="absolute left-0 right-0 top-10 overflow-hidden opacity-35">
+            <div className="industry-marquee-track flex w-max gap-4 whitespace-nowrap">
+              {[...marqueeItems, ...marqueeItems].map((item, index) => (
+                <span
+                  key={`${item}-${index}`}
+                  className="rounded-full border border-[#2997ff]/20 bg-[#2997ff]/8 px-6 py-3 text-sm font-semibold uppercase tracking-[0.22em] text-[#8ecbff]"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[40px] border border-white/10 bg-white/[0.035] p-6 shadow-[0_34px_120px_rgba(0,0,0,0.45)] backdrop-blur-xl md:p-10">
+            <div className="absolute inset-0 industries-texture opacity-35" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(41,151,255,0.25),transparent_34%),radial-gradient(circle_at_80%_84%,rgba(88,86,214,0.16),transparent_32%)]" />
+            <div className="relative grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{ duration: 0.6 }}
+              >
+                <span className="text-xs font-semibold uppercase tracking-[0.24em] text-[#2997ff]">
+                  Conversion-System
+                </span>
+                <h2 className="mt-4 text-3xl font-medium tracking-[-0.045em] text-white md:text-5xl md:leading-[1.06]">
+                  Nicht nur schoen. Auf echte Besucher optimiert.
+                </h2>
+                <p className="mt-6 max-w-xl text-base leading-7 text-white/60">
+                  Design, Ladezeit, lokale Suchintention und Kontaktwege greifen ineinander.
+                  So wirkt die Website hochwertig und bleibt trotzdem klar verkaufsorientiert.
+                </p>
+                <div className="mt-8 grid grid-cols-3 gap-3">
+                  {["Speed", "Trust", "SEO"].map((label) => (
+                    <div key={label} className="rounded-2xl border border-white/10 bg-black/35 p-4 text-center">
+                      <div className="text-xl font-semibold text-[#8ecbff]">100%</div>
+                      <div className="mt-1 text-xs uppercase tracking-[0.18em] text-white/42">{label}</div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                {conversionStack.map((feature, index) => {
+                  const Icon = feature.icon;
+                  return (
+                    <motion.div
+                      key={feature.title}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      whileHover={{ y: -5, rotateX: 2, rotateY: -2 }}
+                      viewport={{ once: true, amount: 0.25 }}
+                      transition={{ delay: index * 0.06, duration: 0.5 }}
+                      className="group rounded-[28px] border border-white/10 bg-black/35 p-6 transition duration-500 hover:border-[#2997ff]/45 hover:bg-[#061423]/70"
+                    >
+                      <div className="mb-5 flex h-13 w-13 items-center justify-center rounded-2xl border border-[#2997ff]/30 bg-[#2997ff]/12">
+                        <Icon className="h-6 w-6 text-[#2997ff]" />
+                      </div>
+                      <h3 className="text-lg font-semibold text-white transition group-hover:text-[#8ecbff]">
+                        {feature.title}
+                      </h3>
+                      <p className="mt-2 text-sm leading-6 text-white/52">{feature.desc}</p>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="relative overflow-hidden bg-[#02050a] px-5 pb-28 pt-6 md:px-[120px]">
+          <div className="industries-texture absolute inset-0 opacity-45" />
           <motion.div
-            initial={{ opacity: 0, y: 22 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="relative mx-auto max-w-4xl overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] p-8 text-center md:p-12"
+            viewport={{ once: true, amount: 0.35 }}
+            className="group relative mx-auto max-w-4xl overflow-hidden rounded-[40px] border border-white/10 bg-black/45 p-8 text-center shadow-[0_34px_120px_rgba(0,0,0,0.5)] backdrop-blur-xl md:p-12"
           >
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(41,151,255,0.28),transparent_45%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(41,151,255,0.34),transparent_45%)]" />
+            <div className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100 bg-[radial-gradient(260px_circle_at_50%_38%,rgba(41,151,255,0.28),transparent_70%)]" />
             <div className="relative z-10">
               <Sparkles className="mx-auto mb-5 h-8 w-8 text-[#2997ff]" />
               <h2 className="text-3xl font-medium tracking-[-0.04em] text-white md:text-5xl">
                 Bereit fuer eine Website, die zu Ihrer Branche passt?
               </h2>
-              <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/58">
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/60">
                 Lassen Sie uns in einem kostenlosen Gespraech klaeren, welche Inhalte,
                 Funktionen und Designrichtung fuer Ihr Business am meisten bringen.
               </p>
