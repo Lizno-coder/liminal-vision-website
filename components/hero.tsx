@@ -18,9 +18,7 @@ function Hero3DPlaceholder() {
       className="relative w-full"
       style={{ height: "clamp(350px, 50vw, 550px)" }}
       aria-hidden="true"
-    >
-      <div className="absolute inset-x-[6%] top-[12%] h-[76%] rounded-[2rem] border border-white/10 bg-[#1a1d29]/70 shadow-[0_30px_120px_rgba(41,151,255,0.16)]" />
-    </div>
+    />
   );
 }
 
