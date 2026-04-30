@@ -23,6 +23,7 @@ import {
 } from "@phosphor-icons/react";
 import { Globe2, Search, ShieldCheck, SlidersHorizontal, Sparkles, TrendingUp, Zap } from "lucide-react";
 
+import { DownloadDoneIcon, LockUnlockIcon, SendIcon, SuccessIcon } from "@/components/ui/animated-state-icons";
 import { industryPages } from "@/content/industry-pages";
 import { JsonLd, createBreadcrumbSchema, createCollectionPageSchema } from "@/lib/seo";
 
@@ -187,6 +188,7 @@ const carouselFeatures = [
     title: "Sofort schnell",
     desc: "Schlanke Seitenstruktur, starke Bildauslieferung und saubere mobile Priorität.",
     icon: Zap,
+    animatedIcon: DownloadDoneIcon,
     object: "bolt",
   },
   {
@@ -195,6 +197,7 @@ const carouselFeatures = [
     title: "Lokal sichtbar",
     desc: "Branche, Ort und Leistung werden so verbunden, dass Suchintention klar bedient wird.",
     icon: Globe2,
+    animatedIcon: SuccessIcon,
     object: "orb",
   },
   {
@@ -203,6 +206,7 @@ const carouselFeatures = [
     title: "Vertrauen aufbauen",
     desc: "Referenzen, Leistungen und Kontaktwege erscheinen genau dort, wo Besucher entscheiden.",
     icon: ShieldCheck,
+    animatedIcon: LockUnlockIcon,
     object: "shield",
   },
   {
@@ -211,6 +215,7 @@ const carouselFeatures = [
     title: "Mehr Anfragen",
     desc: "Jede Sektion führt bewusst zum nächsten Schritt statt nur schön auszusehen.",
     icon: TrendingUp,
+    animatedIcon: SendIcon,
     object: "arrow",
   },
 ];
@@ -278,7 +283,7 @@ function MetallicVisual({ type }: { type: string }) {
 function FeatureCarouselNative() {
   const [active, setActive] = React.useState(0);
   const current = carouselFeatures[active];
-  const Icon = current.icon;
+  const AnimatedCurrentIcon = current.animatedIcon;
 
   React.useEffect(() => {
     const id = window.setInterval(() => {
@@ -296,7 +301,7 @@ function FeatureCarouselNative() {
           <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#2997ff] to-transparent" />
           <div className="relative z-10 space-y-3">
             {carouselFeatures.map((feature, index) => {
-              const FeatureIcon = feature.icon;
+              const FeatureIcon = feature.animatedIcon;
               const isActive = index === active;
               return (
                 <button
@@ -309,7 +314,7 @@ function FeatureCarouselNative() {
                       : "border-white/20 bg-transparent text-white/68 hover:border-white/45 hover:text-white"
                   }`}
                 >
-                  <FeatureIcon className={`h-5 w-5 transition group-hover:rotate-12 ${isActive ? "text-[#2997ff]" : ""}`} />
+                  <FeatureIcon size={22} active={isActive} className={isActive ? "text-[#2997ff]" : "text-current"} />
                   <span className="text-sm font-semibold uppercase tracking-[0.18em]">{feature.label}</span>
                 </button>
               );
@@ -321,7 +326,7 @@ function FeatureCarouselNative() {
           <div className="grid h-full gap-6 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
             <div>
               <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-[#2997ff]/35 bg-[#2997ff]/12 text-[#8ecbff]">
-                <Icon className="h-6 w-6" />
+                <AnimatedCurrentIcon size={30} active />
               </div>
               <motion.div
                 key={current.id}
@@ -426,6 +431,8 @@ function BentoSystemCard() {
 }
 
 export default function IndustriesPage() {
+  const [hoveredAction, setHoveredAction] = React.useState<string | null>(null);
+
   return (
     <>
       <JsonLd
@@ -733,9 +740,17 @@ export default function IndustriesPage() {
                   </p>
                 </div>
 
-                <Link href="/kontakt" className="group relative rounded-full border border-white/60 p-[3px]">
+                <Link
+                  href="/kontakt"
+                  className="group relative rounded-full border border-white/60 p-[3px]"
+                  onMouseEnter={() => setHoveredAction("hero-contact")}
+                  onMouseLeave={() => setHoveredAction(null)}
+                  onFocus={() => setHoveredAction("hero-contact")}
+                  onBlur={() => setHoveredAction(null)}
+                >
                   <span className="absolute left-6 right-6 top-0 h-3 rounded-full bg-white/80 blur-md opacity-80" />
                   <span className="relative inline-flex items-center gap-2 rounded-full bg-white px-[29px] py-[11px] text-sm font-medium text-black transition group-hover:bg-[#eaf5ff]">
+                    <SendIcon size={18} active={hoveredAction === "hero-contact"} />
                     Kostenlose Anfrage
                     <ArrowRight className="h-4 w-4" />
                   </span>
@@ -992,14 +1007,24 @@ export default function IndustriesPage() {
                 <Link
                   href="/kontakt"
                   className="group/button inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-semibold text-black transition hover:-translate-y-0.5 hover:bg-[#eaf5ff]"
+                  onMouseEnter={() => setHoveredAction("final-contact")}
+                  onMouseLeave={() => setHoveredAction(null)}
+                  onFocus={() => setHoveredAction("final-contact")}
+                  onBlur={() => setHoveredAction(null)}
                 >
+                  <SendIcon size={20} active={hoveredAction === "final-contact"} />
                   Kontakt aufnehmen
                   <ArrowRight className="h-4 w-4 transition group-hover/button:translate-x-1" />
                 </Link>
                 <Link
                   href="/#pricing"
-                  className="inline-flex items-center justify-center rounded-full border border-white/18 px-8 py-4 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/8"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/18 px-8 py-4 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/8"
+                  onMouseEnter={() => setHoveredAction("pricing")}
+                  onMouseLeave={() => setHoveredAction(null)}
+                  onFocus={() => setHoveredAction("pricing")}
+                  onBlur={() => setHoveredAction(null)}
                 >
+                  <DownloadDoneIcon size={20} active={hoveredAction === "pricing"} />
                   Preise ansehen
                 </Link>
               </div>

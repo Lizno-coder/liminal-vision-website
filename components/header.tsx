@@ -9,12 +9,17 @@ import {
   BriefcaseBusiness,
   Home,
   ListChecks,
-  LogOut,
   Mail,
   MapPin,
-  Settings,
   UserRound,
 } from "lucide-react";
+
+import {
+  LockUnlockIcon,
+  MenuCloseIcon,
+  SendIcon,
+  UserPulseIcon,
+} from "@/components/ui/animated-state-icons";
 
 const navLinks = [
   { name: "Home", href: "/", icon: Home },
@@ -96,6 +101,7 @@ function AccountMenu({
   onLogout: () => Promise<void>;
 }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isAccountHovered, setIsAccountHovered] = useState(false);
   const profileRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -133,7 +139,12 @@ function AccountMenu({
         href="/konto"
         className="gradient-login-button"
         aria-label="Zur Anmeldeseite"
+        onMouseEnter={() => setIsAccountHovered(true)}
+        onMouseLeave={() => setIsAccountHovered(false)}
+        onFocus={() => setIsAccountHovered(true)}
+        onBlur={() => setIsAccountHovered(false)}
       >
+        <UserPulseIcon size={20} active={isAccountHovered} className="-ml-1 mr-1.5 text-white" />
         <span className="gradient-login-text">Anmelden</span>
       </Link>
     );
@@ -144,6 +155,10 @@ function AccountMenu({
       <button
         type="button"
         onClick={() => setIsProfileOpen((current) => !current)}
+        onMouseEnter={() => setIsAccountHovered(true)}
+        onMouseLeave={() => setIsAccountHovered(false)}
+        onFocus={() => setIsAccountHovered(true)}
+        onBlur={() => setIsAccountHovered(false)}
         className="rounded-full outline-none transition hover:scale-[1.03] focus-visible:ring-2 focus-visible:ring-[#2997ff]"
         aria-label="Profilmenü öffnen"
         aria-expanded={isProfileOpen}
@@ -175,7 +190,7 @@ function AccountMenu({
               onClick={() => setIsProfileOpen(false)}
               className="mt-2 flex items-center gap-3 rounded-2xl px-3 py-3 text-sm text-white/78 transition hover:bg-white/10 hover:text-white"
             >
-              <Settings className="h-4 w-4" />
+              <UserPulseIcon size={18} />
               Profileinstellungen
             </Link>
             <button
@@ -186,7 +201,7 @@ function AccountMenu({
               }}
               className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm text-white/78 transition hover:bg-white/10 hover:text-white"
             >
-              <LogOut className="h-4 w-4" />
+              <LockUnlockIcon size={18} />
               Abmelden
             </button>
           </motion.div>
@@ -200,6 +215,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [sessionUser, setSessionUser] = useState<HeaderUser | null>(null);
+  const [isMenuContactHovered, setIsMenuContactHovered] = useState(false);
   const lastScrollY = useRef(0);
   const ticking = useRef(false);
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -489,23 +505,7 @@ export default function Header() {
                 onClick={() => setIsOpen((prev) => !prev)}
                 className="inline-flex h-10 w-10 items-center justify-center text-white md:h-12 md:w-12"
               >
-                <div className="relative h-4 w-5 md:h-5 md:w-6">
-                  <span
-                    className={`absolute left-0 top-0 h-0.5 w-5 rounded-full bg-white transition-all duration-300 md:w-6 ${
-                      isOpen ? "top-1.5 rotate-45" : ""
-                    }`}
-                  />
-                  <span
-                    className={`absolute left-0 top-1.5 h-0.5 w-5 rounded-full bg-white transition-all duration-300 md:top-2 md:w-6 ${
-                      isOpen ? "opacity-0" : "opacity-100"
-                    }`}
-                  />
-                  <span
-                    className={`absolute left-0 top-3 h-0.5 w-5 rounded-full bg-white transition-all duration-300 md:top-4 md:w-6 ${
-                      isOpen ? "top-1.5 -rotate-45" : ""
-                    }`}
-                  />
-                </div>
+                <MenuCloseIcon size={34} active={isOpen} />
               </button>
             </div>
           </div>
@@ -547,8 +547,13 @@ export default function Header() {
                 <Link
                   href="/kontakt"
                   onClick={() => setIsOpen(false)}
-                  className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#2997ff] to-[#5eb9ff] px-4 py-3 text-sm font-bold text-white shadow-[0_14px_38px_rgba(41,151,255,0.24)] transition hover:-translate-y-0.5"
+                  onMouseEnter={() => setIsMenuContactHovered(true)}
+                  onMouseLeave={() => setIsMenuContactHovered(false)}
+                  onFocus={() => setIsMenuContactHovered(true)}
+                  onBlur={() => setIsMenuContactHovered(false)}
+                  className="group mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#2997ff] to-[#5eb9ff] px-4 py-3 text-sm font-bold text-white shadow-[0_14px_38px_rgba(41,151,255,0.24)] transition hover:-translate-y-0.5"
                 >
+                  <SendIcon size={20} active={isMenuContactHovered} className="transition group-hover:scale-105" />
                   Kontakt anfragen
                 </Link>
 
@@ -571,7 +576,7 @@ export default function Header() {
                       onClick={() => setIsOpen(false)}
                       className="liminal-menu-element liminal-menu-accent mt-3 justify-center"
                     >
-                      <Settings className="h-4 w-4" />
+                      <UserPulseIcon size={18} />
                       Profileinstellungen
                     </Link>
                     <button
@@ -579,7 +584,7 @@ export default function Header() {
                       onClick={() => void handleLogout()}
                       className="liminal-menu-element mt-1 w-full justify-center text-left hover:!bg-[#8e2a2a]"
                     >
-                      <LogOut className="h-4 w-4" />
+                      <LockUnlockIcon size={18} />
                       Abmelden
                     </button>
                     </div>
@@ -590,7 +595,7 @@ export default function Header() {
                     onClick={() => setIsOpen(false)}
                     className="liminal-menu-element liminal-menu-accent liminal-menu-separator mt-3 justify-center pt-3"
                   >
-                    <UserRound className="h-4 w-4" />
+                    <UserPulseIcon size={18} />
                     Anmelden / Registrieren
                   </Link>
                 )}
