@@ -180,25 +180,250 @@ const processSteps = [
   },
 ];
 
-const marqueeItems = [
-  "Cafés",
-  "Handwerk",
-  "Fitness",
-  "Beauty",
-  "Praxen",
-  "Hotels",
-  "Dienstleister",
-  "Einzelhandel",
-  "Coaching",
-  "Automobil",
+const carouselFeatures = [
+  {
+    id: "speed",
+    label: "Speed",
+    title: "Sofort schnell",
+    desc: "Schlanke Seitenstruktur, starke Bildauslieferung und saubere mobile Priorität.",
+    icon: Zap,
+    object: "bolt",
+  },
+  {
+    id: "seo",
+    label: "SEO",
+    title: "Lokal sichtbar",
+    desc: "Branche, Ort und Leistung werden so verbunden, dass Suchintention klar bedient wird.",
+    icon: Globe2,
+    object: "orb",
+  },
+  {
+    id: "trust",
+    label: "Trust",
+    title: "Vertrauen aufbauen",
+    desc: "Referenzen, Leistungen und Kontaktwege erscheinen genau dort, wo Besucher entscheiden.",
+    icon: ShieldCheck,
+    object: "shield",
+  },
+  {
+    id: "leads",
+    label: "Leads",
+    title: "Mehr Anfragen",
+    desc: "Jede Sektion führt bewusst zum nächsten Schritt statt nur schön auszusehen.",
+    icon: TrendingUp,
+    object: "arrow",
+  },
 ];
 
-const conversionStack = [
-  { icon: Zap, title: "Schnelle Ladezeit", desc: "Saubere Assets, klare Struktur und mobile Priorität." },
-  { icon: Globe2, title: "Lokale Sichtbarkeit", desc: "SEO-Aufbau für Stadt, Branche und konkrete Leistungen." },
-  { icon: ShieldCheck, title: "Vertrauen sofort", desc: "Referenzen, Leistungen und Kontaktwege sichtbar sortiert." },
-  { icon: TrendingUp, title: "Anfragen statt Klicks", desc: "CTA-Führung, Angebotslogik und Formularwege ohne Reibung." },
-];
+function CpuArchitecture({ className = "" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 220 120" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="cpuLine" x1="0" x2="1">
+          <stop stopColor="#0b2440" />
+          <stop offset="0.5" stopColor="#2997ff" />
+          <stop offset="1" stopColor="#ffffff" />
+        </linearGradient>
+        <radialGradient id="cpuGlow">
+          <stop stopColor="#8ecbff" />
+          <stop offset="1" stopColor="transparent" />
+        </radialGradient>
+      </defs>
+      <g stroke="url(#cpuLine)" strokeWidth="1" opacity="0.65">
+        <path d="M14 22h78c7 0 10 3 10 10v20" pathLength="1" strokeDasharray="1" strokeDashoffset="0">
+          <animate attributeName="stroke-dashoffset" values="1;0" dur="1.6s" repeatCount="indefinite" />
+        </path>
+        <path d="M206 18h-76c-7 0-10 3-10 10v24" pathLength="1" strokeDasharray="1" strokeDashoffset="0">
+          <animate attributeName="stroke-dashoffset" values="1;0" dur="1.8s" repeatCount="indefinite" />
+        </path>
+        <path d="M34 90h50c8 0 12-4 12-12V66" />
+        <path d="M190 94h-52c-8 0-12-4-12-12V66" />
+        <path d="M110 18v34" />
+        <path d="M110 68v34" />
+      </g>
+      <circle cx="35" cy="22" r="9" fill="url(#cpuGlow)">
+        <animateMotion dur="3.4s" repeatCount="indefinite" path="M0 0 H70 Q78 0 78 10 V32" />
+      </circle>
+      <circle cx="190" cy="18" r="8" fill="url(#cpuGlow)">
+        <animateMotion dur="3.8s" repeatCount="indefinite" path="M0 0 H-70 Q-78 0 -78 10 V34" />
+      </circle>
+      <rect x="82" y="48" width="56" height="28" rx="7" fill="#050b13" stroke="#2997ff" strokeOpacity="0.55" />
+      <rect x="92" y="56" width="36" height="12" rx="3" fill="#07182a" />
+      <text x="110" y="65" textAnchor="middle" fontSize="8" fontWeight="700" fill="#8ecbff">
+        SEO
+      </text>
+    </svg>
+  );
+}
+
+function MetallicVisual({ type }: { type: string }) {
+  return (
+    <div className="relative flex h-full min-h-[380px] items-center justify-center overflow-hidden rounded-[34px] bg-[#02050a]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(41,151,255,0.32),transparent_34%),radial-gradient(circle_at_50%_70%,rgba(255,255,255,0.09),transparent_28%)]" />
+      <div className="absolute inset-0 industries-texture opacity-30" />
+      <CpuArchitecture className="absolute inset-x-6 top-8 h-32 text-[#2997ff] opacity-55" />
+      <motion.div
+        key={type}
+        initial={{ opacity: 0, y: 26, rotate: -6, scale: 0.9 }}
+        animate={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        className={`metallic-object metallic-${type}`}
+      >
+        <span />
+      </motion.div>
+    </div>
+  );
+}
+
+function FeatureCarouselNative() {
+  const [active, setActive] = React.useState(0);
+  const current = carouselFeatures[active];
+  const Icon = current.icon;
+
+  React.useEffect(() => {
+    const id = window.setInterval(() => {
+      setActive((value) => (value + 1) % carouselFeatures.length);
+    }, 3400);
+    return () => window.clearInterval(id);
+  }, []);
+
+  return (
+    <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[42px] border border-white/10 bg-white/[0.035] shadow-[0_36px_130px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_0%,rgba(41,151,255,0.26),transparent_32%),radial-gradient(circle_at_100%_100%,rgba(88,86,214,0.16),transparent_34%)]" />
+      <div className="relative grid min-h-[620px] lg:grid-cols-[0.42fr_0.58fr]">
+        <div className="relative flex flex-col justify-center overflow-hidden bg-[#2997ff] p-7 md:p-10">
+          <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#2997ff] to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#2997ff] to-transparent" />
+          <div className="relative z-10 space-y-3">
+            {carouselFeatures.map((feature, index) => {
+              const FeatureIcon = feature.icon;
+              const isActive = index === active;
+              return (
+                <button
+                  key={feature.id}
+                  type="button"
+                  onClick={() => setActive(index)}
+                  className={`group flex w-full items-center gap-4 rounded-full border px-5 py-4 text-left transition duration-500 ${
+                    isActive
+                      ? "border-white bg-white text-[#0a65aa] shadow-[0_18px_50px_rgba(0,0,0,0.18)]"
+                      : "border-white/20 bg-transparent text-white/68 hover:border-white/45 hover:text-white"
+                  }`}
+                >
+                  <FeatureIcon className={`h-5 w-5 transition group-hover:rotate-12 ${isActive ? "text-[#2997ff]" : ""}`} />
+                  <span className="text-sm font-semibold uppercase tracking-[0.18em]">{feature.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="relative overflow-hidden p-6 md:p-10">
+          <div className="grid h-full gap-6 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
+            <div>
+              <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-[#2997ff]/35 bg-[#2997ff]/12 text-[#8ecbff]">
+                <Icon className="h-6 w-6" />
+              </div>
+              <motion.div
+                key={current.id}
+                initial={{ opacity: 0, y: 18, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.45 }}
+              >
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#2997ff]">
+                  Website-System
+                </p>
+                <h2 className="mt-4 text-3xl font-medium tracking-[-0.045em] text-white md:text-5xl md:leading-[1.05]">
+                  {current.title}
+                </h2>
+                <p className="mt-5 text-base leading-7 text-white/62">{current.desc}</p>
+              </motion.div>
+            </div>
+            <MetallicVisual type={current.object} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BentoSystemCard() {
+  const tabs = ["Dashboard", "SEO", "Anfragen", "Launch"];
+  return (
+    <div className="group relative mx-auto grid max-w-7xl gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+      <div className="relative overflow-hidden rounded-[38px] border border-white/10 bg-white/[0.035] p-6 shadow-[0_28px_100px_rgba(0,0,0,0.45)] backdrop-blur-xl md:p-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_0%,rgba(41,151,255,0.2),transparent_34%)]" />
+        <div className="relative">
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#2997ff]">Live Dashboard</p>
+          <h3 className="mt-3 max-w-xl text-2xl font-medium tracking-[-0.04em] text-white md:text-4xl">
+            Alles, was später verkauft, wird vorher sauber sortiert.
+          </h3>
+          <div className="mt-8 overflow-hidden rounded-[30px] border border-white/10 bg-[#050b13]">
+            <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
+              <div className="flex gap-2">
+                <span className="h-3 w-3 rounded-full bg-[#ff605c]" />
+                <span className="h-3 w-3 rounded-full bg-[#ffbd44]" />
+                <span className="h-3 w-3 rounded-full bg-[#00ca4e]" />
+              </div>
+              <span className="text-xs uppercase tracking-[0.2em] text-white/35">Liminalo Workspace</span>
+            </div>
+            <div className="grid min-h-[310px] md:grid-cols-[170px_1fr]">
+              <div className="border-b border-white/10 p-3 md:border-b-0 md:border-r">
+                {tabs.map((tab, index) => (
+                  <div
+                    key={tab}
+                    className={`mb-2 rounded-xl px-3 py-3 text-sm font-semibold ${
+                      index === 1 ? "bg-[#2997ff]/14 text-[#8ecbff]" : "text-white/45"
+                    }`}
+                  >
+                    {tab}
+                  </div>
+                ))}
+              </div>
+              <div className="p-5">
+                <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+                  <div className="mb-3 flex items-center justify-between">
+                    <span className="text-sm font-semibold text-white">Lokale Sichtbarkeit</span>
+                    <span className="rounded-full bg-[#2997ff]/14 px-3 py-1 text-xs text-[#8ecbff]">94%</span>
+                  </div>
+                  <div className="h-2 overflow-hidden rounded-full bg-white/10">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      whileInView={{ width: "94%" }}
+                      viewport={{ once: true }}
+                      className="h-full rounded-full bg-gradient-to-r from-[#2997ff] to-white"
+                    />
+                  </div>
+                </div>
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  {["Keyword-Cluster", "Kontaktwege", "Trust-Signale", "Mobile Speed"].map((item) => (
+                    <div key={item} className="rounded-2xl border border-white/10 bg-black/28 p-4">
+                      <div className="text-sm font-semibold text-white">{item}</div>
+                      <div className="mt-2 text-xs text-white/45">optimiert</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="relative overflow-hidden rounded-[38px] border border-white/10 bg-[#02050a] p-7 shadow-[0_28px_100px_rgba(0,0,0,0.45)]">
+        <div className="absolute inset-0 industries-texture opacity-35" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(41,151,255,0.28),transparent_42%)]" />
+        <div className="relative">
+          <CpuArchitecture className="h-56 w-full text-[#2997ff]" />
+          <div className="mt-6 rounded-[28px] border border-white/10 bg-black/35 p-5 backdrop-blur-xl">
+            <div className="text-5xl font-semibold tracking-[-0.08em] text-white">4</div>
+            <p className="mt-2 text-sm leading-6 text-white/58">
+              zentrale Ebenen: Geschwindigkeit, Sichtbarkeit, Vertrauen und Anfrageführung.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function IndustriesPage() {
   return (
@@ -340,7 +565,6 @@ export default function IndustriesPage() {
           background: conic-gradient(from 80deg, transparent, #2997ff, transparent 28%, transparent 56%, rgba(255,255,255,0.5), transparent);
           filter: blur(2px);
           opacity: 0.75;
-          transition: transform 1.5s ease;
         }
 
         .industry-search-shell::after {
@@ -349,34 +573,102 @@ export default function IndustriesPage() {
           opacity: 0.28;
         }
 
-        .industry-search-shell:hover::before,
-        .industry-search-shell:hover::after {
-          transform: rotate(180deg);
+        .typing-phrases {
+          position: relative;
+          display: inline-block;
+          width: min(24ch, 100%);
+          height: 1.35em;
+          overflow: hidden;
+          vertical-align: bottom;
         }
 
-        .typing-text {
+        .typing-phrases span {
+          position: absolute;
+          left: 0;
+          top: 0;
           display: inline-block;
-          max-width: 26ch;
+          width: 0;
+          max-width: 24ch;
           overflow: hidden;
           white-space: nowrap;
-          vertical-align: bottom;
           border-right: 2px solid #8ecbff;
-          animation: typing-industry 4.8s steps(26, end) infinite, caret-blink 0.9s step-end infinite;
+          opacity: 0;
+          animation: typing-cycle 12s steps(18, end) infinite, caret-blink 0.9s step-end infinite;
         }
 
-        @keyframes typing-industry {
-          0%, 12% { width: 0; }
-          52%, 78% { width: 26ch; }
-          100% { width: 0; }
+        .typing-phrases span:nth-child(2) {
+          animation-delay: 3s;
+        }
+
+        .typing-phrases span:nth-child(3) {
+          animation-delay: 6s;
+        }
+
+        .typing-phrases span:nth-child(4) {
+          animation-delay: 9s;
+        }
+
+        @keyframes typing-cycle {
+          0%, 4% { width: 0; opacity: 1; }
+          16%, 22% { width: 18ch; opacity: 1; }
+          28%, 100% { width: 0; opacity: 0; }
         }
 
         @keyframes caret-blink {
           50% { border-color: transparent; }
         }
 
-        @keyframes industry-marquee {
-          from { transform: translateX(0); }
-          to { transform: translateX(-50%); }
+        .metallic-object {
+          position: relative;
+          width: min(220px, 62vw);
+          aspect-ratio: 1;
+          border-radius: 32%;
+          transform-style: preserve-3d;
+          filter: drop-shadow(0 30px 70px rgba(41,151,255,0.28));
+        }
+
+        .metallic-object::before,
+        .metallic-object::after,
+        .metallic-object span {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+        }
+
+        .metallic-object::before {
+          background:
+            radial-gradient(circle at 32% 22%, rgba(255,255,255,0.9), transparent 13%),
+            linear-gradient(135deg, #dcefff 0%, #2997ff 32%, #081522 64%, #9bd6ff 100%);
+          box-shadow: inset -28px -34px 60px rgba(0,0,0,0.58), inset 24px 24px 46px rgba(255,255,255,0.22);
+        }
+
+        .metallic-object::after {
+          inset: 18%;
+          background: radial-gradient(circle, rgba(255,255,255,0.24), transparent 66%);
+          filter: blur(14px);
+        }
+
+        .metallic-object span {
+          inset: -8%;
+          border: 1px solid rgba(142,203,255,0.38);
+          transform: rotateX(62deg) rotateZ(-18deg);
+          box-shadow: 0 0 40px rgba(41,151,255,0.18);
+        }
+
+        .metallic-bolt {
+          clip-path: polygon(46% 0, 78% 0, 59% 40%, 88% 40%, 35% 100%, 48% 56%, 20% 56%);
+          border-radius: 18%;
+        }
+
+        .metallic-shield {
+          clip-path: polygon(50% 0, 88% 15%, 78% 72%, 50% 100%, 22% 72%, 12% 15%);
+          border-radius: 20%;
+        }
+
+        .metallic-arrow {
+          clip-path: polygon(55% 0, 100% 50%, 55% 100%, 55% 64%, 0 64%, 0 36%, 55% 36%);
+          border-radius: 16%;
         }
 
         @keyframes pulse-line {
@@ -394,9 +686,8 @@ export default function IndustriesPage() {
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .industry-marquee-track,
           .pulse-line,
-          .typing-text {
+          .typing-phrases span {
             animation: none;
           }
         }
@@ -592,7 +883,12 @@ export default function IndustriesPage() {
                 <div className="relative z-10 flex h-14 w-full items-center rounded-2xl border border-white/10 bg-[#01050b] px-5 text-left shadow-[0_22px_80px_rgba(41,151,255,0.18)]">
                   <Search className="mr-3 h-5 w-5 shrink-0 text-[#8ecbff]" />
                   <span className="min-w-0 flex-1 text-sm font-medium text-white/78 md:text-base">
-                    <span className="typing-text">Website für Handwerk in München</span>
+                    <span className="typing-phrases">
+                      <span>mehr Anfragen</span>
+                      <span>lokal sichtbar</span>
+                      <span>schnell online</span>
+                      <span>klar verkaufen</span>
+                    </span>
                   </span>
                   <span className="ml-3 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-[#07111e]">
                     <SlidersHorizontal className="h-4 w-4 text-[#8ecbff]" />
@@ -662,91 +958,29 @@ export default function IndustriesPage() {
           </div>
         </section>
 
-        <section className="relative overflow-hidden bg-black px-5 py-24 md:px-[120px]">
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,#000_0%,#02050a_48%,#000_100%)]" />
-          <div className="absolute left-0 right-0 top-10 overflow-hidden opacity-35">
-            <div className="industry-marquee-track flex w-max gap-4 whitespace-nowrap">
-              {[...marqueeItems, ...marqueeItems].map((item, index) => (
-                <span
-                  key={`${item}-${index}`}
-                  className="rounded-full border border-[#2997ff]/20 bg-[#2997ff]/8 px-6 py-3 text-sm font-semibold uppercase tracking-[0.22em] text-[#8ecbff]"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[40px] border border-white/10 bg-white/[0.035] p-6 shadow-[0_34px_120px_rgba(0,0,0,0.45)] backdrop-blur-xl md:p-10">
-            <div className="absolute inset-0 industries-texture opacity-35" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(41,151,255,0.25),transparent_34%),radial-gradient(circle_at_80%_84%,rgba(88,86,214,0.16),transparent_32%)]" />
-            <div className="relative grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.35 }}
-                transition={{ duration: 0.6 }}
-              >
-                <span className="text-xs font-semibold uppercase tracking-[0.24em] text-[#2997ff]">
-                  Conversion-System
-                </span>
-                <h2 className="mt-4 text-3xl font-medium tracking-[-0.045em] text-white md:text-5xl md:leading-[1.06]">
-                  Nicht nur schön. Auf echte Besucher optimiert.
-                </h2>
-                <p className="mt-6 max-w-xl text-base leading-7 text-white/60">
-                  Design, Ladezeit, lokale Suchintention und Kontaktwege greifen ineinander.
-                  So wirkt die Website hochwertig und bleibt trotzdem klar verkaufsorientiert.
-                </p>
-                <div className="mt-8 grid grid-cols-3 gap-3">
-                  {["Speed", "Trust", "SEO"].map((label) => (
-                    <div key={label} className="rounded-2xl border border-white/10 bg-black/35 p-4 text-center">
-                      <div className="text-xl font-semibold text-[#8ecbff]">100%</div>
-                      <div className="mt-1 text-xs uppercase tracking-[0.18em] text-white/42">{label}</div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                {conversionStack.map((feature, index) => {
-                  const Icon = feature.icon;
-                  return (
-                    <motion.div
-                      key={feature.title}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      whileHover={{ y: -5, rotateX: 2, rotateY: -2 }}
-                      viewport={{ once: true, amount: 0.25 }}
-                      transition={{ delay: index * 0.06, duration: 0.5 }}
-                      className="group rounded-[28px] border border-white/10 bg-black/35 p-6 transition duration-500 hover:border-[#2997ff]/45 hover:bg-[#061423]/70"
-                    >
-                      <div className="mb-5 flex h-13 w-13 items-center justify-center rounded-2xl border border-[#2997ff]/30 bg-[#2997ff]/12">
-                        <Icon className="h-6 w-6 text-[#2997ff]" />
-                      </div>
-                      <h3 className="text-lg font-semibold text-white transition group-hover:text-[#8ecbff]">
-                        {feature.title}
-                      </h3>
-                      <p className="mt-2 text-sm leading-6 text-white/52">{feature.desc}</p>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </div>
+        <section className="relative overflow-hidden bg-[#02050a] px-5 py-24 md:px-[120px]">
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,#000_0%,#02050a_28%,#02050a_72%,#000_100%)]" />
+          <div className="industries-texture absolute inset-0 opacity-30" />
+          <div className="absolute left-0 top-20 h-[520px] w-[520px] rounded-full bg-[#2997ff]/14 blur-[130px]" />
+          <div className="absolute bottom-0 right-0 h-[520px] w-[520px] rounded-full bg-[#5856d6]/12 blur-[140px]" />
+          <div className="relative space-y-8">
+            <FeatureCarouselNative />
+            <BentoSystemCard />
           </div>
         </section>
 
-        <section className="relative overflow-hidden bg-[#02050a] px-5 pb-28 pt-6 md:px-[120px]">
-          <div className="industries-texture absolute inset-0 opacity-45" />
+        <section className="relative overflow-hidden bg-black px-5 pb-28 pt-6 md:px-[120px]">
+          <div className="industries-texture absolute inset-0 opacity-35" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(41,151,255,0.26),transparent_42%),linear-gradient(180deg,#000_0%,#02050a_100%)]" />
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.35 }}
-            className="group relative mx-auto max-w-4xl overflow-hidden rounded-[40px] border border-white/10 bg-black/45 p-8 text-center shadow-[0_34px_120px_rgba(0,0,0,0.5)] backdrop-blur-xl md:p-12"
+            className="group relative mx-auto max-w-5xl overflow-hidden rounded-[44px] border border-white/10 bg-black/45 p-8 text-center shadow-[0_34px_120px_rgba(0,0,0,0.5)] backdrop-blur-xl md:p-12"
           >
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(41,151,255,0.34),transparent_45%)]" />
-            <div className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100 bg-[radial-gradient(260px_circle_at_50%_38%,rgba(41,151,255,0.28),transparent_70%)]" />
             <div className="relative z-10">
-              <Sparkles className="mx-auto mb-5 h-8 w-8 text-[#2997ff]" />
+              <Sparkles className="mx-auto mb-5 h-8 w-8 text-[#2997ff] transition group-hover:rotate-12" />
               <h2 className="text-3xl font-medium tracking-[-0.04em] text-white md:text-5xl">
                 Bereit für eine Website, die zu Ihrer Branche passt?
               </h2>
@@ -757,14 +991,14 @@ export default function IndustriesPage() {
               <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
                 <Link
                   href="/kontakt"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-semibold text-black transition hover:bg-[#eaf5ff]"
+                  className="group/button inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-semibold text-black transition hover:-translate-y-0.5 hover:bg-[#eaf5ff]"
                 >
                   Kontakt aufnehmen
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4 transition group-hover/button:translate-x-1" />
                 </Link>
                 <Link
                   href="/#pricing"
-                  className="inline-flex items-center justify-center rounded-full border border-white/18 px-8 py-4 text-sm font-semibold text-white transition hover:bg-white/8"
+                  className="inline-flex items-center justify-center rounded-full border border-white/18 px-8 py-4 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/8"
                 >
                   Preise ansehen
                 </Link>
